@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacybeleid — FortyFive</title>
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #666;
+  --link: #0066cc;
+  --border: #e0e0e0;
+  --code-bg: #f5f5f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a1a;
+    --fg: #e0e0e0;
+    --muted: #a0a0a0;
+    --link: #66b3ff;
+    --border: #333;
+    --code-bg: #2a2a2a;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 24px 16px 48px;
+  font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+}
+main {
+  max-width: 720px;
+  margin: 0 auto;
+}
+h1 { font-size: 28px; margin: 0 0 16px; }
+h2 { font-size: 22px; margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+h3 { font-size: 17px; margin: 24px 0 8px; }
+p  { margin: 12px 0; }
+ul { margin: 12px 0; padding-left: 28px; }
+li { margin: 4px 0; }
+a  { color: var(--link); }
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+em { font-style: italic; color: var(--muted); }
+nav.lang {
+  margin: 0 0 24px;
+  text-align: right;
+}
+nav.lang a {
+  margin-left: 12px;
+  text-decoration: none;
+}
+.footer { margin-top: 48px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+  <main>
+    <nav class="lang">
+      <a href="./index.html">← Index</a>
+      <a href="./privacy-policy.en.html">English version</a>
+    </nav>
+    <h1>Privacybeleid — FortyFive: Speedpedelec GPS</h1>
+<p><strong>Versie:</strong> 2.3 — laatst bijgewerkt op 13 oktober 2026 <strong>Uitgever / verwerkingsverantwoordelijke:</strong> Gust Maekelberg (natuurlijk persoon, geen vennootschap, geen functionaris voor gegevensbescherming) <strong>Contact:</strong> gust.maekelberg@gmail.com</p>
+<hr>
+<h2>1. Inleiding</h2>
+<p>FortyFive (&quot;de app&quot;) is een navigatie-app voor speedpedelecs in Vlaanderen, ontwikkeld door Gust Maekelberg als onafhankelijk persoonlijk project. De app plant routes die rekening houden met de regels voor speedpedelecs, begeleidt je afslag per afslag en laat je meldingen op de kaart plaatsen. De app is beschikbaar voor Android en iPhone.</p>
+<p>Dit privacybeleid legt uit welke gegevens de app verwerkt, waarom, met wie ze gedeeld worden, hoe lang ze bewaard worden en welke rechten je hebt onder de Algemene Verordening Gegevensbescherming (AVG/GDPR). Versie 2.1 vervangt versie 1.0, die niet meer overeenkwam met de werking van de app.</p>
+<hr>
+<h2>2. In het kort</h2>
+<ul>
+<li><strong>Je gegevens blijven op je toestel.</strong> Je positie, je routes, je ritten en je meldingen worden lokaal op je telefoon bewaard. Deze versie van de app heeft geen eigen server en verstuurt geen ritten of meldingen naar ons.</li>
+<li><strong>Locatie blijft werken met het scherm uit, maar enkel tijdens navigatie.</strong> Zolang je navigeert, volgt de app je positie zodat de begeleiding en gesproken instructies doorlopen. Op Android zie je dan de melding &quot;FortyFive navigeert&quot;, op iPhone de blauwe locatie-indicator. De app vraagt geen toestemming om je locatie &quot;altijd&quot; te gebruiken.</li>
+<li><strong>Enkele functies spreken externe diensten aan</strong> (MapTiler, Photon/Komoot, Nominatim/OpenStreetMap, GitHub, Expo). Daarbij gaan je IP-adres en — bij zoeken of het opzoeken van een adres — je zoektekst of een coördinaat mee.</li>
+<li><strong>Geen advertenties, geen verkoop van gegevens, geen analytics- of marketing-trackers, geen account.</strong></li>
+<li>De app is bestemd voor gebruikers van <strong>18 jaar of ouder</strong>.</li>
+</ul>
+<hr>
+<h2>3. Locatiegegevens (GPS)</h2>
+<h3>3.1 Kaart en routeplanning</h3>
+<ul>
+<li><strong>Wat:</strong> je actuele GPS-positie.</li>
+<li><strong>Waarom:</strong> om de kaart op je omgeving te centreren, &quot;Mijn locatie&quot; als vertrekpunt te gebruiken en de offline routedata rond jou klaar te zetten.</li>
+<li><strong>Toestemming:</strong> de standaard locatievraag van Android of iOS (&quot;tijdens gebruik van de app&quot;). Weiger je, dan kan je vertrek- en eindpunt nog altijd zelf ingeven.</li>
+<li><strong>Gedeeld met:</strong> niemand. De positie blijft in het werkgeheugen van je toestel.</li>
+<li><strong>Bewaartermijn:</strong> niet bewaard; verdwijnt wanneer je de app sluit.</li>
+</ul>
+<h3>3.2 Turn-by-turn navigatie</h3>
+<ul>
+<li><strong>Wat:</strong> tijdens een actieve navigatie een doorlopende GPS-stroom — positie, rijrichting, snelheid, nauwkeurigheid en hoogte, ongeveer elke seconde of elke 5 meter.</li>
+<li><strong>Waarom:</strong> om je afslag per afslag te begeleiden en gesproken instructies te geven, ook als je scherm vergrendeld is. Op een speedpedelec (tot 45 km/u) moet je je ogen op de weg kunnen houden.</li>
+<li><strong>Hoe je dit ziet:</strong> op Android draait tijdens de navigatie een <em>foreground service</em> met de vaste melding <strong>&quot;FortyFive navigeert&quot;</strong>; op iPhone toont het systeem de blauwe locatie-indicator. Zodra je de navigatie stopt of aankomt, stopt ook het volgen van je locatie.</li>
+<li><strong>Toestemming:</strong> dezelfde &quot;tijdens gebruik&quot;-toestemming als in 3.1. De navigatie start altijd terwijl je de app gebruikt; daarom is er geen aparte achtergrond- of &quot;altijd&quot;-toestemming nodig. Op Android gebruikt de app hiervoor ook de systeemrechten <code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_LOCATION</code>, <code>WAKE_LOCK</code> en <code>POST_NOTIFICATIONS</code>.</li>
+<li><strong>Gedeeld met:</strong> niemand. De GPS-stroom voedt enkel de lokale rit-opname (sectie 4).</li>
+</ul>
+<h3>3.3 Locatie bij een melding</h3>
+<p>Wanneer je een melding plaatst (sectie 5), gebruikt de app je huidige positie of een punt dat je zelf op de kaart aanduidt. Die coördinaat wordt naar Nominatim/OpenStreetMap gestuurd om er een adres van te maken (sectie 7.2). Houd er rekening mee dat dit een precieze locatie kan zijn, bijvoorbeeld bij je woning of werk.</p>
+<hr>
+<h2>4. Rit-opname (lokaal)</h2>
+<ul>
+<li><strong>Wat:</strong> wanneer je navigeert, neemt de app je rit op: de GPS-track (tijdstip, positie, snelheid, richting, nauwkeurigheid en hoogte per punt), een samenvatting (afstand, duur, gemiddelde en maximale snelheid), het vertrek- en eindpunt, de gekozen routevariant en een willekeurig rit-nummer.</li>
+<li><strong>Waarom:</strong> voor het aankomstscherm met de samenvatting van je rit, en voor &quot;Mijn ritten&quot;: je ritgeschiedenis, statistieken (aantal ritten, afstand, rijtijd, geschatte CO₂-besparing) en voorstellen voor een andere route op ritten die je vaker rijdt. Dat alles wordt op je toestel berekend.</li>
+<li><strong>Gedeeld met:</strong> niemand. De rit blijft op je toestel.</li>
+<li><strong>Bewaartermijn:</strong> de samenvattingen in &quot;Mijn ritten&quot; (met een vereenvoudigd spoor van de route) bewaart de app voor de laatste 500 ritten, tot je ze wist of de app verwijdert. Het <strong>volledige GPS-spoor</strong> (elk punt met tijd, positie, snelheid, richting, nauwkeurigheid en hoogte) bewaart de app enkel van je <strong>laatste 30 ritten</strong>: wanneer je een rit afsluit, wist de app automatisch de volledige sporen van oudere ritten. De rit die je op dat moment rijdt, blijft altijd bewaard. Ritten staan in de afgeschermde app-opslag van je toestel; je kan alles in de app wissen via Instellingen → Mijn ritten → Alle ritten wissen. Dat wist de samenvattingen én alle volledige sporen (met uitzondering van een rit die op dat moment nog loopt).</li>
+</ul>
+<hr>
+<h2>5. Meldingen (&quot;Melden&quot;)</h2>
+<ul>
+<li><strong>Wat:</strong> een categorie (verkeer, geblokkeerde weg, risicogebied, kaartcorrectie of suggestie), de coördinaat, een optionele notitie (maximaal 280 tekens) en tijdstempels. Er is bewust <strong>geen</strong> categorie voor flitsers of politiecontroles.</li>
+<li><strong>Waarom:</strong> zodat je situaties onderweg kan bijhouden en terugzien op de kaart.</li>
+<li><strong>Gedeeld met:</strong> in deze versie <strong>niemand</strong> — meldingen worden enkel op je eigen toestel bewaard en zijn niet zichtbaar voor andere gebruikers. De enige uitzondering is het adres-opzoeken via Nominatim (sectie 3.3).</li>
+<li><strong>Bewaartermijn:</strong> tot je de melding wist of de app verwijdert. Per categorie geldt een geldigheidsduur (bijvoorbeeld 3 uur, 24 uur of 30 dagen) die enkel bepaalt hoe lang de melding op de kaart getoond wordt.</li>
+</ul>
+<hr>
+<h2>6. Functies die in deze versie niet actief zijn</h2>
+<p>De app bevat voorbereidende code voor het delen van ritten en meldingen met andere gebruikers via een server, en voor het automatisch uploaden van ritten naar Strava of Garmin Connect. <strong>Deze functies zijn in deze versie uitgeschakeld en niet zichtbaar in de app; er wordt niets verzonden.</strong> Voordat zo'n functie ooit geactiveerd wordt, passen we dit privacybeleid aan, brengen we je op de hoogte in de app en vragen we eerst je uitdrukkelijke toestemming — die standaard uit staat.</p>
+<hr>
+<h2>7. Externe diensten en internetverzoeken</h2>
+<p>Bij elk internetverzoek wordt technisch onvermijdelijk je IP-adres meegestuurd. Alle verbindingen zijn versleuteld (HTTPS).</p>
+<h3>7.1 Adressen zoeken — Photon (Komoot)</h3>
+<ul>
+<li><strong>Wat:</strong> de tekst die je in een zoekveld typt (vanaf 2 tekens), samen met een voorkeurspunt. Staat je locatie aan, dan is dat je positie, afgerond op ongeveer 100 meter; anders het centrum van Vlaanderen. Bij een soort zaak (&quot;apotheek&quot;, &quot;bakker&quot;) of een merk met een plaatsnaam (&quot;Delhaize Gentbrugge&quot;) vraagt de app ook de dichtstbijzijnde zaken rond dat punt op.</li>
+<li><strong>Waarom:</strong> om adres-, winkel- en plaatssuggesties te tonen terwijl je typt, met wat dichtbij is eerst.</li>
+<li><strong>Met wie:</strong> Photon, een dienst van Komoot (<code>photon.komoot.io</code>).</li>
+</ul>
+<h3>7.2 Coördinaat omzetten naar een adres — Nominatim (OpenStreetMap Foundation)</h3>
+<ul>
+<li><strong>Wat:</strong> een coördinaat, wanneer je een punt op de kaart aanduidt of een melding plaatst.</li>
+<li><strong>Waarom:</strong> om een leesbaar adres te tonen.</li>
+<li><strong>Hoe nauwkeurig:</strong> de coördinaat wordt afgerond op ongeveer 10 meter voordat ze verstuurd wordt. Een opgezocht adres blijft maximaal zolang de app draait in het werkgeheugen, zodat dezelfde plek niet opnieuw wordt opgevraagd; het wordt niet op schijf bewaard.</li>
+<li><strong>Met wie:</strong> Nominatim van de OpenStreetMap Foundation (<code>nominatim.openstreetmap.org</code>).</li>
+</ul>
+<h3>7.3 Kaart — MapTiler</h3>
+<ul>
+<li><strong>Wat:</strong> verzoeken voor kaartafbeeldingen en de kaartstijl. Er gaat geen GPS-positie mee, maar uit de gevraagde kaartstukken valt af te leiden welk gebied je bekijkt.</li>
+<li><strong>Met wie:</strong> MapTiler Cloud (<code>api.maptiler.com</code>).</li>
+</ul>
+<h3>7.4 Offline routedata — GitHub</h3>
+<ul>
+<li><strong>Wat:</strong> het downloaden en bijwerken van de routedata voor Vlaanderen. Bij het opstarten controleert de app of er nieuwe data is.</li>
+<li><strong>Met wie:</strong> GitHub, waar de routedata gepubliceerd wordt.</li>
+</ul>
+<h3>7.5 App-updates — Expo</h3>
+<ul>
+<li><strong>Wat:</strong> bij het opstarten controleert de app of er een kleine software-update klaarstaat.</li>
+<li><strong>Met wie:</strong> de updatedienst van Expo (<code>u.expo.dev</code>).</li>
+</ul>
+<p>We hebben geen toegang tot de gegevens die deze diensten zelf bijhouden. Hun privacybeleid:</p>
+<ul>
+<li>Photon/Komoot: https://www.komoot.com/privacy</li>
+<li>Nominatim: https://osmfoundation.org/wiki/Privacy_Policy</li>
+<li>MapTiler: https://www.maptiler.com/privacy-policy/</li>
+<li>GitHub: https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement</li>
+<li>Expo: https://expo.dev/privacy</li>
+</ul>
+<hr>
+<h2>8. Lokale instellingen</h2>
+<p>De app bewaart enkele voorkeuren op je toestel, zoals gesproken instructies aan of uit, de kaartlagen die je toont en je favoriete adressen. Bij de eerste start maakt de app ook een willekeurig toestel-nummer aan; dit bevat geen persoonsgegevens en blijft op je toestel.</p>
+<hr>
+<h2>9. Wat de app NIET doet</h2>
+<ul>
+<li>Geen advertenties of advertentie-trackers.</li>
+<li>Geen verkoop of commercieel delen van je gegevens.</li>
+<li>Geen analytics of marketing-trackers (geen Google Analytics, Firebase Analytics, Mixpanel of vergelijkbaar).</li>
+<li>Geen account of login.</li>
+<li>Geen toegang tot je contacten, foto's, microfoon of camera.</li>
+</ul>
+<hr>
+<h2>10. Beveiliging</h2>
+<p>Je gegevens staan in de afgeschermde app-opslag van je toestel, waar andere apps niet bij kunnen. Verbindingen met externe diensten verlopen over HTTPS.</p>
+<hr>
+<h2>11. Jouw rechten</h2>
+<p>Onder de AVG heb je recht op inzage, correctie, verwijdering, beperking van de verwerking, bezwaar, overdraagbaarheid en het intrekken van je toestemming.</p>
+<p>Omdat de app je gegevens enkel op je eigen toestel bewaart, heb je daar zelf volledige controle over: je kan ritten en meldingen wissen in de app, je locatietoestemming intrekken via de instellingen van je toestel, en alle gegevens verwijderen door de app te de-installeren. Voor gegevens bij de externe diensten uit sectie 7 oefen je je rechten rechtstreeks bij die diensten uit.</p>
+<p>Je kan ook altijd contact opnemen via het adres hieronder, of een klacht indienen bij de Belgische <strong>Gegevensbeschermingsautoriteit</strong>: https://www.gegevensbeschermingsautoriteit.be.</p>
+<hr>
+<h2>12. Leeftijd</h2>
+<p>De app is bestemd voor gebruikers van 18 jaar of ouder. We verzamelen niet bewust gegevens van minderjarigen.</p>
+<hr>
+<h2>13. Wijzigingen</h2>
+<p>Wanneer de app nieuwe functies krijgt die de verwerking van gegevens wijzigen, passen we dit beleid aan. Bij belangrijke wijzigingen brengen we je op de hoogte in de app. De actuele versie staat altijd in de app (Instellingen → Juridisch) en op de website.</p>
+<hr>
+<h2>14. Kaartdata en bronvermelding</h2>
+<p>Routing- en kaartgegevens zijn (mede) gebaseerd op <strong>OpenStreetMap</strong> © OpenStreetMap-bijdragers, beschikbaar onder de Open Database License (ODbL): https://www.openstreetmap.org/copyright. Kaarttegels © MapTiler.</p>
+<hr>
+<h2>15. Contact</h2>
+<p>Vragen over dit privacybeleid of over je gegevens: <strong>gust.maekelberg@gmail.com</strong>. We antwoorden binnen 30 dagen.</p>
+<hr>
+<p><em>FortyFive: Speedpedelec GPS is een persoonlijk project van Gust Maekelberg en is niet verbonden aan Speed Pedelec Vlaanderen, het Agentschap Wegen en Verkeer, de OpenStreetMap Foundation, MapTiler, Komoot, Strava, Garmin of enige andere organisatie.</em></p>
+    <div class="footer">
+      <p>FortyFive — een persoonlijk project van Gust Maekelberg.</p>
+    </div>
+  </main>
+</body>
+</html>

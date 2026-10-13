@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — FortyFive</title>
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #666;
+  --link: #0066cc;
+  --border: #e0e0e0;
+  --code-bg: #f5f5f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a1a;
+    --fg: #e0e0e0;
+    --muted: #a0a0a0;
+    --link: #66b3ff;
+    --border: #333;
+    --code-bg: #2a2a2a;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 24px 16px 48px;
+  font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+}
+main {
+  max-width: 720px;
+  margin: 0 auto;
+}
+h1 { font-size: 28px; margin: 0 0 16px; }
+h2 { font-size: 22px; margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+h3 { font-size: 17px; margin: 24px 0 8px; }
+p  { margin: 12px 0; }
+ul { margin: 12px 0; padding-left: 28px; }
+li { margin: 4px 0; }
+a  { color: var(--link); }
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+em { font-style: italic; color: var(--muted); }
+nav.lang {
+  margin: 0 0 24px;
+  text-align: right;
+}
+nav.lang a {
+  margin-left: 12px;
+  text-decoration: none;
+}
+.footer { margin-top: 48px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+  <main>
+    <nav class="lang">
+      <a href="./index.html">← Index</a>
+      <a href="./privacy-policy.nl.html">Nederlandse versie</a>
+    </nav>
+    <h1>Privacy Policy — FortyFive: Speedpedelec GPS</h1>
+<p><strong>Version:</strong> 2.3 — last updated 13 October 2026 <strong>Publisher / data controller:</strong> Gust Maekelberg (private individual, no company, no data protection officer) <strong>Contact:</strong> gust.maekelberg@gmail.com</p>
+<hr>
+<h2>1. Introduction</h2>
+<p>FortyFive (&quot;the app&quot;) is a navigation app for speed pedelecs in Flanders, developed by Gust Maekelberg as an independent personal project. The app plans routes that respect the rules for speed pedelecs, guides you turn by turn and lets you place reports on the map. The app is available for Android and iPhone.</p>
+<p>This policy explains what data the app processes, why, who it is shared with, how long it is kept and what rights you have under the General Data Protection Regulation (GDPR). Version 2.1 replaces version 1.0, which no longer matched how the app works.</p>
+<hr>
+<h2>2. Summary</h2>
+<ul>
+<li><strong>Your data stays on your device.</strong> Your position, routes, rides and reports are stored locally on your phone. This version of the app has no server of its own and does not send rides or reports to us.</li>
+<li><strong>Location keeps working with the screen off, but only while navigating.</strong> While you navigate, the app follows your position so guidance and spoken instructions continue. On Android you see the notification &quot;FortyFive navigeert&quot; (&quot;FortyFive is navigating&quot;), on iPhone the blue location indicator. The app never asks to use your location &quot;always&quot;.</li>
+<li><strong>Some features contact external services</strong> (MapTiler, Photon/Komoot, Nominatim/OpenStreetMap, GitHub, Expo). Your IP address is sent along and — when searching or looking up an address — your search text or a coordinate.</li>
+<li><strong>No ads, no sale of data, no analytics or marketing trackers, no account.</strong></li>
+<li>The app is intended for users aged <strong>18 or older</strong>.</li>
+</ul>
+<hr>
+<h2>3. Location data (GPS)</h2>
+<h3>3.1 Map and route planning</h3>
+<ul>
+<li><strong>What:</strong> your current GPS position.</li>
+<li><strong>Why:</strong> to centre the map on your surroundings, use &quot;My location&quot; as a starting point and prepare the offline routing data around you.</li>
+<li><strong>Permission:</strong> the standard Android or iOS location prompt (&quot;while using the app&quot;). If you decline, you can still enter your start and destination manually.</li>
+<li><strong>Shared with:</strong> nobody. The position stays in your device's memory.</li>
+<li><strong>Retention:</strong> not stored; it disappears when you close the app.</li>
+</ul>
+<h3>3.2 Turn-by-turn navigation</h3>
+<ul>
+<li><strong>What:</strong> during active navigation, a continuous GPS stream — position, heading, speed, accuracy and altitude, roughly every second or every 5 metres.</li>
+<li><strong>Why:</strong> to guide you turn by turn and give spoken instructions, also while your screen is locked. On a speed pedelec (up to 45 km/h) you need to keep your eyes on the road.</li>
+<li><strong>How you can tell:</strong> on Android a <em>foreground service</em> runs during navigation with the persistent notification <strong>&quot;FortyFive navigeert&quot;</strong> (&quot;FortyFive is navigating&quot;); on iPhone the system shows the blue location indicator. As soon as you stop navigating or arrive, location tracking stops too.</li>
+<li><strong>Permission:</strong> the same &quot;while using the app&quot; permission as in 3.1. Navigation always starts while you are using the app, so no separate background or &quot;always&quot; permission is needed. On Android the app also uses the system permissions <code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_LOCATION</code>, <code>WAKE_LOCK</code> and <code>POST_NOTIFICATIONS</code> for this.</li>
+<li><strong>Shared with:</strong> nobody. The GPS stream only feeds the local ride recording (section 4).</li>
+</ul>
+<h3>3.3 Location for a report</h3>
+<p>When you place a report (section 5), the app uses your current position or a point you pick on the map. That coordinate is sent to Nominatim/OpenStreetMap to turn it into an address (section 7.2). Keep in mind this can be a precise location, for example near your home or work.</p>
+<hr>
+<h2>4. Ride recording (local)</h2>
+<ul>
+<li><strong>What:</strong> while you navigate, the app records your ride: the GPS track (time, position, speed, heading, accuracy and altitude per point), a summary (distance, duration, average and maximum speed), start and destination, the chosen route variant and a random ride number.</li>
+<li><strong>Why:</strong> for the arrival screen with your ride summary, and for &quot;My rides&quot;: your ride history, statistics (number of rides, distance, riding time, estimated CO₂ saving) and suggestions for a different route on rides you take often. All of this is calculated on your device.</li>
+<li><strong>Shared with:</strong> nobody. The ride stays on your device.</li>
+<li><strong>Retention:</strong> the app keeps the summaries in &quot;My rides&quot; (with a simplified trace of the route) for your last 500 rides, until you delete them or uninstall the app. The app keeps the <strong>full GPS track</strong> (every point with time, position, speed, heading, accuracy and altitude) only for your <strong>last 30 rides</strong>: when you finish a ride, the app automatically deletes the full tracks of older rides. The ride you are riding at that moment is always kept. Rides are kept in the app's private storage on your device; you can delete everything in the app via Settings → My rides → Delete all rides. That deletes the summaries and all full tracks (except a ride that is still in progress at that moment).</li>
+</ul>
+<hr>
+<h2>5. Reports</h2>
+<ul>
+<li><strong>What:</strong> a category (traffic, blocked road, risk area, map correction or suggestion), the coordinate, an optional note (up to 280 characters) and timestamps. There is deliberately <strong>no</strong> category for speed cameras or police checks.</li>
+<li><strong>Why:</strong> so you can keep track of situations along the way and see them again on the map.</li>
+<li><strong>Shared with:</strong> in this version <strong>nobody</strong> — reports are only stored on your own device and are not visible to other users. The only exception is the address lookup via Nominatim (section 3.3).</li>
+<li><strong>Retention:</strong> until you delete the report or uninstall the app. Each category has a validity period (for example 3 hours, 24 hours or 30 days) that only determines how long the report is shown on the map.</li>
+</ul>
+<hr>
+<h2>6. Features not active in this version</h2>
+<p>The app contains preparatory code for sharing rides and reports with other users through a server, and for automatically uploading rides to Strava or Garmin Connect. <strong>These features are disabled in this version and not visible in the app; nothing is sent.</strong> Before any of them is ever activated, we will update this policy, notify you in the app and first ask for your explicit consent — which is off by default.</p>
+<hr>
+<h2>7. External services and internet requests</h2>
+<p>Every internet request inevitably includes your IP address. All connections are encrypted (HTTPS).</p>
+<h3>7.1 Address search — Photon (Komoot)</h3>
+<ul>
+<li><strong>What:</strong> the text you type into a search field (from 2 characters), together with a preferred point. If your location is on, that is your position rounded to about 100 metres; otherwise the centre of Flanders. For a type of business (&quot;pharmacy&quot;, &quot;bakery&quot;) or a brand with a place name (&quot;Delhaize Gentbrugge&quot;), the app also asks for the nearest businesses around that point.</li>
+<li><strong>Why:</strong> to show address, shop and place suggestions while you type, with nearby results first.</li>
+<li><strong>With whom:</strong> Photon, a service by Komoot (<code>photon.komoot.io</code>).</li>
+</ul>
+<h3>7.2 Coordinate to address — Nominatim (OpenStreetMap Foundation)</h3>
+<ul>
+<li><strong>What:</strong> a coordinate, when you pick a point on the map or place a report.</li>
+<li><strong>Why:</strong> to show a readable address.</li>
+<li><strong>How precise:</strong> the coordinate is rounded to about 10 metres before it is sent. A looked-up address stays in the app's working memory only while the app is running, so the same place is not requested again; it is not stored on disk.</li>
+<li><strong>With whom:</strong> Nominatim by the OpenStreetMap Foundation (<code>nominatim.openstreetmap.org</code>).</li>
+</ul>
+<h3>7.3 Map — MapTiler</h3>
+<ul>
+<li><strong>What:</strong> requests for map images and the map style. No GPS position is included, but the requested map pieces reveal which area you are viewing.</li>
+<li><strong>With whom:</strong> MapTiler Cloud (<code>api.maptiler.com</code>).</li>
+</ul>
+<h3>7.4 Offline routing data — GitHub</h3>
+<ul>
+<li><strong>What:</strong> downloading and updating the routing data for Flanders. At startup the app checks whether new data is available.</li>
+<li><strong>With whom:</strong> GitHub, where the routing data is published.</li>
+</ul>
+<h3>7.5 App updates — Expo</h3>
+<ul>
+<li><strong>What:</strong> at startup the app checks whether a small software update is available.</li>
+<li><strong>With whom:</strong> Expo's update service (<code>u.expo.dev</code>).</li>
+</ul>
+<p>We have no access to the data these services keep themselves. Their privacy policies:</p>
+<ul>
+<li>Photon/Komoot: https://www.komoot.com/privacy</li>
+<li>Nominatim: https://osmfoundation.org/wiki/Privacy_Policy</li>
+<li>MapTiler: https://www.maptiler.com/privacy-policy/</li>
+<li>GitHub: https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement</li>
+<li>Expo: https://expo.dev/privacy</li>
+</ul>
+<hr>
+<h2>8. Local settings</h2>
+<p>The app stores a few preferences on your device, such as spoken instructions on or off, the map layers you show and your favourite places. On first launch the app also creates a random device number; it contains no personal data and stays on your device.</p>
+<hr>
+<h2>9. What the app does NOT do</h2>
+<ul>
+<li>No ads or ad trackers.</li>
+<li>No selling or commercial sharing of your data.</li>
+<li>No analytics or marketing trackers (no Google Analytics, Firebase Analytics, Mixpanel or similar).</li>
+<li>No account or login.</li>
+<li>No access to your contacts, photos, microphone or camera.</li>
+</ul>
+<hr>
+<h2>10. Security</h2>
+<p>Your data is kept in the app's private storage on your device, which other apps cannot access. Connections to external services use HTTPS.</p>
+<hr>
+<h2>11. Your rights</h2>
+<p>Under the GDPR you have the right to access, rectification, erasure, restriction of processing, objection, data portability and withdrawal of consent.</p>
+<p>Because the app only stores your data on your own device, you are fully in control: you can delete rides and reports in the app, revoke the location permission in your device settings, and remove all data by uninstalling the app. For data held by the external services in section 7, exercise your rights directly with those services.</p>
+<p>You can always contact us at the address below, or lodge a complaint with the Belgian <strong>Data Protection Authority</strong>: https://www.dataprotectionauthority.be.</p>
+<hr>
+<h2>12. Age</h2>
+<p>The app is intended for users aged 18 or older. We do not knowingly collect data from minors.</p>
+<hr>
+<h2>13. Changes</h2>
+<p>When the app gains features that change how data is processed, we update this policy. For significant changes we notify you in the app. The current version is always available in the app (Settings → Legal) and on the website.</p>
+<hr>
+<h2>14. Map data and attribution</h2>
+<p>Routing and map data are (partly) based on <strong>OpenStreetMap</strong> © OpenStreetMap contributors, available under the Open Database License (ODbL): https://www.openstreetmap.org/copyright. Map tiles © MapTiler.</p>
+<hr>
+<h2>15. Contact</h2>
+<p>Questions about this policy or your data: <strong>gust.maekelberg@gmail.com</strong>. We reply within 30 days.</p>
+<hr>
+<p><em>FortyFive: Speedpedelec GPS is a personal project by Gust Maekelberg and is not affiliated with Speed Pedelec Vlaanderen, the Flemish Agency for Roads and Traffic, the OpenStreetMap Foundation, MapTiler, Komoot, Strava, Garmin or any other organisation.</em></p>
+    <div class="footer">
+      <p>FortyFive — een persoonlijk project van Gust Maekelberg.</p>
+    </div>
+  </main>
+</body>
+</html>

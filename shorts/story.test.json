@@ -1,0 +1,20 @@
+{
+  "title": "Test Story",
+  "scenes": [
+    {
+      "id": "title",
+      "type": "title",
+      "narration": "Forty-five minutes. That is how long Sam had been standing still."
+    },
+    {
+      "id": "highway_jam",
+      "type": "highway_jam",
+      "narration": "On a Tuesday evening, the highway had stopped moving, and every horn in the world seemed to have something to say."
+    },
+    {
+      "id": "end_card",
+      "type": "end_card",
+      "narration": "Some roads teach you patience, and some teach you where you actually want to be."
+    }
+  ]
+}

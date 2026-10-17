@@ -151,7 +151,7 @@
     }
     // windmill + barn silhouette (par .32)
     for (let k = Math.floor((camX * 0.32 - 300) / 1500); k <= Math.ceil((camX * 0.32 + W + 300) / 1500); k++) {
-      const x = k * 1500 + 760 - camX * 0.32, base = hor + 40, hgt = 300 + 40 * h1(k, 1);
+      const x = k * 1500 + 200 - camX * 0.32, base = hor + 40, hgt = 300 + 40 * h1(k, 1);
       const sil = mix('#2a1a30', '#a04a48', 0.28);
       fillPoly(c, [[x - 26, base], [x - 7, base - hgt], [x + 7, base - hgt], [x + 26, base]], sil);
       c.strokeStyle = mix(sil, '#000', 0.2); c.lineWidth = 2.4; c.beginPath(); for (let i = 1; i < 6; i++) { const f = i / 6, hw = lerp(26, 7, f); c.moveTo(x - hw, base - hgt * f); c.lineTo(x + hw, base - hgt * f); } c.stroke();
@@ -226,13 +226,13 @@
     c.fillStyle = 'rgba(60,34,40,.5)'; for (let x = 0; x < W + 30; x += 60) c.fillRect(x, hor + 26, 4, 24); c.fillRect(0, hor + 32, W, 2);
     // long shadows (barn) cast right
     const gy = 1296, bx = 640;
-    fillPoly(c, [[bx - 220, gy], [bx + 420, gy + 150], [bx + 520, gy + 150], [bx + 230, gy]], 'rgba(60,28,40,.32)');
+    fillPoly(c, [[bx - 220, gy], [bx + 220 + 210, gy - 54], [bx + 220 + 210 + 420, gy - 54 + 74], [bx - 220 + 420, gy + 74]], 'rgba(70,30,40,.30)');
     V.barn(c, { x: bx, gy, w: 440, wh: 252, lantern: 0 });
     // field edge details
     V.grassTufts(c, -10, W + 10, gy + 6, 7, 'rgba(120,70,20,.7)', 1.2, 36);
     V.grassTufts(c, -10, W + 10, 1420, 8, 'rgba(120,70,20,.75)', 1.8, 44);
     // dirt path to the barn
-    fillPoly(c, [[bx - 60, gy + 4], [bx + 60, gy + 4], [bx + 340, H], [bx - 520, H]], 'rgba(150,100,60,.35)');
+    c.fillStyle = lg(c, 0, gy, 0, H, [[0, 'rgba(160,110,64,0)'], [0.25, 'rgba(160,110,64,.22)'], [1, 'rgba(120,76,44,.3)']]); c.beginPath(); c.moveTo(bx - 56, gy + 4); c.lineTo(bx + 56, gy + 4); c.quadraticCurveTo(bx + 70, 1500, bx + 190, H); c.lineTo(bx - 330, H); c.quadraticCurveTo(bx - 90, 1500, bx - 56, gy + 4); c.fill();
     // Sam walks in from the left toward the open doors
     const s = 0.92, x0 = -90, xT = bx - 240, dist = xT - x0;
     const f = 1.35, P = { legAmp: 0.4 }, v = V.WALK_SPEED(s, f, { legAmp: 0.4 }) * 0.92;

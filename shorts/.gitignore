@@ -4,3 +4,5 @@ audio/
 node_modules/
 __pycache__/
 *.m4a
+preview_*.png
+out/

@@ -97,12 +97,13 @@
       if (it.type === 'car') {
         const pulse = 0.5 + 0.1 * Math.sin(t * 1.3 + it.ph);
         if (idx === samIdx) {
-          const a = 0.45 + 0.2 * Math.sin(t * 2.2);
-          c.globalCompositeOperation = 'lighter'; V.glow(c, x, y - 40 * k, 150 * k * 2.2, '#FFE08A', a, 1, 0.75); c.globalCompositeOperation = 'source-over';
+          const a = 0.62 + 0.25 * Math.sin(t * 2.2), ring = (t * 0.7) % 1;
+          c.globalCompositeOperation = 'lighter'; V.glow(c, x, y - 40 * k, 150 * k * 2.6, '#FFE08A', a, 1, 0.75); c.globalCompositeOperation = 'source-over';
+          c.strokeStyle = `rgba(255,224,138,${0.5 * (1 - ring)})`; c.lineWidth = Math.max(1.5, 5 * k); c.beginPath(); c.ellipse(x, y + 4 * k, (110 + ring * 90) * k, (22 + ring * 18) * k, 0, 0, PI2); c.stroke();
         }
         V.carRear(c, { x, y, k, color: it.col, kind: it.kind, fog: fogC, fogAmt, glowA: pulse, tilt: it.tilt });
       } else if (it.type === 'lamp') {
-        V.lamp(c, x, y, 760 * k, { arm: -Math.sign(it.x) * 0.2, glowA: 0.55, color: mix('#1B1530', fogC, fogAmt) });
+        V.lamp(c, x, y, 640 * k, { arm: -Math.sign(it.x) * 0.2, glowA: 0.55 * clamp(k * 7), color: mix('#1B1530', fogC, fogAmt) });
       } else if (it.type === 'tree') {
         const col = mix('#1F3B3A', fogC, Math.min(0.85, fogAmt + 0.15));
         if (it.pine) V.pine(c, x, y, 640 * k, col, mix('#173031', fogC, fogAmt)); else V.roundTree(c, x, y, 560 * k, col);

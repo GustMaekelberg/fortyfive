@@ -5,7 +5,7 @@
   const V = window.V;
   const { W, H, clamp, lerp, sstep } = V;
   const XF = 0.35;                                  // crossfade length (s)
-  const DIP_INTO = new Set(['basement_heater', 'end_card']);   // these are entered via dip-to-black
+  const DIP_INTO = new Set(['basement_heater', 'dog_morning', 'end_card']);   // these are entered via dip-to-black
   const OPTS = Object.assign({ grain: 0.08, fadeIn: 0.7, fadeOut: 0.45 }, window.RENDER_OPTS || {});
 
   let TL = null, storyRef = null, main = null, bufA = null, bufB = null;

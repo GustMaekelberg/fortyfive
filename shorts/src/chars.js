@@ -328,7 +328,7 @@
     const hx = shX + lean * 0.3 + (z ? Math.sin(w * 0.5 + 1) * 3 : 0), hy = shY - 38 + (z ? 8 : 0);
     c.beginPath(); c.arc(hx, hy, 27, 0, PI2); c.fillStyle = skin; c.fill();
     if (!sil) {
-      if (o.back) { c.beginPath(); c.arc(hx, hy, 28, Math.PI + 0.15, -0.15); c.closePath(); c.fillStyle = z ? '#3a3328' : (o.hair || '#3a2c24'); c.fill(); c.beginPath(); c.arc(hx, hy - 3, 27, 0.3, Math.PI - 0.3); c.fillStyle = z ? '#3a3328' : (o.hair || '#3a2c24'); c.fill(); }
+      if (o.back) { c.beginPath(); c.arc(hx, hy, 27, 0, PI2); c.fillStyle = z ? '#3a3328' : (o.hair || '#3a2c24'); c.fill(); }
       else if (s < 0.2) { /* too small for faces */ }
       else if (z) { V.fillEll(c, hx - 9, hy - 1, 5, 6.5, '#141214'); V.fillEll(c, hx + 9, hy - 1, 5, 6.5, '#141214'); V.fillEll(c, hx, hy + 14, 6.5, 4.5, '#1a0f10'); }
       else { c.fillStyle = '#222'; c.beginPath(); c.arc(hx - 9, hy + 1, 3.2, 0, PI2); c.arc(hx + 9, hy + 1, 3.2, 0, PI2); c.fill(); c.strokeStyle = '#4a2a2a'; c.lineWidth = 2.4; c.beginPath(); c.arc(hx, hy + 11, 5, 0.2, Math.PI - 0.2); c.stroke(); }

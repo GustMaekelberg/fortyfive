@@ -185,7 +185,7 @@
     const col = (x, back) => (sil ? sil : back ? shade(x, -0.2) : x);
     const arm = (A, back) => {
       const upper = col(S.sleeve, back);
-      V.line(c, [J.sh && J.pivot, A.e], aw, upper);
+      V.line(c, [J.pivot, A.e], aw, upper);
       const lower = S.kind === 'zombie' && !sil ? S.skin : S.sleeve;
       V.line(c, [A.e, A.h], aw, col(lower, back));
       c.beginPath(); c.arc(A.h[0], A.h[1], aw * 0.52, 0, PI2); c.fillStyle = col(S.kind === 'zombie' ? S.skin : S.skin, back); c.fill();
@@ -246,6 +246,27 @@
   // local joint -> world coordinates for a figure placed with figure()
   V.toWorld = (o, p) => [o.x + (o.facing || 1) * o.s * p[0], o.y + o.s * p[1]];
 
+  // zombie colours blended toward a fog colour (depth cue)
+  V.zombieTint = (fog, amt) => {
+    const b = V.STYLES.zombie, o = {};
+    for (const k of ['skin', 'torso', 'sleeve', 'pants', 'shoe', 'spot', 'line', 'cloth2']) o[k] = V.mix(b[k], fog, amt);
+    return o;
+  };
+  // a row of side-view zombies shambling through a scrolling world.
+  // o:{camX,par,gy,s,seed,spacing,prob,dir(-1 walks left),fog,fogAmt,alpha,jy,speedMul}
+  V.zombieRow = (c, t, o) => {
+    const sp = o.spacing, vz = V.SHAMBLE_SPEED(o.s) * (o.speedMul ?? 1), base = o.camX * o.par - o.dir * vz * t;
+    const tint = V.zombieTint(o.fog || '#3a2236', o.fogAmt ?? 0.2);
+    for (let i = Math.floor((base - 260) / sp); i <= Math.ceil((base + V.W + 260) / sp); i++) {
+      if (V.h1(i, o.seed) > o.prob) continue;
+      const xw = i * sp + V.h1(i, o.seed + 1) * sp * 0.5 + o.dir * vz * t, x = xw - o.camX * o.par;
+      const sc = o.s * (0.88 + 0.28 * V.h1(i, o.seed + 2)), y = o.gy + (V.h1(i, o.seed + 3) - 0.5) * (o.jy || 0);
+      const a = o.alpha ?? 1; if (a <= 0.01) continue;
+      c.save(); c.globalAlpha *= a; V.groundShadow(c, x, y + 2, 38 * sc, 6 * sc, 0.4); c.restore();
+      V.figure(c, { style: 'zombie', mode: 'shamble', x, y, s: sc, facing: o.dir < 0 ? -1 : 1, t: t + V.h1(i, o.seed + 4) * 7, over: tint, alpha: a, minPx: 3 });
+    }
+  };
+
   V.groundShadow = (c, x, y, rx, ry, a = 0.35, color = '#0a0612') => {
     c.save(); c.translate(x, y); c.scale(1, ry / rx);
     const g = c.createRadialGradient(0, 0, 0, 0, 0, rx);
@@ -293,7 +314,7 @@
     const shY = hipY - 72, shX = sway + lean * 0.4;
     const armPose = (i) => {
       const side = i ? 1 : -1;
-      if (z) return [[shX + side * 17, shY + 6], [shX + side * 34, shY + 26 - Math.sin(w + i) * 3], [shX + side * 30, shY + 52 - Math.sin(w + i) * 3]]; // hands forward = lower on screen
+      if (z) return [[shX + side * 17, shY + 6], [shX + side * 42, shY + 2 - Math.sin(w + i) * 3], [shX + side * 64, shY - 20 - Math.sin(w + i * 2) * 5]]; // arms thrown out toward us
       const sw = Math.sin(w + i * Math.PI) * (o.run ? 26 : 12);
       return [[shX + side * 17, shY + 6], [shX + side * 25, shY + 34 + (o.run ? -10 : 0)], [shX + side * 22, shY + 62 - sw * 0.9 + (o.run ? -26 : 0)]];
     };
@@ -308,6 +329,7 @@
     c.beginPath(); c.arc(hx, hy, 27, 0, PI2); c.fillStyle = skin; c.fill();
     if (!sil) {
       if (o.back) { c.beginPath(); c.arc(hx, hy, 28, Math.PI + 0.15, -0.15); c.closePath(); c.fillStyle = z ? '#3a3328' : (o.hair || '#3a2c24'); c.fill(); c.beginPath(); c.arc(hx, hy - 3, 27, 0.3, Math.PI - 0.3); c.fillStyle = z ? '#3a3328' : (o.hair || '#3a2c24'); c.fill(); }
+      else if (s < 0.2) { /* too small for faces */ }
       else if (z) { V.fillEll(c, hx - 9, hy - 1, 5, 6.5, '#141214'); V.fillEll(c, hx + 9, hy - 1, 5, 6.5, '#141214'); V.fillEll(c, hx, hy + 14, 6.5, 4.5, '#1a0f10'); }
       else { c.fillStyle = '#222'; c.beginPath(); c.arc(hx - 9, hy + 1, 3.2, 0, PI2); c.arc(hx + 9, hy + 1, 3.2, 0, PI2); c.fill(); c.strokeStyle = '#4a2a2a'; c.lineWidth = 2.4; c.beginPath(); c.arc(hx, hy + 11, 5, 0.2, Math.PI - 0.2); c.stroke(); }
       c.beginPath(); c.arc(hx, hy, 27, 0, PI2); c.lineWidth = 4; c.strokeStyle = '#2B2B2B'; c.stroke();

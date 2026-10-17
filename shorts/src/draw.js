@@ -35,14 +35,14 @@
   V.clouds = (c, t, o) => {
     const R = rng(o.seed || 1), n = o.n || 8, span = W + 900;
     for (let i = 0; i < n; i++) {
-      const y = lerp(o.y0, o.y1, R()), w = lerp(280, 760, R()) * (o.big || 1), h = lerp(14, 38, R()) * (o.hs || 1);
+      const yr = R(), y = lerp(o.y0, o.y1, yr), w = lerp(280, 760, R()) * (o.big || 1), h = lerp(22, 56, R()) * (0.55 + 0.6 * yr) * (o.hs || 1);
       const sp = (o.speed ?? 6) * lerp(0.6, 1.4, R());
       const x = ((R() * span + t * sp) % span) - 450;
       const a = (o.a ?? 0.5) * lerp(0.55, 1, R());
       c.beginPath(); c.ellipse(x, y, w / 2, h / 2, 0, 0, PI2); c.ellipse(x - w * 0.2, y - h * 0.3, w * 0.28, h * 0.62, 0, 0, PI2);
       c.ellipse(x + w * 0.22, y - h * 0.15, w * 0.24, h * 0.5, 0, 0, PI2);
-      c.fillStyle = rgba(o.dark || '#4A1C4E', a); c.fill();
-      c.beginPath(); c.ellipse(x + w * 0.04, y + h * 0.3, w * 0.42, h * 0.16, 0, 0, PI2); c.fillStyle = rgba(o.lit || '#FF8F4A', a * 0.85); c.fill();
+      c.fillStyle = lg(c, 0, y - h * 0.6, 0, y + h * 0.5, [[0, rgba(o.dark || '#4A1C4E', a)], [0.55, rgba(o.dark || '#4A1C4E', a * 0.9)], [1, rgba(o.lit || '#FF8F4A', a * 0.9)]]); c.fill();
+      c.beginPath(); c.ellipse(x + w * 0.04, y + h * 0.34, w * 0.4, h * 0.13, 0, 0, PI2); c.fillStyle = rgba(o.lit || '#FF8F4A', a * 0.7); c.fill();
     }
   };
 
@@ -98,7 +98,7 @@
       const py = y - age * rise;
       const r = (o.r0 ?? 12) + age * (o.grow ?? 5.5);
       const a = (o.a ?? 0.34) * (1 - age / (n + 1)) * Math.min(1, age * 1.2);
-      c.fillStyle = rgba(col, a); c.beginPath(); c.arc(px, py, r, 0, PI2); c.fill();
+      V.glow(c, px, py, r * 1.9, col, a * 1.9);
     }
   };
 
@@ -110,6 +110,7 @@
       const w = lerp(o.wmin, o.wmax, R()), h = lerp(o.hmin, o.hmax, Math.pow(R(), 1.5));
       B.push({ x, w, h, st: R(), r: R() }); x += w * lerp(0.62, 1.02, R());
     }
+    if (o.gapX != null) for (const b of B) b.h *= lerp(0.42, 1, V.sstep(30, o.gapW || 230, Math.abs(b.x + b.w / 2 - o.gapX)));
     const bot = o.hor + 10;
     c.fillStyle = lg(c, 0, o.hor - o.hmax, 0, o.hor, [[0, o.color], [1, mix(o.color, o.haze, o.hazeAmt)]]);
     c.beginPath();
@@ -163,6 +164,7 @@
   // rear view car. o:{x,y(ground),k,color,kind,fog,fogAmt,glowA,tilt}
   V.carRear = (c, o) => {
     const k = o.k; if (k < 0.012) return;
+    if (o.sy && o.sy !== 1) { c.save(); c.translate(0, o.y); c.scale(1, o.sy); c.translate(0, -o.y); V.carRear(c, Object.assign({}, o, { sy: 1 })); c.restore(); return; }
     const d = REAR[o.kind || 'sedan'];
     const w = d.w * k, bh = d.bh * k, ch = d.ch * k, wh = d.wh * k, x = o.x, y = o.y;
     const body = o.fogAmt ? mix(o.color, o.fog || '#8a4a5a', o.fogAmt) : o.color;

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stickocalypse renderer</title>
+<style>
+  @font-face { font-family: 'Archivo'; font-weight: 800; src: url('../fonts/Archivo_800ExtraBold.ttf') format('truetype'); }
+  @font-face { font-family: 'Archivo'; font-weight: 700; src: url('../fonts/Archivo_700Bold.ttf') format('truetype'); }
+  @font-face { font-family: 'Archivo'; font-weight: 500; src: url('../fonts/Archivo_500Medium.ttf') format('truetype'); }
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  canvas { display: block; width: 1080px; height: 1920px; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script src="src/util.js"></script>
+<script src="src/chars.js"></script>
+<script src="src/draw.js"></script>
+<script src="src/overlay.js"></script>
+<script src="src/scenes_a.js"></script>
+<script src="src/scenes_b.js"></script>
+<script src="scene.js"></script>
+<script>
+  // Fonts must be ready before the first frame: load every face, then draw once offscreen so glyphs are rasterised.
+  window.__ready = (async () => {
+    await Promise.all([document.fonts.load('800 72px Archivo'), document.fonts.load('700 54px Archivo'), document.fonts.load('500 40px Archivo')]);
+    await document.fonts.ready;
+    const g = document.createElement('canvas').getContext('2d');
+    for (const f of ['800 72px Archivo', '700 54px Archivo', '500 40px Archivo']) { g.font = f; g.fillText('Day one 160 KM · PART 1?!', 0, 40); g.measureText('warm'); }
+    return document.fonts.check('800 72px Archivo');
+  })();
+</script>
+</body>
+</html>

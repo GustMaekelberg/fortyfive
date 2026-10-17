@@ -156,7 +156,7 @@
     c.shadowColor = 'transparent'; c.shadowBlur = 0; c.shadowOffsetY = 0;
     c.drawImage(layer.cv, -layer.w / 2, -layer.h / 2);
     const bw = 360 * easeOut((lt - 0.7) / 0.5);
-    fillRR(c, -bw / 2, px * 0.52 + 26, bw, 20, 3, '#C0392B');
+    c.shadowColor = 'rgba(8,3,14,.7)'; c.shadowBlur = 12; c.shadowOffsetY = 4; fillRR(c, -bw / 2, px * 0.52 + 22, bw, 24, 4, '#D03A2B'); c.shadowColor = 'transparent'; c.shadowBlur = 0; c.shadowOffsetY = 0;
     if (sub) {
       const sa = easeOut((lt - 0.9) / 0.6);
       c.globalAlpha = a * sa; c.font = FONT(700, 54); c.letterSpacing = '9px'; c.textAlign = 'center'; c.textBaseline = 'middle';
@@ -195,7 +195,7 @@
     // pill
     const pa = easeOut((lt - 0.9) / 0.5), pulse = 1 + 0.028 * Math.sin(PI2 * 0.85 * lt);
     if (pa > 0) {
-      const label = String(scene.cta || 'Follow for Part 2'), pw = 640, ph = 124, py = 1128;
+      const label = String(scene.cta || 'Follow for Part 2'), pw = 640, ph = 124, py = 1080;
       c.save(); c.globalAlpha = pa; c.translate(540, py); c.scale(pulse, pulse);
       V.glow(c, 0, 0, 480, '#C0392B', 0.28 + 0.1 * Math.sin(PI2 * 0.85 * lt), 1.3, 0.5);
       c.shadowColor = 'rgba(0,0,0,.55)'; c.shadowBlur = 26; c.shadowOffsetY = 10;

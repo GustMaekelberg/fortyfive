@@ -2,7 +2,9 @@
 """Synthesised cinematic tension bed (numpy only, no samples) driven by scene types.
 
 Usage:
-    python3 -I ambience.py --timing audio/timing.json --story story.json --out audio/ambience.wav [--seed 45]
+    python3 -I ambience.py --timing audio/timing.json --story story.json --out audio/ambience.wav [--seed 45] [--theme auto|stickocalypse|explainer]
+
+--theme auto (default) takes story.theme; "explainer" builds the clean tech bed described at the bottom of this docstring instead.
 
 Output: 48 kHz stereo wav, length = timing total + 1.0 s, peak ~ -14 dBFS (voice stays on top).
 Deterministic for a given --seed.
@@ -21,6 +23,15 @@ Layers (scene `type` is looked up in story.json by scene id):
     fact_card           whoosh swell + impact (noise burst + 60 Hz thump) at scene start
     end_card (last)     everything decays over the last 1.5 s
 Layer on/off per scene is smoothed with 0.4 s crossfades; global fade-in 1 s, fade-out 1.5 s.
+
+Explainer theme (--theme explainer / story.theme == "explainer"), peak -16 dBFS, no horns / heartbeat / birds / wind:
+    always              soft pad (sines 110 / 165 / 220 / 277 Hz, slow LFO, slightly detuned L/R)
+    chart_line,         very soft 8th-note tick (short filtered click every 0.5 s, ~-40 dBFS) only while the scene is on screen
+    chart_bar, flow
+    title_card,         whoosh + thump at the scene start (title_card at t=0 hits at 0.5 s so the swell is audible)
+    fact_stamp
+    compare             gentle chord swell that rises and settles over the scene
+    end_card (last)     everything decays over the last 1.5 s
 Needs: numpy, soundfile (or scipy as a fallback for writing the wav).
 """
 import argparse
@@ -299,6 +310,89 @@ def layer_fx(tl, rng):
     return buf
 
 
+# --------------------------------------------------------------------------- explainer theme layers
+TICK_DBFS = -40.0
+TICK_TYPES = {"chart_line", "chart_bar", "flow"}
+
+
+def xlayer_pad(tl, rng):
+    """Always-on soft pad: 110/165/220/277 Hz sines, slow LFO per partial, right channel slightly detuned."""
+    t = tl.ta
+    ph = rng.uniform(0, 2 * np.pi, 8)
+    out = np.zeros((2, len(t)))
+    for c in range(2):
+        d = 0.0 if c == 0 else 0.35
+        for k, (f, a) in enumerate([(110.0, 0.30), (165.0, 0.22), (220.0, 0.16), (277.18, 0.07)]):
+            lfo = 1 + 0.22 * np.sin(2 * np.pi * (0.045 + 0.017 * k) * t + ph[k])
+            out[c] += a * lfo * np.sin(2 * np.pi * (f + d * f / 110.0) * t + ph[4 + (k % 4)])
+    breath = 0.88 + 0.12 * np.sin(2 * np.pi * 0.06 * t + ph[0])        # whole pad breathes very slowly
+    return out * breath
+
+
+def xlayer_swell(tl, rng):
+    """compare scenes: a gentle chord swell (A3 + E4 + A4) rising over ~60% of the scene and settling."""
+    buf = np.zeros((2, len(tl.ta)))
+    for sc in tl.scenes_of({"compare"}):
+        s, e = sc["start"], sc["end"]
+        a, b = max(int(s * SR), 0), min(int(e * SR), buf.shape[1])
+        if b - a < SR // 4:
+            continue
+        tt = np.arange(b - a) / SR
+        x = tt / max(e - s, 1e-3)
+        env = np.where(x < 0.6, smoothstep(x / 0.6) ** 1.5, 1.0 - 0.45 * smoothstep((x - 0.6) / 0.4)) * smoothstep(tt / 0.2) * (1 - smoothstep((tt - (e - s - 0.25)) / 0.25))
+        for c, det in enumerate((0.0, 0.6)):
+            sig = np.zeros(b - a)
+            for f, amp in ((220.0, 0.30), (329.63, 0.22), (440.0, 0.14), (554.37, 0.05)):
+                sig += amp * np.sin(2 * np.pi * (f + det * f / 220.0) * tt + rng.uniform(0, 2 * np.pi))
+            buf[c, a:b] += sig * env * 0.55
+    return buf
+
+
+def xlayer_fx(tl, rng):
+    """whoosh + thump at the start of title_card and fact_stamp scenes."""
+    buf = np.zeros((2, len(tl.ta)))
+    for sc in tl.scenes_of({"title_card", "fact_stamp"}):
+        t0 = max(sc["start"], 0.5)
+        pre = int(0.5 * SR)
+        n = rng.standard_normal(pre + int(0.9 * SR))
+        n = fft_filter(n, lo=250, hi=3000)
+        tt = np.arange(len(n)) / SR
+        swell = np.where(tt < 0.5, smoothstep(tt / 0.5) ** 2, np.exp(-(tt - 0.5) / 0.2)) * 0.13
+        add_at(buf, np.stack([n * swell, np.roll(n, 83) * swell]), t0 - 0.5)
+        k = int(1.5 * SR)
+        tk = np.arange(k) / SR
+        burst = fft_filter(rng.standard_normal(k), lo=100, hi=1800) * np.exp(-tk / 0.06) * 0.10
+        f = 52 + 38 * np.exp(-tk / 0.07)
+        thump = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tk / 0.32) * smoothstep(tk / 0.004) * 0.50
+        add_at(buf, np.stack([burst + thump, np.roll(burst, 57) + thump]), t0)
+    return buf
+
+
+def xlayer_ticks(tl, rng):
+    """very soft 8th-note tick (a short filtered click every 0.5 s) while chart / flow scenes are on screen. Peak ~ TICK_DBFS."""
+    buf = np.zeros((2, len(tl.ta)))
+    n = int(0.03 * SR)
+    tt = np.arange(n) / SR
+    amp = 10.0 ** (TICK_DBFS / 20.0)
+    for sc in tl.scenes_of(TICK_TYPES):
+        t = sc["start"] + 0.25
+        i = 0
+        while t < sc["end"] - 0.1:
+            noise = fft_filter(rng.standard_normal(n), lo=1500, hi=6500)
+            click = noise * np.exp(-tt / 0.0025) * 0.7 + np.sin(2 * np.pi * 2300.0 * tt) * np.exp(-tt / 0.006) * 0.55
+            click = click / (np.abs(click).max() + 1e-9) * (1.0 if i % 2 == 0 else 0.62)
+            add_at(buf, pan(click * amp, rng.uniform(-0.25, 0.25)), t)
+            t += 0.5
+            i += 1
+    return buf
+
+
+def build_explainer(tl, rng):
+    """returns (bed, ticks): the bed gets normalised to PEAK_DBFS, the ticks are added afterwards at their absolute level."""
+    bed = xlayer_pad(tl, rng) + xlayer_swell(tl, rng) + xlayer_fx(tl, rng)
+    return bed, xlayer_ticks(tl, rng)
+
+
 # --------------------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -306,6 +400,8 @@ def main():
     ap.add_argument("--story", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--seed", type=int, default=45)
+    ap.add_argument("--theme", choices=["auto", "stickocalypse", "explainer"], default="auto",
+                    help="auto = story.theme (default stickocalypse)")
     args = ap.parse_args()
 
     timing = json.load(open(args.timing, encoding="utf-8"))
@@ -321,28 +417,37 @@ def main():
     rng = np.random.default_rng(args.seed)
     n = len(tl.ta)
 
-    layers = {
-        "drone": layer_drone(tl, rng),
-        "wind": layer_wind(tl, rng),
-        "pad": layer_pad(tl, rng),
-        "horns": layer_horns(tl, rng),
-        "heartbeat": layer_heartbeat(tl, rng),
-        "birds": layer_birds(tl, rng),
-        "fx": layer_fx(tl, rng),
-    }
-    mix = sum(layers.values())
+    theme = args.theme if args.theme != "auto" else str(story.get("theme") or "stickocalypse")
+    explainer = theme == "explainer"
+    fade_in = 0.4 if explainer else FADE_IN
+    late = None
+    if explainer:
+        mix, late = build_explainer(tl, rng)
+    else:
+        layers = {
+            "drone": layer_drone(tl, rng),
+            "wind": layer_wind(tl, rng),
+            "pad": layer_pad(tl, rng),
+            "horns": layer_horns(tl, rng),
+            "heartbeat": layer_heartbeat(tl, rng),
+            "birds": layer_birds(tl, rng),
+            "fx": layer_fx(tl, rng),
+        }
+        mix = sum(layers.values())
     mix = np.stack([fft_filter(mix[0], lo=28), fft_filter(mix[1], lo=28)])
 
     # master envelope: fade-in, fade-out, and an extra decay if the last scene is an end_card
     t = tl.ta
-    env = smoothstep(t / FADE_IN)
+    env = smoothstep(t / fade_in)
     env *= 0.5 * (1 + np.cos(np.pi * np.clip((t - (total - FADE_OUT)) / FADE_OUT, 0, 1)))
     if types.get(scenes[-1]["id"]) == "end_card":
         env *= np.exp(-3.5 * np.clip((t - (total - END_DECAY)) / END_DECAY, 0, 1))
     mix *= env
 
     peak = np.abs(mix).max()
-    mix *= 10.0 ** (PEAK_DBFS / 20.0) / peak
+    mix *= 10.0 ** ((PEAK_DBFS if not explainer else -16.0) / 20.0) / peak
+    if late is not None:                                   # ticks keep their absolute level (they sit ~24 dB under the bed's peak)
+        mix += late * env
     out = np.clip(mix.T, -1, 1).astype(np.float32)
 
     try:
@@ -353,7 +458,7 @@ def main():
         wavfile.write(args.out, SR, out)
 
     rms = 20 * np.log10(np.sqrt(np.mean(out ** 2)))
-    print(f"wrote {args.out}: {len(out)/SR:.2f} s, {SR} Hz stereo, peak {PEAK_DBFS:.1f} dBFS, rms {rms:.1f} dBFS")
+    print(f"wrote {args.out} [{theme}]: {len(out)/SR:.2f} s, {SR} Hz stereo, peak {20*np.log10(np.abs(out).max()+1e-12):.1f} dBFS, rms {rms:.1f} dBFS")
     for s in scenes:
         a, b = int(s["start"] * SR), min(int(s["end"] * SR), len(out))
         seg = out[a:b]

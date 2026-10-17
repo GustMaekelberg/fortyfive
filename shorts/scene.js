@@ -2,8 +2,8 @@
    renderFrame is a pure function of t: no timers, no Math.random, no hidden state (caches only memoise pure results).
    Art lives in src/*.js (util, chars, draw, overlay, scenes_a, scenes_b) and registers into window.V.
    Themes: story.theme picks V.THEMES[name] (src/explainer/theme.js). No theme -> the original stickocalypse pipeline below, untouched.
-   A theme supplies init(story, TL), background(g,t,env), scene(type)->fn|null, fallbackType, overlay(g,env), finish(g,env), grain(g,env,userAmount)
-   and the numbers xfade/fadeIn/fadeOut. env = {TL,i,sc,prev,lt,t,frame,k,total}. */
+   A theme supplies init(story, TL), background(g,t,env), scene(type)->fn|null, fallbackType, overlay(g,env), finish(g,env), grain(g,env,userAmount),
+   optionally mix(k)->[prevAlpha,newAlpha], and the numbers xfade/fadeIn/fadeOut. env = {TL,i,sc,prev,lt,t,frame,k,total}. */
 (() => {
   const V = window.V;
   const { W, H, clamp, lerp, sstep } = V;
@@ -86,8 +86,9 @@
     const env = { TL, i, sc, prev, lt, t, frame, k, total: TL.total };
     TH.background(g, t, env);
     if (k < 1) {
-      drawLayer(bufA, prev, t - prev.start, t); g.globalAlpha = 1 - k; g.drawImage(bufA.canvas, 0, 0);
-      drawLayer(bufB, sc, lt, t); g.globalAlpha = k; g.drawImage(bufB.canvas, 0, 0); g.globalAlpha = 1;
+      const [ap, an] = TH.mix ? TH.mix(k) : [1 - k, k];            // layer opacities during the crossfade
+      drawLayer(bufA, prev, t - prev.start, t); g.globalAlpha = ap; g.drawImage(bufA.canvas, 0, 0);
+      drawLayer(bufB, sc, lt, t); g.globalAlpha = an; g.drawImage(bufB.canvas, 0, 0); g.globalAlpha = 1;
     } else {
       drawLayer(bufB, sc, lt, t); g.drawImage(bufB.canvas, 0, 0);
     }

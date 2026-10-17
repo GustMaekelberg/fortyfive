@@ -75,6 +75,25 @@
     return lines;
   };
 
+  /* ------------------------------------------------------------------ 3D helpers (icosahedron wireframe) */
+  X.icosa = (() => {
+    const p = (1 + Math.sqrt(5)) / 2, v = [];
+    for (const a of [-1, 1]) for (const b of [-p, p]) { v.push([0, a, b]); v.push([a, b, 0]); v.push([b, 0, a]); }
+    const e = [];
+    for (let i = 0; i < v.length; i++) for (let j = i + 1; j < v.length; j++) {
+      const d = Math.hypot(v[i][0] - v[j][0], v[i][1] - v[j][1], v[i][2] - v[j][2]);
+      if (Math.abs(d - 2) < 1e-6) e.push([i, j]);
+    }
+    return { v, e };
+  })();
+  // rotate a 3-vector by yaw (y axis) and pitch (x axis), then perspective-project around (cx,cy) with scale s
+  X.proj = (p, yaw, pitch, cx, cy, s, persp = 0.18) => {
+    let [x, y, z] = p;
+    const cyw = Math.cos(yaw), syw = Math.sin(yaw); [x, z] = [x * cyw + z * syw, -x * syw + z * cyw];
+    const cp = Math.cos(pitch), sp = Math.sin(pitch); [y, z] = [y * cp - z * sp, y * sp + z * cp];
+    const k = 1 / (1 - z * persp * 0.5);
+    return [cx + x * s * k, cy + y * s * k, z];
+  };
   /* ------------------------------------------------------------------ number formatting */
   X.fmtInt = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   X.fmtVal = (v) => {
@@ -92,7 +111,8 @@
     for (let e = -4; e <= 7; e++) for (const m of [1, 1.5, 2, 2.5, 3, 4, 5]) {
       const step = m * Math.pow(10, e), n = Math.floor(span / step + 1e-9) + 1;
       if (n < 4 || n > 6) continue;
-      const score = Math.abs(n - 5) + (n === 5 ? 0 : 0.01);
+      const aligned = Math.abs(min + (n - 1) * step - max) < 1e-9 * Math.max(1, Math.abs(max));
+      const score = Math.abs(n - 5) + (n === 5 ? 0 : 0.01) - (aligned ? 1.5 : 0);
       if (!best || score < best.score) best = { step, n, score };
     }
     if (!best) best = { step: span / 4, n: 5 };
@@ -194,7 +214,7 @@
   const GRID = { K: 500, DZ: 0.42, SPEED: 0.15, GX: 215 };
   function drawGrid(g, t, st) {
     const { K, DZ, SPEED, GX } = GRID, sway = Math.sin(t * 0.21) * 9, vx = 540 + sway;
-    const base = 0.105 * (1 + st.pulse * 1.6);
+    const base = 0.115 * (1 + st.pulse * 1.6);
     const zOff = (t * SPEED) % DZ;
     g.save();
     g.beginPath(); g.rect(0, HOR + 1, W, H - HOR); g.clip();
@@ -212,7 +232,7 @@
       if (y < HOR + 1.5) break;
       const off = y - HOR;
       let a = base * sstep(2, 240, off) * (0.9 + 0.1 * sstep(300, 700, off));
-      if (st.wave >= 0) { const yw = HOR + (H - HOR) * st.wave * st.wave; a += 0.55 * st.pulse * Math.exp(-Math.pow((y - yw) / 70, 2)); }
+      if (st.wave >= 0) { const yw = HOR + (H - HOR) * st.wave * st.wave; a += 0.42 * st.pulse * Math.exp(-Math.pow((y - yw) / 80, 2)) * sstep(30, 280, off); }
       if (a < 0.004) continue;
       g.strokeStyle = `rgba(120,140,190,${Math.min(0.9, a).toFixed(4)})`;
       g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke();
@@ -232,6 +252,7 @@
     g.fillStyle = V.lg(g, 0, HOR - 120, 0, HOR, [[0, 'rgba(79,209,255,0)'], [1, 'rgba(79,209,255,0.035)']]); g.fillRect(0, HOR - 120, W, 120);
     g.fillStyle = V.lg(g, 0, HOR, 0, HOR + 260, [[0, 'rgba(120,140,190,0.05)'], [1, 'rgba(120,140,190,0)']]); g.fillRect(0, HOR, W, 260);
     drawGrid(g, t, st);
+    if (st.wave >= 0 && st.pulse > 0.01) V.glow(g, 540, HOR + (H - HOR) * st.wave * st.wave, 640, P.A, 0.11 * st.pulse * sstep(10, 200, HOR + (H - HOR) * st.wave * st.wave - HOR), 1.6, 0.05);
     g.save();
     g.strokeStyle = V.lg(g, 0, 0, W, 0, [[0, 'rgba(170,190,240,0)'], [0.5, `rgba(170,190,240,${0.32 + 0.4 * st.pulse})`], [1, 'rgba(170,190,240,0)']]);
     g.lineWidth = 1.5; g.beginPath(); g.moveTo(0, HOR); g.lineTo(W, HOR); g.stroke();
@@ -256,9 +277,9 @@
   function chromeLabel(g, text, a) {
     if (!text || a <= 0.003) return;
     g.save(); g.globalAlpha *= a;
-    let size = 28; const ls = 0.18;
+    let size = 30; const ls = 0.18;
     const w = X.meas(X.up(text), X.fMono(400, size), ls * size);
-    if (w > 640) size = 28 * 640 / w;
+    if (w > 640) size = 30 * 640 / w;
     X.circle(g, 92, 338, 5.5, { fill: P.A, glow: 14 });
     X.text(g, text, 112, 338, { size, mono: true, ls, color: P.text, up: true, alpha: 0.92 });
     g.restore();
@@ -274,7 +295,7 @@
     X.bracket(g, 60, 300, 1, 1); X.bracket(g, 1020, 300, -1, 1); X.bracket(g, 60, 1620, 1, -1); X.bracket(g, 1020, 1620, -1, -1);
     // top-left: scene label (crossfades between scenes), top-right: channel
     const lc = labelOf(sc), lp = prev ? labelOf(prev) : lc;
-    if (k < 1 && lp !== lc) { chromeLabel(g, lp, 1 - k); chromeLabel(g, lc, k); } else chromeLabel(g, lc, 1);
+    if (k < 1 && lp !== lc) { chromeLabel(g, lp, clamp(1 - k * 2.2)); chromeLabel(g, lc, clamp(k * 2.2 - 1.2)); } else chromeLabel(g, lc, 1);
     if (X.story && X.story.channel) X.text(g, X.story.channel, 988, 338, { size: 25, mono: true, ls: 0.14, color: P.muted, align: 'right', alpha: 0.9 });
     // progress line
     const prog = clamp(t / total), x1 = 60 + 960 * prog;
@@ -328,8 +349,8 @@
   const CAP_BUILD = new Set(['map', 'chart_line', 'chart_bar', 'flow', 'compare']);   // scenes whose graphic needs the screen first
   X.capStart = (sc) => (sc.dur > 8 && CAP_BUILD.has(sc.type) ? sc.dur * 0.65 : STAMP_T);
   const CAP_SPEC = {
-    map: { y: 428, size: 120, lines: 1 }, chart_line: { y: 428, size: 150, lines: 1 }, chart_bar: { y: 428, size: 150, lines: 1 },
-    flow: { y: 428, size: 130, lines: 1 }, compare: { y: 428, size: 130, lines: 1 }, hero: { y: 1262, size: 110, lines: 1 },
+    map: { y: 430, size: 130, lines: 1 }, chart_line: { y: 438, size: 140, lines: 1 }, chart_bar: { y: 438, size: 140, lines: 1 },
+    flow: { y: 440, size: 130, lines: 1 }, compare: { y: 440, size: 130, lines: 1 }, hero: { y: 1262, size: 110, lines: 1 },
     fact_stamp: { y: 880, size: 190, lines: 2 },
   };
   X.layoutCaption = (text, maxW, size0, maxLines) => {
@@ -356,7 +377,7 @@
     V.glow(c, 0, 0, 520, '#02030A', 0.35, 1.5, (n * lh + 120) / 520 * 0.6);
     L.lines.forEach((l, i) => {
       const y = (i - (n - 1) / 2) * lh;
-      X.text(c, l, 0, y, { size: L.size, wt: 800, align: 'center', color: P.text, glow: 26, glowColor: rgba(P.A, 0.42) });
+      X.text(c, l, 0, y, { size: L.size, wt: 800, align: 'center', color: P.text, glow: 26, glowColor: rgba(P.A, 0.40 + 0.07 * Math.sin(dt * 2.2)) });
     });
     // accent underline, draws left -> right
     const bw = Math.min(wmax, 560) * easeOut((dt - 0.08) / 0.3), by = ((n - 1) / 2) * lh + capH / 2 + Math.max(22, L.size * 0.2);
@@ -367,6 +388,7 @@
   /* ------------------------------------------------------------------ the theme hook */
   const EXPL_TYPES = new Set(['title_card', 'map', 'chart_line', 'chart_bar', 'flow', 'hero', 'fact_stamp', 'compare', 'end_card']);
   const NO_CAPTION = new Set(['title_card', 'fact_stamp', 'end_card']);
+  const DRIFT = new Set(['map', 'chart_line', 'chart_bar', 'flow', 'compare']);
   const wrapCache = {};
   function sceneFn(type) {
     if (!EXPL_TYPES.has(type)) return null;
@@ -374,13 +396,17 @@
     return (wrapCache[type] = (c, lt, sc, gt) => {
       const fn = type === 'end_card' ? X.endCard : V.SCENES[type];
       if (!fn) return;
-      fn(c, lt, sc, gt);
+      if (DRIFT.has(type)) {                                   // very slow push-in on the graphic (caption and chrome stay put)
+        const z = 1 + 0.02 * clamp(lt / Math.max(0.5, sc.dur));
+        c.save(); c.translate(540, 900); c.scale(z, z); c.translate(-540, -900); fn(c, lt, sc, gt); c.restore();
+      } else fn(c, lt, sc, gt);
       if (!NO_CAPTION.has(type) && sc.caption) X.drawCaption(c, sc.caption, lt - X.capStart(sc), CAP_SPEC[type] || { y: 720, size: 150, lines: 2 });
     });
   }
 
   V.THEMES.explainer = {
     name: 'explainer',
+    mix: (k) => [clamp(1 - k * 1.3), clamp((k - 0.15) * 1.18)],     // previous scene clears a little before the next one is fully in
     xfade: 0.3, fadeIn: 0.5, fadeOut: 0.45, grainAmount: 0.022, fallbackType: 'fact_stamp',
     scene: sceneFn,
     init(story, TL) {

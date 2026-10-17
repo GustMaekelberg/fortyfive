@@ -1,0 +1,330 @@
+{
+  "theme": "explainer",
+  "title": "THE WOLF EFFECT",
+  "kicker": "YELLOWSTONE · 1995",
+  "channel": "scroll.science",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice_hint": "calm confident male narrator",
+  "accent": "amber",
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "title_card",
+      "narration": "The internet says wolves reshaped Yellowstone, even changing the course of its rivers. The data says: it's only half true.",
+      "title": "THE WOLF EFFECT",
+      "kicker": "YELLOWSTONE · 1995",
+      "est_seconds": 9.5
+    },
+    {
+      "id": "map",
+      "type": "map",
+      "narration": "Gone by 1926, wolves came from Canada: 14 in 1995, 17 in 1996.",
+      "label": "NORTHERN RANGE",
+      "caption": "31 WOLVES",
+      "region": "yellowstone",
+      "markers": [
+        {
+          "x": 0.76,
+          "y": 0.22,
+          "label": "Lamar Valley"
+        },
+        {
+          "x": 0.52,
+          "y": 0.64,
+          "label": "Yellowstone Lake"
+        },
+        {
+          "x": 0.4,
+          "y": 0.1,
+          "label": "Gardiner"
+        }
+      ],
+      "paths": [
+        {
+          "label": "Yellowstone River",
+          "points": [
+            [
+              0.52,
+              0.64
+            ],
+            [
+              0.55,
+              0.48
+            ],
+            [
+              0.58,
+              0.36
+            ],
+            [
+              0.52,
+              0.26
+            ],
+            [
+              0.46,
+              0.16
+            ],
+            [
+              0.42,
+              0.08
+            ]
+          ]
+        }
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "elk",
+      "type": "chart_line",
+      "narration": "Elk fell from 19,045 in 1994 to 3,915 in 2013, down 79 percent.",
+      "chart": {
+        "title": "NORTHERN RANGE ELK · WINTER COUNT",
+        "unit": "elk",
+        "y_min": 0,
+        "y_max": 20000,
+        "series": [
+          {
+            "name": "Elk",
+            "points": [
+              [
+                1994,
+                19045
+              ],
+              [
+                2002,
+                9215
+              ],
+              [
+                2010,
+                4635
+              ],
+              [
+                2013,
+                3915
+              ],
+              [
+                2018,
+                7579
+              ],
+              [
+                2024,
+                5597
+              ],
+              [
+                2025,
+                7226
+              ]
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "x": 1995,
+            "text": "wolves released"
+          }
+        ]
+      },
+      "caption": "−79%",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "cascade",
+      "type": "flow",
+      "narration": "Ecologists call this a trophic cascade: predators thin herbivores, and plants recover. Where browsing eased, willows grew taller, and beavers gained food and building material.",
+      "nodes": [
+        {
+          "id": "wolf",
+          "label": "WOLVES",
+          "sub": "31 from Canada"
+        },
+        {
+          "id": "elk",
+          "label": "ELK",
+          "sub": "−79%"
+        },
+        {
+          "id": "willow",
+          "label": "WILLOW",
+          "sub": "taller in places"
+        },
+        {
+          "id": "beaver",
+          "label": "BEAVER",
+          "sub": "1 → 12 colonies"
+        },
+        {
+          "id": "river",
+          "label": "RIVERS",
+          "sub": "?"
+        }
+      ],
+      "edges": [
+        [
+          "wolf",
+          "elk",
+          "−"
+        ],
+        [
+          "elk",
+          "willow",
+          "−"
+        ],
+        [
+          "willow",
+          "beaver",
+          "+"
+        ],
+        [
+          "beaver",
+          "river",
+          "?"
+        ]
+      ],
+      "est_seconds": 11.7
+    },
+    {
+      "id": "beaver",
+      "type": "compare",
+      "narration": "Beaver colonies did rise, from one in 1996 to twelve by 2009.",
+      "left": {
+        "label": "1996",
+        "value": "1",
+        "unit": "beaver colony"
+      },
+      "right": {
+        "label": "2009",
+        "value": "12",
+        "unit": "beaver colonies"
+      },
+      "est_seconds": 6.0
+    },
+    {
+      "id": "river",
+      "type": "hero",
+      "narration": "The viral story ends at rivers, but that is where the evidence thins.",
+      "hero": "river",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "Viral claim"
+        },
+        {
+          "side": "right",
+          "text": "Evidence: contested"
+        }
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "twist",
+      "type": "fact_stamp",
+      "narration": "Willows grew taller but covered no more ground, and incised streams limit recovery. Hunting, drought and grizzlies also cut elk numbers, so wolves were not alone.",
+      "caption": "HALF TRUE",
+      "sub": "the river claim is contested",
+      "est_seconds": 12.1
+    },
+    {
+      "id": "outside",
+      "type": "compare",
+      "narration": "In 2025, 6,124 of 7,226 counted elk were outside the park's protection.",
+      "left": {
+        "label": "INSIDE PARK",
+        "value": "1,102",
+        "unit": "elk"
+      },
+      "right": {
+        "label": "OUTSIDE PARK",
+        "value": "6,124",
+        "unit": "elk"
+      },
+      "caption": "85% OUTSIDE",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "end",
+      "type": "end_card",
+      "narration": "Wolves mattered, but the cascade was patchier and weaker than the legend says. Follow for more.",
+      "cta": "Follow for more",
+      "est_seconds": 7.8
+    }
+  ],
+  "sources": [
+    {
+      "claim": "14 wolves captured in Canada (Alberta) and released 1995; 17 more captured in Canada (British Columbia) in 1996; 10-week acclimation pens (NPS Yellowstone Wolf Project Biennial Report 1995-1996)",
+      "url": "https://www.nps.gov/yell/learn/nature/upload/wolfreport_95-96_508.pdf"
+    },
+    {
+      "claim": "41 wolves released in total, 1995-1997: 14 from Alberta, 17 from British Columbia, 10 from northwest Montana (NPS, Yellowstone Science 24-1)",
+      "url": "https://www.nps.gov/yell/learn/ys-24-1-wolf-restoration-in-yellowstone-reintroduction-to-recovery.htm"
+    },
+    {
+      "claim": "Yellowstone's last wolf pack was killed in 1926; wolves were absent as a breeding population until 1995 (NPS History of Wolf Management; an NPS finding aid dates the last known den destroyed to 1923)",
+      "url": "https://www.nps.gov/yell/learn/historyculture/wolf-management.htm"
+    },
+    {
+      "claim": "Wolf population peak: at least 174 wolves at end of 2003 (NPS 2003 annual wolf report)",
+      "url": "https://www.nps.gov/yell/learn/nature/upload/wolfrpt03.pdf"
+    },
+    {
+      "claim": "124 wolves in 11 packs at end of 2023 (NPS 2023 wolf report)",
+      "url": "https://home.nps.gov/yell/learn/nature/upload/2023-Wolf-Report-final_web.pdf"
+    },
+    {
+      "claim": "108 wolves in 9 packs at end of 2024; April-2024 helicopter count of 5,597 northern-herd elk (NPS 2024 wolf/cougar/elk report)",
+      "url": "https://www.nps.gov/yell/learn/nature/upload/2024-WOLF-COUGAR-ELK-REPORT-for-WEB_small.pdf"
+    },
+    {
+      "claim": "84 wolves in 7 packs at end of 2025; April-2025 helicopter count of 7,226 northern-herd elk, 6,124 outside the park (Montana) and 1,102 inside; counts are minimum estimates (NPS 2025 wolf/cougar/elk report)",
+      "url": "https://www.nps.gov/yell/learn/upload/2025-YELL-Wolf-Cougar-Elk-Project-Annual-Report-508.pdf"
+    },
+    {
+      "claim": "Yellowstone wolf population declined in 2025 (84 at year end), corroborating the NPS 2025 report",
+      "url": "https://wolf.org/headlines/yellowstone-national-park-wolf-population-declined-in-2025/"
+    },
+    {
+      "claim": "Record-high 19,045 northern-range elk counted in January 1994; 3,915 in 2013, only 743 above the 1968 low; December 1994 count already 2,254 lower than the year before (NPS Yellowstone Science 24-1). Decline 19,045 -> 3,915 = -79.4%",
+      "url": "https://www.nps.gov/yell/learn/ys-24-1-the-challenge-of-understanding-northern-yellowstone-elk-dynamics-after-wolf-reintroduction.htm"
+    },
+    {
+      "claim": "Same NPS article: scientific consensus on the role of wolves in northern-herd dynamics has not yet emerged; modern aerial counts underestimate true abundance (Yellowstone Science 24(1), 2016)",
+      "url": "https://www.nps.gov/yell/learn/ys-24-1-the-challenge-of-understanding-northern-yellowstone-elk-dynamics-after-wolf-reintroduction.htm"
+    },
+    {
+      "claim": "December 2002 northern-herd count of 9,215 elk (Northern Yellowstone Cooperative Wildlife Working Group, via Bozeman Daily Chronicle)",
+      "url": "https://www.bozemandailychronicle.com/news/winter-count-shows-northern-elk-herd-numbers-remain-stable/article_aa5fd41c-650f-5afc-92c8-0e3df3d01599.html"
+    },
+    {
+      "claim": "December 2010 count of 4,635 elk, down 24% from 6,070 the previous year; drought, grizzly predation (bears ~58% of calf deaths May-Sept), wolf predation, and Gardiner late-hunt permits cut from 1,102 (2005) to 100 (2006-10) and eliminated in 2011; Doug Smith: wolves are not the only reason; northern-range wolves 94 (2007) -> 37 (2010)",
+      "url": "https://thewildlifenews.com/2011/01/12/northern-range-yellowstone-elk"
+    },
+    {
+      "claim": "2018 trend count of 7,579 elk, 42% above 2017's 5,349",
+      "url": "https://930kmpt.com/elk-numbers-in-yellowstone-rebounding-in-2018/"
+    },
+    {
+      "claim": "March 2019 count of about 5,800 elk, 23% below 2018's 7,579; 7,510 in 2016; 10-year average 5,399 (Montana FWP / Working Group)",
+      "url": "https://www.explorebigsky.com/fewer-elk-counted-this-year-on-yellowstones-famous-northern-range"
+    },
+    {
+      "claim": "Trophic cascade definition; willow/aspen height has increased in existing stands but not in area, possibly dependent on beaver occupation; ongoing scientific debate (NPS, The Big Scientific Debate: Trophic Cascades)",
+      "url": "https://www.nps.gov/articles/the-big-scientific-debate-trophic-cascades.htm"
+    },
+    {
+      "claim": "Beaver colonies in the study area rose from 1 in 1996 to 12 in 2009; trees and shrubs recovering along some streams (Oregon State University Trophic Cascades Program, Ripple & Beschta; press release Dec 2011)",
+      "url": "https://trophiccascades.forestry.oregonstate.edu/sites/trophic/files/news_stories/OSUPress_Dec2011.pdf"
+    },
+    {
+      "claim": "Willow recovery limited by stream down-cutting and water availability, not browsing alone: plots with beaver dams plus fences grew >500 cm vs ~60 cm in controls over 17 years (Cooper, Hobbs et al., ESA 2017 abstract)",
+      "url": "https://eco.confex.com/eco/2017/webprogram/Paper63121.html"
+    },
+    {
+      "claim": "Sampling only the tallest young aspen overstated regeneration 3-8x versus random sampling; random sampling still showed a cascade but a weaker one (Brice, Larsen & MacNulty 2022, Ecology Letters)",
+      "url": "https://doi.org/10.1111/ele.13915"
+    },
+    {
+      "claim": "Viral 'wolves change rivers' claim and its scientific scrutiny (International Wolf Center, 'Do wolves really change rivers?')",
+      "url": "https://wolf.org/?p=66441"
+    }
+  ]
+}

@@ -60,7 +60,7 @@
   const POSES = {
     walk: { f: 1.6, legAmp: 0.46, kneeK: 0.8, kneeBase: 0.07, armAmp: 0.5, elbow: 0.4, lean: 0.07, headLean: 0.05 },
     run: { f: 2.6, legAmp: 0.85, kneeK: 1.45, kneeBase: 0.2, armAmp: 1.0, elbow: 1.4, lean: 0.3, headLean: 0.18 },
-    shamble: { f: 1.0, legAmp: 0.36, kneeK: 0.55, kneeBase: 0.18, armAmp: 0.1, elbow: 0.12, lean: 0.55, headLean: 1.0, headDrop: 4, curve: 16,
+    shamble: { f: 1.0, legAmp: 0.36, kneeK: 0.55, kneeBase: 0.3, armAmp: 0.1, elbow: 0.12, lean: 0.55, headLean: 1.0, headDrop: 4, curve: 16,
       armBias: 1.38, armWob: 0.14, stag: 0.55, amp2: 0.6, k2: 0.5, leanSway: 0.05, legBias: 0.04 },
   };
   V.WALK_SPEED = (s, f = 1.6, P = POSES.walk) => 4 * (D.L1 + D.L2) * Math.sin(P.legAmp) * f * s * 0.92; // px/s for no foot-skate

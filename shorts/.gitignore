@@ -1,0 +1,4 @@
+audio/
+*.wav
+*/audio/
+node_modules/

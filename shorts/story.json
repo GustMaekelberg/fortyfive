@@ -1,0 +1,147 @@
+{
+  "title": "DAY ONE",
+  "subtitle": "THE HIGHWAY · PART 1",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice_hint": "deep calm male narrator, documentary tone",
+  "scenes": [
+    {
+      "id": "title",
+      "type": "title",
+      "narration": "Day one of the outbreak. The highway is a trap.",
+      "caption": null,
+      "est_seconds": 4.8
+    },
+    {
+      "id": "keys",
+      "type": "suburb_run",
+      "narration": "Sam grabs his keys and heads for the highway.",
+      "caption": "BIG MISTAKE",
+      "est_seconds": 4.4
+    },
+    {
+      "id": "jam",
+      "type": "highway_jam",
+      "narration": "So does everyone else. Nothing moves.",
+      "caption": "GRIDLOCK",
+      "est_seconds": 3.1
+    },
+    {
+      "id": "rita_jam",
+      "type": "fact_card",
+      "narration": "In 2005, millions fled Houston before Hurricane Rita. The jam stretched over 160 kilometres.",
+      "caption": "160 KM JAM",
+      "est_seconds": 6.4,
+      "fact_label": "HURRICANE RITA · 2005"
+    },
+    {
+      "id": "rita_toll",
+      "type": "fact_card",
+      "narration": "Cars ran dry in the heat. Dozens died on the road, before the storm arrived.",
+      "caption": "BEFORE THE STORM",
+      "est_seconds": 6.9,
+      "fact_label": "RITA EVACUATION · 2005"
+    },
+    {
+      "id": "leaving",
+      "type": "leaving_car",
+      "narration": "Sam leaves the car. Behind him, the horns fall silent.",
+      "caption": null,
+      "est_seconds": 4.8
+    },
+    {
+      "id": "lanes",
+      "type": "lanes_movement",
+      "narration": "Then something starts moving between the lanes.",
+      "caption": null,
+      "est_seconds": 3.5
+    },
+    {
+      "id": "bike",
+      "type": "bike_ride",
+      "narration": "He grabs a bike from a pickup. Eighteen kilometres an hour beats gridlock.",
+      "caption": "18 KM/H",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "farm",
+      "type": "barn_sunset",
+      "narration": "By sunset, he finds a farm. The taps are empty.",
+      "caption": null,
+      "est_seconds": 4.8
+    },
+    {
+      "id": "heater",
+      "type": "basement_heater",
+      "narration": "Sam knows a trick. The basement water heater holds 150 litres of drinkable water.",
+      "caption": "150 LITRES",
+      "est_seconds": 6.4
+    },
+    {
+      "id": "dog",
+      "type": "dog_morning",
+      "narration": "On day two, something scratches at the door. Just a dog.",
+      "caption": null,
+      "est_seconds": 5.2
+    },
+    {
+      "id": "end",
+      "type": "end_card",
+      "narration": "Would you have stayed in the car? Follow for part two.",
+      "caption": null,
+      "est_seconds": 5.2,
+      "cta": "Follow for Part 2"
+    }
+  ],
+  "sources": [
+    {
+      "claim": "Rita jam on I-45 north of Houston ran more than 100 miles (160+ km) and had lasted about a day and a half; ~100 F heat; stranded cars",
+      "url": "https://www.npr.org/2005/09/23/4860470/gridlock-hampers-texas-evacuation-efforts"
+    },
+    {
+      "claim": "Rita evacuee travel times were 18-24 hours (vs 6-8 for Ike); one evacuee's normally sub-4-hour drive to Dallas took 25 hours",
+      "url": "https://apps.texastribune.org/road-from-rita/taking-on-traffic"
+    },
+    {
+      "claim": "~3.7 million left the Houston region; dozens died on the road (bus fire, crashes, heat stroke); Houston was only grazed",
+      "url": "https://www.npr.org/sections/thetwo-way/2017/08/28/546721363/why-didn-t-officials-order-the-evacuation-of-houston"
+    },
+    {
+      "claim": "Service stations ran out of fuel during the Rita evacuation; police carried gasoline to stranded drivers",
+      "url": "https://www.ksl.com/article/111087"
+    },
+    {
+      "claim": "Nursing-home evacuee bus fire near Dallas killed 23 (NTSB figure; early reports said 24)",
+      "url": "https://www.nbcnews.com/id/wbna14252316"
+    },
+    {
+      "claim": "Houston Chronicle retrospective: Rita's mass evacuation left about 100 people dead",
+      "url": "https://preview-prod.w.houstonchronicle.com/news/houston-texas/environment/article/hurricane-rita-evacuation-20822543.php"
+    },
+    {
+      "claim": "US residential tanks are typically 40-50 gal (about 151-189 L), up to 75-80 gal for large households",
+      "url": "https://www.centerpointenergy.com/en-us/HSP/Pages/water-heating-sizing-guide.aspx"
+    },
+    {
+      "claim": "European household boilers are typically 30-150 L (CE Delft sizing table)",
+      "url": "https://ce.nl/wp-content/uploads/2021/04/21_Factsheet-Warmwaterboilers_DEF.pdf"
+    },
+    {
+      "claim": "FEMA: the hot water heater is an emergency water source - turn off power, let it cool, open the drain valve at the bottom",
+      "url": "https://webarchive.library.unt.edu/eot2008/20090505200140mp_/http:/www.fema.gov/rebuild/recover/foodandwater.shtm"
+    },
+    {
+      "claim": "Dutch national cycling count: city averages 14.4 km/h (Amsterdam) to 16.9 km/h (Arnhem)",
+      "url": "https://nltimes.nl/node/31518"
+    },
+    {
+      "claim": "Measured path speeds of cyclists vary between 15 and 25 km/h",
+      "url": "https://swov.nl/en/publicatie/cyklisters-hastigheter-kartlaggning-matningar-och-observation-cyclists-speeds-field"
+    },
+    {
+      "claim": "Strava-based average for road riders on mostly flat terrain is about 24 km/h (so 25 is the top of the range, not typical)",
+      "url": "https://en.upway.be/blogs/news/vitesse-moyenne-velo"
+    }
+  ]
+}

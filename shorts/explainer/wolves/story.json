@@ -15,7 +15,92 @@
       "narration": "The internet says wolves reshaped Yellowstone, even changing the course of its rivers. The data says: it's only half true.",
       "title": "THE WOLF EFFECT",
       "kicker": "YELLOWSTONE · 1995",
-      "est_seconds": 9.5
+      "est_seconds": 9.5,
+      "start": 0.0,
+      "end": 7.829,
+      "speech_end": 7.479,
+      "words": [
+        {
+          "w": "The",
+          "t": 0.0
+        },
+        {
+          "w": "internet",
+          "t": 0.195
+        },
+        {
+          "w": "says",
+          "t": 0.715
+        },
+        {
+          "w": "wolves",
+          "t": 0.976
+        },
+        {
+          "w": "reshaped",
+          "t": 1.366
+        },
+        {
+          "w": "Yellowstone,",
+          "t": 1.886
+        },
+        {
+          "w": "even",
+          "t": 2.796
+        },
+        {
+          "w": "changing",
+          "t": 3.057
+        },
+        {
+          "w": "the",
+          "t": 3.577
+        },
+        {
+          "w": "course",
+          "t": 3.772
+        },
+        {
+          "w": "of",
+          "t": 4.162
+        },
+        {
+          "w": "its",
+          "t": 4.292
+        },
+        {
+          "w": "rivers.",
+          "t": 4.487
+        },
+        {
+          "w": "The",
+          "t": 5.203
+        },
+        {
+          "w": "data",
+          "t": 5.398
+        },
+        {
+          "w": "says:",
+          "t": 5.658
+        },
+        {
+          "w": "it's",
+          "t": 6.113
+        },
+        {
+          "w": "only",
+          "t": 6.373
+        },
+        {
+          "w": "half",
+          "t": 6.633
+        },
+        {
+          "w": "true.",
+          "t": 6.894
+        }
+      ]
     },
     {
       "id": "map",
@@ -72,7 +157,64 @@
           ]
         }
       ],
-      "est_seconds": 6.5
+      "est_seconds": 6.5,
+      "start": 7.829,
+      "end": 16.603,
+      "speech_end": 16.253,
+      "words": [
+        {
+          "w": "Gone",
+          "t": 7.829
+        },
+        {
+          "w": "by",
+          "t": 8.39
+        },
+        {
+          "w": "1926,",
+          "t": 8.671
+        },
+        {
+          "w": "wolves",
+          "t": 9.654
+        },
+        {
+          "w": "came",
+          "t": 10.496
+        },
+        {
+          "w": "from",
+          "t": 11.058
+        },
+        {
+          "w": "Canada:",
+          "t": 11.62
+        },
+        {
+          "w": "14",
+          "t": 12.883
+        },
+        {
+          "w": "in",
+          "t": 13.164
+        },
+        {
+          "w": "1995,",
+          "t": 13.445
+        },
+        {
+          "w": "17",
+          "t": 14.428
+        },
+        {
+          "w": "in",
+          "t": 14.708
+        },
+        {
+          "w": "1996.",
+          "t": 14.989
+        }
+      ]
     },
     {
       "id": "elk",
@@ -126,7 +268,64 @@
         ]
       },
       "caption": "−79%",
-      "est_seconds": 6.5
+      "est_seconds": 6.5,
+      "start": 16.603,
+      "end": 26.655,
+      "speech_end": 26.305,
+      "words": [
+        {
+          "w": "Elk",
+          "t": 16.603
+        },
+        {
+          "w": "fell",
+          "t": 17.113
+        },
+        {
+          "w": "from",
+          "t": 17.794
+        },
+        {
+          "w": "19,045",
+          "t": 18.475
+        },
+        {
+          "w": "in",
+          "t": 19.497
+        },
+        {
+          "w": "1994",
+          "t": 19.837
+        },
+        {
+          "w": "to",
+          "t": 20.518
+        },
+        {
+          "w": "3,915",
+          "t": 20.858
+        },
+        {
+          "w": "in",
+          "t": 21.709
+        },
+        {
+          "w": "2013,",
+          "t": 22.05
+        },
+        {
+          "w": "down",
+          "t": 23.241
+        },
+        {
+          "w": "79",
+          "t": 23.922
+        },
+        {
+          "w": "percent.",
+          "t": 24.263
+        }
+      ]
     },
     {
       "id": "cascade",
@@ -181,7 +380,112 @@
           "?"
         ]
       ],
-      "est_seconds": 11.7
+      "est_seconds": 11.7,
+      "start": 26.655,
+      "end": 37.423,
+      "speech_end": 37.073,
+      "words": [
+        {
+          "w": "Ecologists",
+          "t": 26.655
+        },
+        {
+          "w": "call",
+          "t": 27.275
+        },
+        {
+          "w": "this",
+          "t": 27.523
+        },
+        {
+          "w": "a",
+          "t": 27.771
+        },
+        {
+          "w": "trophic",
+          "t": 27.833
+        },
+        {
+          "w": "cascade:",
+          "t": 28.267
+        },
+        {
+          "w": "predators",
+          "t": 28.888
+        },
+        {
+          "w": "thin",
+          "t": 29.446
+        },
+        {
+          "w": "herbivores,",
+          "t": 29.694
+        },
+        {
+          "w": "and",
+          "t": 30.5
+        },
+        {
+          "w": "plants",
+          "t": 30.686
+        },
+        {
+          "w": "recover.",
+          "t": 31.058
+        },
+        {
+          "w": "Where",
+          "t": 31.802
+        },
+        {
+          "w": "browsing",
+          "t": 32.112
+        },
+        {
+          "w": "eased,",
+          "t": 32.608
+        },
+        {
+          "w": "willows",
+          "t": 33.104
+        },
+        {
+          "w": "grew",
+          "t": 33.538
+        },
+        {
+          "w": "taller,",
+          "t": 33.786
+        },
+        {
+          "w": "and",
+          "t": 34.344
+        },
+        {
+          "w": "beavers",
+          "t": 34.53
+        },
+        {
+          "w": "gained",
+          "t": 34.964
+        },
+        {
+          "w": "food",
+          "t": 35.336
+        },
+        {
+          "w": "and",
+          "t": 35.584
+        },
+        {
+          "w": "building",
+          "t": 35.771
+        },
+        {
+          "w": "material.",
+          "t": 36.267
+        }
+      ]
     },
     {
       "id": "beaver",
@@ -197,7 +501,60 @@
         "value": "12",
         "unit": "beaver colonies"
       },
-      "est_seconds": 6.0
+      "est_seconds": 6.0,
+      "start": 37.423,
+      "end": 43.702,
+      "speech_end": 43.352,
+      "words": [
+        {
+          "w": "Beaver",
+          "t": 37.423
+        },
+        {
+          "w": "colonies",
+          "t": 38.058
+        },
+        {
+          "w": "did",
+          "t": 38.905
+        },
+        {
+          "w": "rise,",
+          "t": 39.223
+        },
+        {
+          "w": "from",
+          "t": 39.964
+        },
+        {
+          "w": "one",
+          "t": 40.387
+        },
+        {
+          "w": "in",
+          "t": 40.705
+        },
+        {
+          "w": "1996",
+          "t": 40.917
+        },
+        {
+          "w": "to",
+          "t": 41.34
+        },
+        {
+          "w": "twelve",
+          "t": 41.552
+        },
+        {
+          "w": "by",
+          "t": 42.187
+        },
+        {
+          "w": "2009.",
+          "t": 42.399
+        }
+      ]
     },
     {
       "id": "river",
@@ -214,7 +571,64 @@
           "text": "Evidence: contested"
         }
       ],
-      "est_seconds": 6.5
+      "est_seconds": 6.5,
+      "start": 43.702,
+      "end": 47.983,
+      "speech_end": 47.633,
+      "words": [
+        {
+          "w": "The",
+          "t": 43.702
+        },
+        {
+          "w": "viral",
+          "t": 43.889
+        },
+        {
+          "w": "story",
+          "t": 44.201
+        },
+        {
+          "w": "ends",
+          "t": 44.513
+        },
+        {
+          "w": "at",
+          "t": 44.762
+        },
+        {
+          "w": "rivers,",
+          "t": 44.887
+        },
+        {
+          "w": "but",
+          "t": 45.449
+        },
+        {
+          "w": "that",
+          "t": 45.636
+        },
+        {
+          "w": "is",
+          "t": 45.886
+        },
+        {
+          "w": "where",
+          "t": 46.01
+        },
+        {
+          "w": "the",
+          "t": 46.322
+        },
+        {
+          "w": "evidence",
+          "t": 46.509
+        },
+        {
+          "w": "thins.",
+          "t": 47.009
+        }
+      ]
     },
     {
       "id": "twist",
@@ -222,7 +636,116 @@
       "narration": "Willows grew taller but covered no more ground, and incised streams limit recovery. Hunting, drought and grizzlies also cut elk numbers, so wolves were not alone.",
       "caption": "HALF TRUE",
       "sub": "the river claim is contested",
-      "est_seconds": 12.1
+      "est_seconds": 12.1,
+      "start": 47.983,
+      "end": 58.078,
+      "speech_end": 57.728,
+      "words": [
+        {
+          "w": "Willows",
+          "t": 47.983
+        },
+        {
+          "w": "grew",
+          "t": 48.434
+        },
+        {
+          "w": "taller",
+          "t": 48.692
+        },
+        {
+          "w": "but",
+          "t": 49.08
+        },
+        {
+          "w": "covered",
+          "t": 49.273
+        },
+        {
+          "w": "no",
+          "t": 49.725
+        },
+        {
+          "w": "more",
+          "t": 49.854
+        },
+        {
+          "w": "ground,",
+          "t": 50.112
+        },
+        {
+          "w": "and",
+          "t": 50.693
+        },
+        {
+          "w": "incised",
+          "t": 50.887
+        },
+        {
+          "w": "streams",
+          "t": 51.339
+        },
+        {
+          "w": "limit",
+          "t": 51.79
+        },
+        {
+          "w": "recovery.",
+          "t": 52.113
+        },
+        {
+          "w": "Hunting,",
+          "t": 52.952
+        },
+        {
+          "w": "drought",
+          "t": 53.597
+        },
+        {
+          "w": "and",
+          "t": 54.049
+        },
+        {
+          "w": "grizzlies",
+          "t": 54.243
+        },
+        {
+          "w": "also",
+          "t": 54.824
+        },
+        {
+          "w": "cut",
+          "t": 55.082
+        },
+        {
+          "w": "elk",
+          "t": 55.275
+        },
+        {
+          "w": "numbers,",
+          "t": 55.469
+        },
+        {
+          "w": "so",
+          "t": 56.114
+        },
+        {
+          "w": "wolves",
+          "t": 56.243
+        },
+        {
+          "w": "were",
+          "t": 56.631
+        },
+        {
+          "w": "not",
+          "t": 56.889
+        },
+        {
+          "w": "alone.",
+          "t": 57.082
+        }
+      ]
     },
     {
       "id": "outside",
@@ -239,14 +762,136 @@
         "unit": "elk"
       },
       "caption": "85% OUTSIDE",
-      "est_seconds": 6.0
+      "est_seconds": 6.0,
+      "start": 58.078,
+      "end": 67.49,
+      "speech_end": 67.14,
+      "words": [
+        {
+          "w": "In",
+          "t": 58.078
+        },
+        {
+          "w": "2025,",
+          "t": 58.352
+        },
+        {
+          "w": "6,124",
+          "t": 59.314
+        },
+        {
+          "w": "of",
+          "t": 60.0
+        },
+        {
+          "w": "7,226",
+          "t": 60.275
+        },
+        {
+          "w": "counted",
+          "t": 60.961
+        },
+        {
+          "w": "elk",
+          "t": 61.923
+        },
+        {
+          "w": "were",
+          "t": 62.335
+        },
+        {
+          "w": "outside",
+          "t": 62.884
+        },
+        {
+          "w": "the",
+          "t": 63.845
+        },
+        {
+          "w": "park's",
+          "t": 64.257
+        },
+        {
+          "w": "protection.",
+          "t": 65.081
+        }
+      ]
     },
     {
       "id": "end",
       "type": "end_card",
       "narration": "Wolves mattered, but the cascade was patchier and weaker than the legend says. Follow for more.",
       "cta": "Follow for more",
-      "est_seconds": 7.8
+      "est_seconds": 7.8,
+      "start": 67.49,
+      "end": 73.123,
+      "speech_end": 73.123,
+      "words": [
+        {
+          "w": "Wolves",
+          "t": 67.49
+        },
+        {
+          "w": "mattered,",
+          "t": 67.866
+        },
+        {
+          "w": "but",
+          "t": 68.554
+        },
+        {
+          "w": "the",
+          "t": 68.742
+        },
+        {
+          "w": "cascade",
+          "t": 68.93
+        },
+        {
+          "w": "was",
+          "t": 69.368
+        },
+        {
+          "w": "patchier",
+          "t": 69.556
+        },
+        {
+          "w": "and",
+          "t": 70.056
+        },
+        {
+          "w": "weaker",
+          "t": 70.244
+        },
+        {
+          "w": "than",
+          "t": 70.62
+        },
+        {
+          "w": "the",
+          "t": 70.87
+        },
+        {
+          "w": "legend",
+          "t": 71.058
+        },
+        {
+          "w": "says.",
+          "t": 71.433
+        },
+        {
+          "w": "Follow",
+          "t": 71.997
+        },
+        {
+          "w": "for",
+          "t": 72.372
+        },
+        {
+          "w": "more.",
+          "t": 72.56
+        }
+      ]
     }
   ],
   "sources": [
@@ -326,5 +971,6 @@
       "claim": "Viral 'wolves change rivers' claim and its scientific scrutiny (International Wolf Center, 'Do wolves really change rivers?')",
       "url": "https://wolf.org/?p=66441"
     }
-  ]
+  ],
+  "duration": 73.123
 }

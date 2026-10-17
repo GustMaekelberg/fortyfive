@@ -1,0 +1,273 @@
+{
+  "theme": "explainer",
+  "title": "SEWAGE IS A BACTERIA FARM",
+  "kicker": "ACTIVATED SLUDGE · 1914",
+  "channel": "scroll.science",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice_hint": "calm confident male narrator",
+  "accent": "amber",
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "title_card",
+      "narration": "One gram of activated sludge holds tens of billions of living bacteria.",
+      "title": "SEWAGE IS A BACTERIA FARM",
+      "kicker": "ACTIVATED SLUDGE · 1914",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "farm",
+      "type": "hero",
+      "narration": "A wastewater plant is not really a filter; it is a bacteria farm.",
+      "hero": "bacteria",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "3×10¹⁰ PER GRAM"
+        },
+        {
+          "side": "right",
+          "text": "FLOCS"
+        }
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "history",
+      "type": "fact_stamp",
+      "narration": "In 1914, Ardern and Lockett in Manchester aerated sewage and reused the sludge.",
+      "caption": "1914",
+      "sub": "Ardern & Lockett · Manchester",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "plant",
+      "type": "flow",
+      "narration": "Blowers pump in air, and bacteria clump into flocs that eat the pollution. In the clarifier, heavy flocs settle and treated water flows off the top.",
+      "nodes": [
+        {
+          "id": "raw",
+          "label": "SEWAGE",
+          "sub": "organic load"
+        },
+        {
+          "id": "aer",
+          "label": "AERATION",
+          "sub": "air + bacteria"
+        },
+        {
+          "id": "clar",
+          "label": "CLARIFIER",
+          "sub": "flocs settle"
+        },
+        {
+          "id": "out",
+          "label": "WATER",
+          "sub": "treated"
+        }
+      ],
+      "edges": [
+        [
+          "raw",
+          "aer",
+          "in"
+        ],
+        [
+          "aer",
+          "clar",
+          "mix"
+        ],
+        [
+          "clar",
+          "out",
+          "clear"
+        ],
+        [
+          "clar",
+          "aer",
+          "return"
+        ]
+      ],
+      "est_seconds": 12.1
+    },
+    {
+      "id": "nitrogen",
+      "type": "flow",
+      "narration": "With oxygen, nitrifying bacteria convert toxic ammonia into nitrate. Without oxygen, other bacteria turn that nitrate into harmless nitrogen gas.",
+      "nodes": [
+        {
+          "id": "nh4",
+          "label": "NH₄⁺",
+          "sub": "ammonia, toxic"
+        },
+        {
+          "id": "no3",
+          "label": "NO₃⁻",
+          "sub": "nitrate"
+        },
+        {
+          "id": "n2",
+          "label": "N₂",
+          "sub": "harmless gas"
+        }
+      ],
+      "edges": [
+        [
+          "nh4",
+          "no3",
+          "+ O₂"
+        ],
+        [
+          "no3",
+          "n2",
+          "no O₂"
+        ]
+      ],
+      "est_seconds": 9.5
+    },
+    {
+      "id": "age",
+      "type": "fact_stamp",
+      "narration": "Sludge age is about 5 to 15 days, long enough for slow nitrifiers.",
+      "caption": "5–15 DAYS",
+      "sub": "typical sludge age (solids retention time)",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "removal",
+      "type": "compare",
+      "narration": "US law demands 85 percent removal of organic pollution; good plants reach 95.",
+      "left": {
+        "label": "US LEGAL MINIMUM",
+        "value": "85%",
+        "unit": "organic load removed"
+      },
+      "right": {
+        "label": "GOOD PLANT",
+        "value": "95%",
+        "unit": "organic load removed"
+      },
+      "est_seconds": 6.5
+    },
+    {
+      "id": "energy",
+      "type": "hero",
+      "narration": "Blowing that air is the biggest energy cost, often around half the total.",
+      "hero": "gear",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "AERATION"
+        },
+        {
+          "side": "right",
+          "text": "~50% OF COST"
+        }
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "nuance",
+      "type": "fact_stamp",
+      "narration": "Honestly, waste never truly vanishes; it becomes gas, water and surplus sludge.",
+      "caption": "NOT DELETED",
+      "sub": "pollution is converted, not destroyed",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "end",
+      "type": "end_card",
+      "narration": "The real engineering is building a home where the right microbes can thrive. Follow for more.",
+      "cta": "Follow for more",
+      "est_seconds": 7.8
+    }
+  ],
+  "sources": [
+    {
+      "claim": "Activated sludge holds ~3.0x10^10 viable (culturable) cells per gram of mixed-liquor solids (2.8x10^7 per mL); culture-based, so a floor. Older plate counts: several hundred thousand million per gram.",
+      "url": "https://web.nies.go.jp/chiiki1/protoz/refere/id1999/1096.htm"
+    },
+    {
+      "claim": "Activated sludge holds ~3.0x10^10 viable (culturable) cells per gram of mixed-liquor solids (2.8x10^7 per mL); culture-based, so a floor. Older plate counts: several hundred thousand million per gram.",
+      "url": "https://resolve.cambridge.org/core/journals/epidemiology-and-infection/article/bacteriology-of-activated-sludge/E6369704D1B2A92506DAF83ECE298172"
+    },
+    {
+      "claim": "Ardern and Lockett presented activated sludge to the Society of Chemical Industry in Manchester on 3 April 1914; key insight was returning settled biomass; work done at Davyhulme.",
+      "url": "https://en.wikipedia.org/wiki/Davyhulme_Sewage_Works"
+    },
+    {
+      "claim": "Ardern and Lockett presented activated sludge to the Society of Chemical Industry in Manchester on 3 April 1914; key insight was returning settled biomass; work done at Davyhulme.",
+      "url": "https://www.waterworld.com/home/article/16200968/activated-sludge-100-years-not-out"
+    },
+    {
+      "claim": "Ardern and Lockett presented activated sludge to the Society of Chemical Industry in Manchester on 3 April 1914; key insight was returning settled biomass; work done at Davyhulme.",
+      "url": "https://envirotecmagazine.com/2013/09/24/marking-100-years-of-activated-sludge/"
+    },
+    {
+      "claim": "Process: aeration tank with biological floc of bacteria and protozoa, gravity settling in secondary clarifier, return activated sludge, waste sludge removed.",
+      "url": "https://www.sswm.info/node/287"
+    },
+    {
+      "claim": "Process: aeration tank with biological floc of bacteria and protozoa, gravity settling in secondary clarifier, return activated sludge, waste sludge removed.",
+      "url": "https://www.epa.gov/system/files/documents/2022-03/wwtpslides-20211021.pdf"
+    },
+    {
+      "claim": "Process: aeration tank with biological floc of bacteria and protozoa, gravity settling in secondary clarifier, return activated sludge, waste sludge removed.",
+      "url": "https://www.waterandwastewater.com/activated-sludge-wastewater-treatment"
+    },
+    {
+      "claim": "Nitrification: ammonia to nitrite to nitrate by nitrifiers (Nitrosomonas/Nitrobacter-type, plus Nitrospira) with oxygen; denitrification: nitrate to N2 gas in an anoxic stage.",
+      "url": "https://scholarsmine.mst.edu/civarc_enveng_facwork/3307"
+    },
+    {
+      "claim": "Nitrification: ammonia to nitrite to nitrate by nitrifiers (Nitrosomonas/Nitrobacter-type, plus Nitrospira) with oxygen; denitrification: nitrate to N2 gas in an anoxic stage.",
+      "url": "https://academic.hep.com.cn/fese/EN/10.1007/s11783-012-0397-8"
+    },
+    {
+      "claim": "Nitrification: ammonia to nitrite to nitrate by nitrifiers (Nitrosomonas/Nitrobacter-type, plus Nitrospira) with oxygen; denitrification: nitrate to N2 gas in an anoxic stage.",
+      "url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/5624563"
+    },
+    {
+      "claim": "Sludge age (MCRT/SRT) of 5-15 days in conventional plants; nitrifiers are slow growers (conventional activated sludge usually run at 8+ days to avoid washout).",
+      "url": "https://efcnetwork.org/wp-content/uploads/2023/09/Activated-Sludge-Part-1-September-27-2023-1.pdf"
+    },
+    {
+      "claim": "Sludge age (MCRT/SRT) of 5-15 days in conventional plants; nitrifiers are slow growers (conventional activated sludge usually run at 8+ days to avoid washout).",
+      "url": "https://open-exam-prep.com/study-guides/or-water-operator/biological-treatment/activated-sludge"
+    },
+    {
+      "claim": "Sludge age (MCRT/SRT) of 5-15 days in conventional plants; nitrifiers are slow growers (conventional activated sludge usually run at 8+ days to avoid washout).",
+      "url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/5624563"
+    },
+    {
+      "claim": "US secondary-treatment rule: BOD5 30-day average removal not less than 85 percent (40 CFR 133.102).",
+      "url": "https://www.law.cornell.edu/cfr/text/40/133.102"
+    },
+    {
+      "claim": "US secondary-treatment rule: BOD5 30-day average removal not less than 85 percent (40 CFR 133.102).",
+      "url": "https://www.epa.gov/system/files/documents/2024-10/permit-say-part01.pdf"
+    },
+    {
+      "claim": "Well-run activated sludge reaches >95% BOD removal at long sludge age (20-30 d); 85 to >95% quoted as the working range. (EU rule for comparison: 25 mg/l BOD5 or 70-90% reduction.)",
+      "url": "https://leanbusinessireland.ie/includes/documents/BPGWastewater.pdf"
+    },
+    {
+      "claim": "Well-run activated sludge reaches >95% BOD removal at long sludge age (20-30 d); 85 to >95% quoted as the working range. (EU rule for comparison: 25 mg/l BOD5 or 70-90% reduction.)",
+      "url": "https://efcnetwork.org/wp-content/uploads/2023/09/Activated-Sludge-Part-1-September-27-2023-1.pdf"
+    },
+    {
+      "claim": "Well-run activated sludge reaches >95% BOD removal at long sludge age (20-30 d); 85 to >95% quoted as the working range. (EU rule for comparison: 25 mg/l BOD5 or 70-90% reduction.)",
+      "url": "https://legislation.gov.uk/eudr/1991/271/annex/I"
+    },
+    {
+      "claim": "Aeration is the largest energy user in wastewater treatment, about half of treatment cost per EPRI (via WaterWorld); EPA training also names aeration the biggest energy consumer.",
+      "url": "https://waterworld.com/drinking-water/treatment/article/14070820/energy-efficiency-for-wastewater-treatment-plants"
+    },
+    {
+      "claim": "Aeration is the largest energy user in wastewater treatment, about half of treatment cost per EPRI (via WaterWorld); EPA training also names aeration the biggest energy consumer.",
+      "url": "https://www.epa.gov/node/165587"
+    }
+  ]
+}

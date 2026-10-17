@@ -1,0 +1,313 @@
+{
+  "theme": "explainer",
+  "title": "THE BEAVER IS A CIVIL ENGINEER",
+  "kicker": "BEAVER DAMS · EUROPE",
+  "channel": "scroll.science",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice_hint": "calm confident male narrator",
+  "accent": "amber",
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "title_card",
+      "narration": "Beavers on one Devon stream built 13 dams that hold a million litres.",
+      "title": "THE BEAVER IS A CIVIL ENGINEER",
+      "kicker": "BEAVER DAMS · EUROPE",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "dam",
+      "type": "hero",
+      "narration": "A beaver dam slows the stream, so sediment settles out of the water.",
+      "hero": "beaver",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "13 DAMS"
+        },
+        {
+          "side": "right",
+          "text": "~1,000 m³ STORED"
+        }
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "sediment",
+      "type": "chart_bar",
+      "narration": "Suspended sediment leaving that site averaged 39 milligrams per litre, down from 112.",
+      "chart": {
+        "title": "SUSPENDED SEDIMENT · MG PER LITRE",
+        "unit": "mg/l",
+        "y_max": 120,
+        "bars": [
+          {
+            "label": "ENTERING",
+            "value": 112
+          },
+          {
+            "label": "LEAVING",
+            "value": 39
+          }
+        ]
+      },
+      "caption": "112 → 39",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "flood",
+      "type": "fact_stamp",
+      "narration": "Storm peaks leaving the site were about 30 percent lower on average.",
+      "caption": "−30%",
+      "sub": "storm peak flow, mean 30 ± 19%",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "watertable",
+      "type": "flow",
+      "narration": "The ponds also lift the water table, so soil stays wet for longer.",
+      "nodes": [
+        {
+          "id": "dam",
+          "label": "DAM",
+          "sub": "slows the flow"
+        },
+        {
+          "id": "pond",
+          "label": "POND",
+          "sub": "stores water"
+        },
+        {
+          "id": "wt",
+          "label": "WATER TABLE",
+          "sub": "raised"
+        },
+        {
+          "id": "soil",
+          "label": "WET SOIL",
+          "sub": "stays wet longer"
+        }
+      ],
+      "edges": [
+        [
+          "dam",
+          "pond",
+          "backs up"
+        ],
+        [
+          "pond",
+          "wt",
+          "seeps"
+        ],
+        [
+          "wt",
+          "soil",
+          "keeps"
+        ]
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "fire",
+      "type": "hero",
+      "narration": "In five US wildfires, streamside greenness fell three times less near beaver dams.",
+      "hero": "willow",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "5 WILDFIRES"
+        },
+        {
+          "side": "right",
+          "text": "3× SMALLER DROP"
+        }
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "europe",
+      "type": "chart_line",
+      "narration": "Hunting left about 1,200 beavers; Eurasia now holds at least 1.5 million.",
+      "chart": {
+        "title": "EURASIAN BEAVERS · MILLIONS",
+        "unit": "M",
+        "y_min": 0,
+        "y_max": 1.6,
+        "series": [
+          {
+            "name": "Eurasian beaver, minimum estimate",
+            "points": [
+              [
+                1900,
+                0.0012
+              ],
+              [
+                2002,
+                0.59
+              ],
+              [
+                2008,
+                0.64
+              ],
+              [
+                2020,
+                1.5
+              ]
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "x": 1988,
+            "text": "first Dutch release"
+          }
+        ]
+      },
+      "caption": "1,200 → 1.5 M",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "return",
+      "type": "fact_stamp",
+      "narration": "Dutch releases began in 1988, and Flanders saw beavers return around 2000. England protected beavers in 2022 and opened licensed wild releases in 2025.",
+      "caption": "1988 → 2025",
+      "sub": "Netherlands 1988 · Flanders ~2000 · England 2022",
+      "est_seconds": 11.2
+    },
+    {
+      "id": "flanders",
+      "type": "compare",
+      "narration": "Flanders went from about 150 beavers in 2013 to roughly 1,000 in 2023.",
+      "left": {
+        "label": "FLANDERS 2013",
+        "value": "~150",
+        "unit": "beavers"
+      },
+      "right": {
+        "label": "FLANDERS 2023",
+        "value": "~1,000",
+        "unit": "beavers"
+      },
+      "est_seconds": 6.5
+    },
+    {
+      "id": "nuance",
+      "type": "fact_stamp",
+      "narration": "It is a trade-off, because the stored water sits on someone's farmland.",
+      "caption": "A TRADE-OFF",
+      "sub": "less flood risk downstream, wetter land upstream",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "end",
+      "type": "end_card",
+      "narration": "A rodent does what we pour concrete to do: slow water down. Follow for more.",
+      "cta": "Follow for more",
+      "est_seconds": 7.3
+    }
+  ],
+  "sources": [
+    {
+      "claim": "13 dams holding ~1,000 m3 (~1 million litres); peak storm discharge cut by mean 30 +/- 19%, total discharge 34 +/- 9%; suspended sediment 112 +/- 72 mg/l entering vs 39 +/- 37 mg/l leaving (Puttock et al. 2017, Sci. Total Environ. 576; enclosure in West Devon).",
+      "url": "https://www.dfw.state.or.us/agency/commission/binders/19/06_Jun/Beaver%20Petition%20Bibliography/Puttock%20et%20al_2017.pdf"
+    },
+    {
+      "claim": "13 dams holding ~1,000 m3 (~1 million litres); peak storm discharge cut by mean 30 +/- 19%, total discharge 34 +/- 9%; suspended sediment 112 +/- 72 mg/l entering vs 39 +/- 37 mg/l leaving (Puttock et al. 2017, Sci. Total Environ. 576; enclosure in West Devon).",
+      "url": "https://www.exeter.ac.uk/creww/research/casestudies/beaverhydrology/"
+    },
+    {
+      "claim": "13 dams holding ~1,000 m3 (~1 million litres); peak storm discharge cut by mean 30 +/- 19%, total discharge 34 +/- 9%; suspended sediment 112 +/- 72 mg/l entering vs 39 +/- 37 mg/l leaving (Puttock et al. 2017, Sci. Total Environ. 576; enclosure in West Devon).",
+      "url": "https://news-archive.exeter.ac.uk/2018/may/title_657691_en.html"
+    },
+    {
+      "claim": "13 dams holding ~1,000 m3 (~1 million litres); peak storm discharge cut by mean 30 +/- 19%, total discharge 34 +/- 9%; suspended sediment 112 +/- 72 mg/l entering vs 39 +/- 37 mg/l leaving (Puttock et al. 2017, Sci. Total Environ. 576; enclosure in West Devon).",
+      "url": "https://meetingorganizer.copernicus.org/EGU2016/EGU2016-7243.pdf?pdf"
+    },
+    {
+      "claim": "Devon Wildlife Trust River Otter Beaver Trial report: dams hold up to 1 million litres; peak flows ~30% lower leaving the site; trade-off that reduced downstream flood risk can mean water stored on upstream farmland.",
+      "url": "https://vnonline.co.uk/vn/news/15933/Beavers-stem-flooding-and-boost-wildlife,-report-shows"
+    },
+    {
+      "claim": "Devon Wildlife Trust River Otter Beaver Trial report: dams hold up to 1 million litres; peak flows ~30% lower leaving the site; trade-off that reduced downstream flood risk can mean water stored on upstream farmland.",
+      "url": "https://itv.com/news/2020-01-02/experts-hail-success-for-englands-only-wild-beavers"
+    },
+    {
+      "claim": "Beaver dams and ponds raise the water table during high and low flows and can create and maintain wetland hydrology (Westbrook, Cooper & Baker 2006, Water Resources Research).",
+      "url": "https://pubs.usgs.gov/publication/70030228"
+    },
+    {
+      "claim": "Beaver dams and ponds raise the water table during high and low flows and can create and maintain wetland hydrology (Westbrook, Cooper & Baker 2006, Water Resources Research).",
+      "url": "https://nps.gov/articles/effects-of-beaver-dams-on-riparian-areas.htm"
+    },
+    {
+      "claim": "Fairfax & Whittle 2020 (Ecological Applications 30:e02225): across five large western US wildfires the NDVI drop was 3.05 times larger without beaver than with beaver; recovery the next year was similar.",
+      "url": "https://experts.umn.edu/en/publications/smokey-the-beaver-beaver-dammed-riparian-corridors-stay-green-dur/"
+    },
+    {
+      "claim": "Fairfax & Whittle 2020 (Ecological Applications 30:e02225): across five large western US wildfires the NDVI drop was 3.05 times larger without beaver than with beaver; recovery the next year was similar.",
+      "url": "https://landsat.gsfc.nasa.gov/article/smokey-the-beaver-beaver-dams-and-wildfire"
+    },
+    {
+      "claim": "Fairfax & Whittle 2020 (Ecological Applications 30:e02225): across five large western US wildfires the NDVI drop was 3.05 times larger without beaver than with beaver; recovery the next year was similar.",
+      "url": "https://www.martinezbeavers.org/wp-content/uploads/2020/09/FairfaxWhittle_2020_SmokeyTheBeaver.pdf"
+    },
+    {
+      "claim": "Eurasian beaver: historic low of ~1,200 animals in eight relict populations (early 20th century); minimum estimate ~1.5 million in 2020 (Halley, Saveljev & Rosell 2020, Mammal Review); about half live in Russia, hence 'Eurasia'.",
+      "url": "https://beavertrust.org/wp-content/uploads/2020/08/Halley_et_al-2020-Mammal_Review.pdf"
+    },
+    {
+      "claim": "Eurasian beaver: historic low of ~1,200 animals in eight relict populations (early 20th century); minimum estimate ~1.5 million in 2020 (Halley, Saveljev & Rosell 2020, Mammal Review); about half live in Russia, hence 'Eurasia'.",
+      "url": "https://brage.nina.no/nina-xmlui/handle/11250/2673340"
+    },
+    {
+      "claim": "Eurasian beaver: historic low of ~1,200 animals in eight relict populations (early 20th century); minimum estimate ~1.5 million in 2020 (Halley, Saveljev & Rosell 2020, Mammal Review); about half live in Russia, hence 'Eurasia'.",
+      "url": "https://www.zoogdiervereniging.nl/sites/default/files/2023-05/lutra_652_govaerts_2022.pdf"
+    },
+    {
+      "claim": "Chart series (minimum population estimates): ~593,000 (Halley & Rosell 2002), 639,000 (2003), 643,000 (2008), ~1.5 million (2020). The 1900 point is the ~1,200 low from the early 20th century (exact year not given in sources).",
+      "url": "https://www.zoogdiervereniging.nl/kennisbank/publicaties/2003/lutra-462halley-rosell2003"
+    },
+    {
+      "claim": "Chart series (minimum population estimates): ~593,000 (Halley & Rosell 2002), 639,000 (2003), 643,000 (2008), ~1.5 million (2020). The 1900 point is the ~1,200 low from the early 20th century (exact year not given in sources).",
+      "url": "https://geostrategis.com/PDF/Halley_poster%20Chicago%202008.pdf"
+    },
+    {
+      "claim": "Chart series (minimum population estimates): ~593,000 (Halley & Rosell 2002), 639,000 (2003), 643,000 (2008), ~1.5 million (2020). The 1900 point is the ~1,200 low from the early 20th century (exact year not given in sources).",
+      "url": "https://beavertrust.org/wp-content/uploads/2020/08/Halley_et_al-2020-Mammal_Review.pdf"
+    },
+    {
+      "claim": "Netherlands: first official release 1988 in the Biesbosch (42 Elbe beavers 1988-1991). Flanders: beaver virtually gone until 2000, then returned via spread from the Netherlands/Wallonia and unofficial releases.",
+      "url": "https://www.zoogdiervereniging.nl/publicaties/2003/lutra-462sluiter2003"
+    },
+    {
+      "claim": "Netherlands: first official release 1988 in the Biesbosch (42 Elbe beavers 1988-1991). Flanders: beaver virtually gone until 2000, then returned via spread from the Netherlands/Wallonia and unofficial releases.",
+      "url": "https://www.zoogdiervereniging.nl/sites/default/files/2023-05/lutra_652_govaerts_2022.pdf"
+    },
+    {
+      "claim": "Netherlands: first official release 1988 in the Biesbosch (42 Elbe beavers 1988-1991). Flanders: beaver virtually gone until 2000, then returned via spread from the Netherlands/Wallonia and unofficial releases.",
+      "url": "https://www.vlaanderen.be/inbo/en-GB/publications/genetic-consequences-of-beaver-reintroduction-in-a-multi-lineage-contact-zone"
+    },
+    {
+      "claim": "Netherlands: first official release 1988 in the Biesbosch (42 Elbe beavers 1988-1991). Flanders: beaver virtually gone until 2000, then returned via spread from the Netherlands/Wallonia and unofficial releases.",
+      "url": "https://natuurtijdschriften.nl/pub/1033807/Zoogdier-30-04-is_er_nog_plaats_voor_de_bever.pdf"
+    },
+    {
+      "claim": "England: beavers given legal protection in 2022; government opened a licensing route for wild releases in Feb 2025 (Defra / Natural England; expressions of interest 3 Mar-2 May 2025).",
+      "url": "https://www.gov.uk/government/publications/wild-release-and-management-of-beavers-in-england/wild-release-and-management-of-beavers-in-england"
+    },
+    {
+      "claim": "England: beavers given legal protection in 2022; government opened a licensing route for wild releases in Feb 2025 (Defra / Natural England; expressions of interest 3 Mar-2 May 2025).",
+      "url": "https://www.itv.com/news/2025-02-28/wild-releases-of-beavers-in-england-get-go-ahead-in-milestone-for-nature"
+    },
+    {
+      "claim": "Flanders population: roughly 150 animals around 2013 to about 1,000 in 2023 (~360 territories), per ANB figures cited by Boerenbond (secondary source; INBO territory counts published separately).",
+      "url": "https://www.boerenbond.be/node/22338"
+    },
+    {
+      "claim": "Flanders population: roughly 150 animals around 2013 to about 1,000 in 2023 (~360 territories), per ANB figures cited by Boerenbond (secondary source; INBO territory counts published separately).",
+      "url": "https://www.vlaanderen.be/inbo/publicaties/analyse-van-het-aantal-beverterritoria-in-vlaanderen-in-2024"
+    }
+  ]
+}

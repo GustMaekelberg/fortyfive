@@ -1,0 +1,13 @@
+One DNA molecule becomes more than a billion copies in just thirty cycles.
+Every cycle has three steps, and each step is just a temperature.
+At 95 degrees Celsius, the double helix unzips into single strands.
+At about 55 degrees, short primers latch onto their matching sequences.
+At 72 degrees, a polymerase builds a new strand from each one.
+Each cycle doubles the DNA, so thirty cycles give about 1.07 billion copies.
+Normal enzymes die at 95 degrees, so early PCR re-added enzyme each cycle.
+In 1969, Thomas Brock described Thermus aquaticus, a microbe from Yellowstone hot springs.
+Its enzyme, Taq polymerase, survives the heat, so the machine only changes temperature.
+Kary Mullis conceived PCR in 1983, and won the Nobel Prize in 1993.
+Real reactions fall short of perfect doubling, so a billion is a ceiling.
+Modern genetics leans on an enzyme from a Yellowstone hot spring.
+Follow for more.

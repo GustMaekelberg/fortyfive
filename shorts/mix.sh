@@ -6,7 +6,7 @@
 # Voice  : resample to 48 kHz stereo, highpass 80 Hz, light compression (3:1 above -20 dB)
 # Bed    : 48 kHz stereo at 0.5 gain (env AMB_GAIN overrides; bed measures ~12 LU below the voice)
 # Mix    : amix normalize=0 (no automatic 1/N scaling), length = longest input
-# Master : loudnorm to -16 LUFS integrated / -1.5 dBTP (two-pass, linear when possible), AAC 192k
+# Master : loudnorm to -16 LUFS integrated / <= -1.5 dBTP after encode (two-pass, linear when possible), AAC 192k
 #
 # Output length = ambience length (= narration total + 1.0 s tail from ambience.py).
 set -euo pipefail
@@ -19,7 +19,9 @@ NARR=$1; AMB=$2; OUT=$3
 for f in "$NARR" "$AMB"; do [ -f "$f" ] || { echo "missing input: $f" >&2; exit 1; }; done
 mkdir -p "$(dirname "$OUT")"
 
-I=-16; TP=-1.5; LRA=11
+# loudnorm targets -1.7 dBTP internally: the AAC encode adds ~0.1-0.2 dB of overshoot, so the
+# finished .m4a lands at or below the required -1.5 dBTP.
+I=-16; TP=-1.7; LRA=11
 AMB_GAIN=${AMB_GAIN:-0.5}   # override e.g. AMB_GAIN=0.35 ./mix.sh ... for a quieter bed
 
 # Mono narration must be duplicated to both channels. A plain aformat=stereo would

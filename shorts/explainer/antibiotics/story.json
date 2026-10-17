@@ -1,0 +1,257 @@
+{
+  "theme": "explainer",
+  "title": "WHY ANTIBIOTICS STOP WORKING",
+  "kicker": "RESISTANCE · 2019",
+  "channel": "scroll.science",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice_hint": "calm confident male narrator",
+  "accent": "amber",
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "title_card",
+      "narration": "Drug-resistant bacteria directly caused an estimated 1.27 million deaths worldwide in 2019.",
+      "title": "WHY ANTIBIOTICS STOP WORKING",
+      "kicker": "RESISTANCE · 2019",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "toll",
+      "type": "chart_bar",
+      "narration": "Counting every death they contributed to, the toll reaches 4.95 million people.",
+      "chart": {
+        "title": "DEATHS FROM BACTERIAL AMR · 2019 · MILLIONS",
+        "unit": "M",
+        "y_max": 5.5,
+        "bars": [
+          {
+            "label": "ATTRIBUTABLE",
+            "value": 1.27
+          },
+          {
+            "label": "ASSOCIATED",
+            "value": 4.95
+          }
+        ]
+      },
+      "caption": "4.95 M",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "selection",
+      "type": "flow",
+      "narration": "In 1945, Alexander Fleming warned that underdosing would breed resistant microbes. It is plain selection: the drug kills the weak and the resistant multiply.",
+      "nodes": [
+        {
+          "id": "pop",
+          "label": "POPULATION",
+          "sub": "a few resistant mutants"
+        },
+        {
+          "id": "drug",
+          "label": "ANTIBIOTIC",
+          "sub": "kills the susceptible"
+        },
+        {
+          "id": "surv",
+          "label": "SURVIVORS",
+          "sub": "all resistant"
+        },
+        {
+          "id": "new",
+          "label": "REGROWTH",
+          "sub": "resistant population"
+        }
+      ],
+      "edges": [
+        [
+          "pop",
+          "drug",
+          "meets"
+        ],
+        [
+          "drug",
+          "surv",
+          "leaves"
+        ],
+        [
+          "surv",
+          "new",
+          "multiply"
+        ]
+      ],
+      "est_seconds": 11.2
+    },
+    {
+      "id": "plasmid",
+      "type": "hero",
+      "narration": "Plasmids copy resistance genes from one bacterium to another, even across different species.",
+      "hero": "bacteria",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "PLASMID"
+        },
+        {
+          "side": "right",
+          "text": "GENE SWAP"
+        }
+      ],
+      "est_seconds": 6.5
+    },
+    {
+      "id": "biofilm",
+      "type": "compare",
+      "narration": "Biofilms add a slimy shield, making bacteria up to 1,000 times more tolerant.",
+      "left": {
+        "label": "FREE-FLOATING",
+        "value": "1×",
+        "unit": "drug tolerance"
+      },
+      "right": {
+        "label": "IN A BIOFILM",
+        "value": "up to 1,000×",
+        "unit": "drug tolerance"
+      },
+      "est_seconds": 6.5
+    },
+    {
+      "id": "void",
+      "type": "fact_stamp",
+      "narration": "Meanwhile, nearly all new antibiotics are tweaks of classes found by the 1980s.",
+      "caption": "RECYCLED CLASSES",
+      "sub": "WHO: almost all new drugs are variants of old classes",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "pipeline",
+      "type": "chart_bar",
+      "narration": "WHO counts only 15 truly innovative drugs among 90 in clinical development.",
+      "chart": {
+        "title": "ANTIBACTERIAL PIPELINE · WHO 2025",
+        "unit": "agents",
+        "y_max": 100,
+        "bars": [
+          {
+            "label": "IN CLINICAL DEVELOPMENT",
+            "value": 90
+          },
+          {
+            "label": "INNOVATIVE",
+            "value": 15
+          }
+        ]
+      },
+      "caption": "15 OF 90",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "phage",
+      "type": "hero",
+      "narration": "The comeback may be phages, which are viruses that hunt bacteria. A Belgian-led review of 100 personalised phage cases found 77 percent improved.",
+      "hero": "virus",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "PHAGE"
+        },
+        {
+          "side": "right",
+          "text": "77% IMPROVED"
+        }
+      ],
+      "est_seconds": 10.8
+    },
+    {
+      "id": "nuance",
+      "type": "fact_stamp",
+      "narration": "That was not a controlled trial, so the evidence is still fairly thin.",
+      "caption": "NOT A TRIAL",
+      "sub": "retrospective and uncontrolled · Pirnay et al. 2024",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "end",
+      "type": "end_card",
+      "narration": "Resistance is not medicine failing; it is evolution simply doing its job. Follow for more.",
+      "cta": "Follow for more",
+      "est_seconds": 7.3
+    }
+  ],
+  "sources": [
+    {
+      "claim": "1.27 million deaths attributable to bacterial AMR and 4.95 million associated in 2019 (95% UI 3.62-6.57 and 0.911-1.71) - Murray et al., Lancet 2022; 23 pathogens, 88 pathogen-drug combinations, 204 countries.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35065702/"
+    },
+    {
+      "claim": "1.27 million deaths attributable to bacterial AMR and 4.95 million associated in 2019 (95% UI 3.62-6.57 and 0.911-1.71) - Murray et al., Lancet 2022; 23 pathogens, 88 pathogen-drug combinations, 204 countries.",
+      "url": "https://www.healthdata.org/node/9472"
+    },
+    {
+      "claim": "1.27 million deaths attributable to bacterial AMR and 4.95 million associated in 2019 (95% UI 3.62-6.57 and 0.911-1.71) - Murray et al., Lancet 2022; 23 pathogens, 88 pathogen-drug combinations, 204 countries.",
+      "url": "https://consumer.healthday.com/4-95-million-deaths-linked-to-antimicrobial-resistance-in-2019-2656432431.html"
+    },
+    {
+      "claim": "Fleming's 1945 Nobel lecture warned that exposing microbes to non-lethal quantities of penicillin makes them resistant.",
+      "url": "https://www.vumc.org/lacy-lab/adventure-travel-guide-microbial-world/antibiotics-and-antibiotic-resistance-past-present"
+    },
+    {
+      "claim": "Fleming's 1945 Nobel lecture warned that exposing microbes to non-lethal quantities of penicillin makes them resistant.",
+      "url": "https://biosecurity.fas.org/education/dualuse/FAS_Levy/1_C.html"
+    },
+    {
+      "claim": "Fleming's 1945 Nobel lecture warned that exposing microbes to non-lethal quantities of penicillin makes them resistant.",
+      "url": "https://publications.ersnet.org/index.php/content/book/monograph/978-1-84984-084-2/chapter/intro"
+    },
+    {
+      "claim": "Plasmids move horizontally by conjugation within and across bacterial genera and species; plasmid transfer is the dominant route for spread of resistance genes.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2570263"
+    },
+    {
+      "claim": "Plasmids move horizontally by conjugation within and across bacterial genera and species; plasmid transfer is the dominant route for spread of resistance genes.",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7463591/"
+    },
+    {
+      "claim": "Plasmids move horizontally by conjugation within and across bacterial genera and species; plasmid transfer is the dominant route for spread of resistance genes.",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8744291/"
+    },
+    {
+      "claim": "Biofilm bacteria show 'up to 1,000-fold' increased antibiotic tolerance (Hall & Mah 2017, cited); a 2022 study of 352 P. aeruginosa isolates found the range is far wider and drug-dependent.",
+      "url": "https://www.frontiersin.org/journals/cellular-and-infection-microbiology/articles/10.3389/fcimb.2022.851784/full"
+    },
+    {
+      "claim": "Almost all new antibiotics in recent decades are variations of classes discovered by the 1980s (WHO); last new classes: oxazolidinones and lipopeptides (daptomycin class found 1987).",
+      "url": "https://www.who.int/news/item/15-04-2021-global-shortage-of-innovative-antibiotics-fuels-emergence-and-spread-of-drug-resistance"
+    },
+    {
+      "claim": "Almost all new antibiotics in recent decades are variations of classes discovered by the 1980s (WHO); last new classes: oxazolidinones and lipopeptides (daptomycin class found 1987).",
+      "url": "https://chemistryworld.com/features/who-will-pay-for-new-antibiotics/4017897.article"
+    },
+    {
+      "claim": "WHO 2025 pipeline analysis (data cut-off 15 Feb 2025): 90 agents in clinical development (50 traditional, 40 non-traditional), only 15 innovative, only 5 effective against a critical-priority pathogen.",
+      "url": "https://www.who.int/news/item/02-10-2025-who-releases-new-reports-on-new-tests-and-treatments-in-development-for-bacterial-infections"
+    },
+    {
+      "claim": "WHO 2025 pipeline analysis (data cut-off 15 Feb 2025): 90 agents in clinical development (50 traditional, 40 non-traditional), only 15 innovative, only 5 effective against a critical-priority pathogen.",
+      "url": "https://www.who.int/publications/i/item/9789240113091"
+    },
+    {
+      "claim": "WHO 2025 pipeline analysis (data cut-off 15 Feb 2025): 90 agents in clinical development (50 traditional, 40 non-traditional), only 15 innovative, only 5 effective against a critical-priority pathogen.",
+      "url": "https://www.cidrap.umn.edu/antimicrobial-stewardship/who-reports-identify-weakness-pipeline-new-antibiotics-diagnostics"
+    },
+    {
+      "claim": "Pirnay et al., Nature Microbiology 2024: first 100 consecutive personalised phage cases (Belgian consortium, 35 hospitals, 12 countries, 2008-2022): clinical improvement 77.2%, eradication 61.3%; retrospective, uncontrolled.",
+      "url": "https://pure.amsterdamumc.nl/en/publications/personalized-bacteriophage-therapy-outcomes-for-100-consecutive-c/"
+    },
+    {
+      "claim": "Pirnay et al., Nature Microbiology 2024: first 100 consecutive personalised phage cases (Belgian consortium, 35 hospitals, 12 countries, 2008-2022): clinical improvement 77.2%, eradication 61.3%; retrospective, uncontrolled.",
+      "url": "https://researchportal.rma.ac.be/fr/publications/personalized-bacteriophage-therapy-outcomes-for-100-consecutive-c/"
+    },
+    {
+      "claim": "Pirnay et al., Nature Microbiology 2024: first 100 consecutive personalised phage cases (Belgian consortium, 35 hospitals, 12 countries, 2008-2022): clinical improvement 77.2%, eradication 61.3%; retrospective, uncontrolled.",
+      "url": "https://repository.sciensano.be/items/6ef5ae11-5784-45a4-8123-df62c81578d2"
+    }
+  ]
+}

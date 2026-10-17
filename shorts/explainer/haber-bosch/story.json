@@ -1,0 +1,300 @@
+{
+  "theme": "explainer",
+  "title": "HALF OF YOU IS SYNTHETIC",
+  "kicker": "HABER-BOSCH · 1909",
+  "channel": "scroll.science",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice_hint": "calm confident male narrator",
+  "accent": "amber",
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "title_card",
+      "narration": "About half the nitrogen atoms in your body passed through a factory reactor.",
+      "title": "HALF OF YOU IS SYNTHETIC",
+      "kicker": "HABER-BOSCH · 1909",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "air",
+      "type": "hero",
+      "narration": "Air is 78 percent nitrogen, but a triple bond locks it away.",
+      "hero": "molecule",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "N≡N · TRIPLE BOND"
+        },
+        {
+          "side": "right",
+          "text": "78% OF AIR"
+        }
+      ],
+      "est_seconds": 6.0
+    },
+    {
+      "id": "history",
+      "type": "fact_stamp",
+      "narration": "In 1909, Fritz Haber made ammonia from nitrogen and hydrogen in the lab. Carl Bosch scaled it up, and the first plant opened in 1913.",
+      "caption": "1909",
+      "sub": "Haber's ammonia · first plant 1913",
+      "est_seconds": 11.7
+    },
+    {
+      "id": "reactor",
+      "type": "flow",
+      "narration": "Hydrogen from natural gas meets nitrogen from air over a hot iron catalyst. The reactor runs at 400 to 500 degrees Celsius and around 200 bar.",
+      "nodes": [
+        {
+          "id": "n2",
+          "label": "N₂",
+          "sub": "air, 78%"
+        },
+        {
+          "id": "h2",
+          "label": "H₂",
+          "sub": "natural gas"
+        },
+        {
+          "id": "rx",
+          "label": "REACTOR",
+          "sub": "iron catalyst"
+        },
+        {
+          "id": "nh3",
+          "label": "NH₃",
+          "sub": "ammonia"
+        }
+      ],
+      "edges": [
+        [
+          "n2",
+          "rx",
+          "+"
+        ],
+        [
+          "h2",
+          "rx",
+          "+"
+        ],
+        [
+          "rx",
+          "nh3",
+          "makes"
+        ]
+      ],
+      "caption": "400–500 °C · ~200 BAR",
+      "est_seconds": 12.1
+    },
+    {
+      "id": "loop",
+      "type": "compare",
+      "narration": "Each pass converts 15 percent, but recycling lifts the total to 97 percent.",
+      "left": {
+        "label": "ONE PASS",
+        "value": "15%",
+        "unit": "converted"
+      },
+      "right": {
+        "label": "WITH RECYCLING",
+        "value": "97%",
+        "unit": "converted"
+      },
+      "est_seconds": 6.5
+    },
+    {
+      "id": "energy",
+      "type": "fact_stamp",
+      "narration": "Ammonia plants use roughly 1 to 2 percent of all the world's energy.",
+      "caption": "1–2%",
+      "sub": "of world energy goes into ammonia",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "food",
+      "type": "flow",
+      "narration": "The fertilizer that results feeds about 48 percent of all humanity.",
+      "nodes": [
+        {
+          "id": "nh3",
+          "label": "NH₃",
+          "sub": "ammonia"
+        },
+        {
+          "id": "crop",
+          "label": "CROPS",
+          "sub": "fertilizer"
+        },
+        {
+          "id": "food",
+          "label": "FOOD",
+          "sub": "protein"
+        },
+        {
+          "id": "you",
+          "label": "HUMANITY",
+          "sub": "~48% fed"
+        }
+      ],
+      "edges": [
+        [
+          "nh3",
+          "crop",
+          "feeds"
+        ],
+        [
+          "crop",
+          "food",
+          "grows"
+        ],
+        [
+          "food",
+          "you",
+          "eaten"
+        ]
+      ],
+      "est_seconds": 5.6
+    },
+    {
+      "id": "chart",
+      "type": "chart_line",
+      "narration": "Since 1900, world population has grown from 1.6 billion to 8 billion.",
+      "chart": {
+        "title": "WORLD POPULATION · BILLIONS",
+        "unit": "bn",
+        "y_min": 0,
+        "y_max": 9,
+        "series": [
+          {
+            "name": "Population",
+            "points": [
+              [
+                1900,
+                1.6
+              ],
+              [
+                1950,
+                2.5
+              ],
+              [
+                2000,
+                6.1
+              ],
+              [
+                2022,
+                8.0
+              ]
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "x": 1913,
+            "text": "first plant, Oppau"
+          }
+        ]
+      },
+      "caption": "×5",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "nuance",
+      "type": "fact_stamp",
+      "narration": "Strictly, that half is a popular estimate, not a precisely measured value.",
+      "caption": "AN ESTIMATE",
+      "sub": "the 48% counts people fed, not body nitrogen",
+      "est_seconds": 6.0
+    },
+    {
+      "id": "end",
+      "type": "end_card",
+      "narration": "You are partly made of air, pressed into shape by iron. Follow for more.",
+      "cta": "Follow for more",
+      "est_seconds": 6.9
+    }
+  ],
+  "sources": [
+    {
+      "claim": "Popular claim: about half the nitrogen in a human body has passed through Haber-Bosch (Hager, The Alchemy of Air). Popular-science estimate, not a measured value.",
+      "url": "https://www.penguinrandomhouse.com/books/73464/the-alchemy-of-air-by-thomas-hager"
+    },
+    {
+      "claim": "Popular claim: about half the nitrogen in a human body has passed through Haber-Bosch (Hager, The Alchemy of Air). Popular-science estimate, not a measured value.",
+      "url": "https://www.bookpage.com/reviews/1604-thomas-hager-out-thin-air-science-nature/"
+    },
+    {
+      "claim": "Same claim as phrased by Tom Standage: about half the nitrogen atoms in your body have passed through a Haber-Bosch reaction.",
+      "url": "https://3quarksdaily.com/?p=147972"
+    },
+    {
+      "claim": "Air is over 78% nitrogen but gaseous N2 is chemically and biologically unusable; fertilizer from ammonia supports almost half the world population (Erisman et al. 2008, Nature Geoscience).",
+      "url": "https://www.iai.int/admin/site/sites/default/files/uploads/2008.Erisman-et-al_NatureGeo.pdf"
+    },
+    {
+      "claim": "N2 is bound by a triple bond, which makes it relatively inert.",
+      "url": "https://en.wikipedia.org/wiki/Haber_process"
+    },
+    {
+      "claim": "Haber synthesised ammonia in 1909; BASF gave scale-up to Carl Bosch; first ammonia synthesis plant went into operation at Oppau in 1913.",
+      "url": "https://tu-freiberg.de/en/ig-farben/poster3"
+    },
+    {
+      "claim": "Haber synthesised ammonia in 1909; BASF gave scale-up to Carl Bosch; first ammonia synthesis plant went into operation at Oppau in 1913.",
+      "url": "https://www.basf.com/global/en/who-we-are/history/chronology/1902-1924/1913"
+    },
+    {
+      "claim": "Commercial plants: multi-promoted iron catalyst, 400-500 C, pressures above 100 bar; most plants operate in roughly 130-220 bar (spoken as 'around 200 bar'; brief range 150-300 bar).",
+      "url": "https://wikipedia.com/wiki/Haber-Bosch"
+    },
+    {
+      "claim": "Commercial plants: multi-promoted iron catalyst, 400-500 C, pressures above 100 bar; most plants operate in roughly 130-220 bar (spoken as 'around 200 bar'; brief range 150-300 bar).",
+      "url": "https://matthey.com/documents/d/guest/jm_training-seminar-2024_ammonia-synthesis-pdf"
+    },
+    {
+      "claim": "Hydrogen comes from natural gas by steam methane reforming (IEA: ~77% of ammonia is gas-based).",
+      "url": "https://www.topsoe.com/knowledge-and-insights/expert-articles/getting-from-gas-to-grain-how-are-ammonia-based-fertilizers-made"
+    },
+    {
+      "claim": "Hydrogen comes from natural gas by steam methane reforming (IEA: ~77% of ammonia is gas-based).",
+      "url": "https://essentialchemicalindustry.org/chemicals/ammonia"
+    },
+    {
+      "claim": "About 15% conversion per pass; unreacted gas is recycled; overall conversion ~97% (some texts say ~98%).",
+      "url": "https://old-ib.bioninja.com.au/options/option-c-ecology-and-conser/c6-nitrogen-and-phosphorus/haber-process.html"
+    },
+    {
+      "claim": "About 15% conversion per pass; unreacted gas is recycled; overall conversion ~97% (some texts say ~98%).",
+      "url": "https://chemguide.co.uk/physical/equilibria/haber.html"
+    },
+    {
+      "claim": "Haber-Bosch consumes 1-2% of the world's total energy (review; NREL slides say the same range; IFA puts fertilizer production at ~1.2%).",
+      "url": "https://laurentian.scholaris.ca/items/e8ebdbe8-7582-48e6-97f0-d67c1b3fb8e8"
+    },
+    {
+      "claim": "Haber-Bosch consumes 1-2% of the world's total energy (review; NREL slides say the same range; IFA puts fertilizer production at ~1.2%).",
+      "url": "https://nrel.gov/docs/fy24osti/89437.pdf"
+    },
+    {
+      "claim": "Haber-Bosch consumes 1-2% of the world's total energy (review; NREL slides say the same range; IFA puts fertilizer production at ~1.2%).",
+      "url": "https://www.fertilizer.org/wp-content/uploads/2023/01/2014_ifa_ff_ammonia_emissions_july.pdf"
+    },
+    {
+      "claim": "Nitrogen fertilizer supported 44% of the world population in 2000 and 48% by 2008 (Erisman 2008); Smil estimated ~40% around 2000.",
+      "url": "https://www.iai.int/admin/site/sites/default/files/uploads/2008.Erisman-et-al_NatureGeo.pdf"
+    },
+    {
+      "claim": "Nitrogen fertilizer supported 44% of the world population in 2000 and 48% by 2008 (Erisman 2008); Smil estimated ~40% around 2000.",
+      "url": "https://api.ourworldindata.org/v1/indicators/1290379.metadata.json"
+    },
+    {
+      "claim": "World population: 1900 = 1.6 billion (UN historical series), 1950 = 2.49 bn, 2000 = 6.13 bn, 2022-23 = ~8.0 bn (8.06 bn in the 2023 WPP 2024 series).",
+      "url": "https://worldometers.info/world-population/world-population-by-year/"
+    },
+    {
+      "claim": "World population: 1900 = 1.6 billion (UN historical series), 1950 = 2.49 bn, 2000 = 6.13 bn, 2022-23 = ~8.0 bn (8.06 bn in the 2023 WPP 2024 series).",
+      "url": "https://www.penguinrandomhouse.com/books/656403/enriching-the-earth-by-vaclav-smil"
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "theme": "explainer",
+  "title": "A BILLION COPIES BEFORE LUNCH",
+  "kicker": "PCR · 1983",
+  "channel": "scroll.science",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice_hint": "calm confident male narrator",
+  "accent": "amber",
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "title_card",
+      "narration": "One DNA molecule becomes more than a billion copies in just thirty cycles.",
+      "title": "A BILLION COPIES BEFORE LUNCH",
+      "kicker": "PCR · 1983",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "cycle",
+      "type": "flow",
+      "narration": "Every cycle has three steps, and each step is just a temperature. At 95 degrees Celsius, the double helix unzips into single strands.",
+      "nodes": [
+        {
+          "id": "den",
+          "label": "DENATURE",
+          "sub": "95 °C · strands unzip"
+        },
+        {
+          "id": "ann",
+          "label": "ANNEAL",
+          "sub": "~55 °C · primers bind"
+        },
+        {
+          "id": "ext",
+          "label": "EXTEND",
+          "sub": "72 °C · copy strand"
+        }
+      ],
+      "edges": [
+        [
+          "den",
+          "ann",
+          "cool"
+        ],
+        [
+          "ann",
+          "ext",
+          "warm"
+        ],
+        [
+          "ext",
+          "den",
+          "repeat"
+        ]
+      ],
+      "caption": "3 STEPS",
+      "est_seconds": 10.8
+    },
+    {
+      "id": "primers",
+      "type": "hero",
+      "narration": "At about 55 degrees, short primers latch onto their matching sequences. At 72 degrees, a polymerase builds a new strand from each one.",
+      "hero": "dna",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "PRIMERS · ~55 °C"
+        },
+        {
+          "side": "right",
+          "text": "POLYMERASE · 72 °C"
+        }
+      ],
+      "est_seconds": 10.8
+    },
+    {
+      "id": "chart",
+      "type": "chart_line",
+      "narration": "Each cycle doubles the DNA, so thirty cycles give about 1.07 billion copies.",
+      "chart": {
+        "title": "COPIES FROM ONE MOLECULE · BILLIONS",
+        "unit": "bn",
+        "y_min": 0,
+        "y_max": 1.2,
+        "series": [
+          {
+            "name": "Perfect doubling",
+            "points": [
+              [
+                0,
+                0.0
+              ],
+              [
+                10,
+                1e-06
+              ],
+              [
+                20,
+                0.001049
+              ],
+              [
+                24,
+                0.016777
+              ],
+              [
+                26,
+                0.067109
+              ],
+              [
+                28,
+                0.268435
+              ],
+              [
+                29,
+                0.536871
+              ],
+              [
+                30,
+                1.073742
+              ]
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "x": 30,
+            "text": "2³⁰ ≈ 1.07 bn"
+          }
+        ]
+      },
+      "caption": "2³⁰",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "enzyme",
+      "type": "fact_stamp",
+      "narration": "Normal enzymes die at 95 degrees, so early PCR re-added enzyme each cycle.",
+      "caption": "ENZYME DIES",
+      "sub": "heat-labile Klenow fragment · refilled every cycle",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "taq",
+      "type": "hero",
+      "narration": "In 1969, Thomas Brock described Thermus aquaticus, a microbe from Yellowstone hot springs. Its enzyme, Taq polymerase, survives the heat, so the machine only changes temperature.",
+      "hero": "bacteria",
+      "callouts": [
+        {
+          "side": "left",
+          "text": "T. AQUATICUS"
+        },
+        {
+          "side": "right",
+          "text": "YELLOWSTONE · 1969"
+        }
+      ],
+      "est_seconds": 12.1
+    },
+    {
+      "id": "mullis",
+      "type": "compare",
+      "narration": "Kary Mullis conceived PCR in 1983, and won the Nobel Prize in 1993.",
+      "left": {
+        "label": "THE IDEA",
+        "value": "1983",
+        "unit": "Kary Mullis, Cetus"
+      },
+      "right": {
+        "label": "THE NOBEL PRIZE",
+        "value": "1993",
+        "unit": "Chemistry"
+      },
+      "est_seconds": 6.5
+    },
+    {
+      "id": "nuance",
+      "type": "fact_stamp",
+      "narration": "Real reactions fall short of perfect doubling, so a billion is a ceiling.",
+      "caption": "A CEILING",
+      "sub": "real efficiency is below 100% and reagents run out",
+      "est_seconds": 6.5
+    },
+    {
+      "id": "end",
+      "type": "end_card",
+      "narration": "Modern genetics leans on an enzyme from a Yellowstone hot spring. Follow for more.",
+      "cta": "Follow for more",
+      "est_seconds": 6.9
+    }
+  ],
+  "sources": [
+    {
+      "claim": "PCR cycle: denaturation ~94-96 C, annealing ~45-60 C (55 C typical), extension ~72 C (Taq optimum); the DNA doubles each cycle; runs of 25-40 cycles.",
+      "url": "https://sites.nd.edu/bios21201/techniques/polymerase-chain-reaction-pcr/"
+    },
+    {
+      "claim": "PCR cycle: denaturation ~94-96 C, annealing ~45-60 C (55 C typical), extension ~72 C (Taq optimum); the DNA doubles each cycle; runs of 25-40 cycles.",
+      "url": "https://pressbooks.umn.edu/cvdl/chapter/module-4-4-denaturation-annealing-and-primer-extension/"
+    },
+    {
+      "claim": "PCR cycle: denaturation ~94-96 C, annealing ~45-60 C (55 C typical), extension ~72 C (Taq optimum); the DNA doubles each cycle; runs of 25-40 cycles.",
+      "url": "https://passel2.unl.edu/view/lesson/d81d0eedbada/4"
+    },
+    {
+      "claim": "Arithmetic: 2^30 = 1,073,741,824 (about 1.07 billion); yield is (1+E)^n so real efficiency below 100% gives fewer copies, and reactions plateau when reagents are depleted.",
+      "url": "https://www.thermofisher.cn/cn/en/home/life-science/pcr/real-time-pcr/real-time-pcr-learning-center/real-time-pcr-basics/efficiency-real-time-pcr-qpcr.html"
+    },
+    {
+      "claim": "Early PCR used the heat-labile Klenow fragment, inactivated by the heating step; Taq's heat stability meant only temperature changes were required.",
+      "url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2014.00465/full"
+    },
+    {
+      "claim": "Early PCR used the heat-labile Klenow fragment, inactivated by the heating step; Taq's heat stability meant only temperature changes were required.",
+      "url": "https://en.wikipedia.org/wiki/Taq_polymerase"
+    },
+    {
+      "claim": "Brock and Freeze described Thermus aquaticus in Journal of Bacteriology, 1969 (98:289-297); isolated from Yellowstone thermal springs, enriched at 70-75 C.",
+      "url": "https://www.gbif.org/species/181753274"
+    },
+    {
+      "claim": "Brock and Freeze described Thermus aquaticus in Journal of Bacteriology, 1969 (98:289-297); isolated from Yellowstone thermal springs, enriched at 70-75 C.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/249935/"
+    },
+    {
+      "claim": "Brock and Freeze described Thermus aquaticus in Journal of Bacteriology, 1969 (98:289-297); isolated from Yellowstone thermal springs, enriched at 70-75 C.",
+      "url": "https://news.wisc.edu/decades-on-bacteriums-discovery-feted-as-paragon-of-basic-science/"
+    },
+    {
+      "claim": "Mullis's PCR idea in 1983 at Cetus (he confirmed 2^10 ~ 1000 and 2^20 ~ a million on the drive); Nobel Prize in Chemistry 1993 (shared with Michael Smith).",
+      "url": "https://scalar.fas.harvard.edu/the-river-divides-into-thousands-of-branches/media/mullis-pcr-invention"
+    },
+    {
+      "claim": "Mullis's PCR idea in 1983 at Cetus (he confirmed 2^10 ~ 1000 and 2^20 ~ a million on the drive); Nobel Prize in Chemistry 1993 (shared with Michael Smith).",
+      "url": "https://www.nobelprize.org/prizes/chemistry/1993/mullis/lecture/"
+    },
+    {
+      "claim": "Mullis's PCR idea in 1983 at Cetus (he confirmed 2^10 ~ 1000 and 2^20 ~ a million on the drive); Nobel Prize in Chemistry 1993 (shared with Michael Smith).",
+      "url": "https://embryo.asu.edu/pages/kary-banks-mullis-1944-2019"
+    },
+    {
+      "claim": "Title claim 'before lunch': a conventional 30-cycle run takes roughly 2-3 hours; fast cyclers far less.",
+      "url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/7939312"
+    },
+    {
+      "claim": "Title claim 'before lunch': a conventional 30-cycle run takes roughly 2-3 hours; fast cyclers far less.",
+      "url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/6482615"
+    },
+    {
+      "claim": "Title claim 'before lunch': a conventional 30-cycle run takes roughly 2-3 hours; fast cyclers far less.",
+      "url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/9034635"
+    }
+  ]
+}

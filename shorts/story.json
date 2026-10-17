@@ -11,21 +11,136 @@
       "type": "title",
       "narration": "Day one of the outbreak. The highway is a trap.",
       "caption": null,
-      "est_seconds": 4.8
+      "est_seconds": 4.8,
+      "start": 0.0,
+      "end": 3.921,
+      "speech_end": 3.021,
+      "words": [
+        {
+          "w": "Day",
+          "t": 0.0
+        },
+        {
+          "w": "one",
+          "t": 0.197
+        },
+        {
+          "w": "of",
+          "t": 0.394
+        },
+        {
+          "w": "the",
+          "t": 0.525
+        },
+        {
+          "w": "outbreak.",
+          "t": 0.722
+        },
+        {
+          "w": "The",
+          "t": 1.576
+        },
+        {
+          "w": "highway",
+          "t": 1.773
+        },
+        {
+          "w": "is",
+          "t": 2.233
+        },
+        {
+          "w": "a",
+          "t": 2.364
+        },
+        {
+          "w": "trap.",
+          "t": 2.43
+        }
+      ]
     },
     {
       "id": "keys",
       "type": "suburb_run",
       "narration": "Sam grabs his keys and heads for the highway.",
       "caption": "BIG MISTAKE",
-      "est_seconds": 4.4
+      "est_seconds": 4.4,
+      "start": 3.921,
+      "end": 6.782,
+      "speech_end": 6.432,
+      "words": [
+        {
+          "w": "Sam",
+          "t": 3.921
+        },
+        {
+          "w": "grabs",
+          "t": 4.105
+        },
+        {
+          "w": "his",
+          "t": 4.411
+        },
+        {
+          "w": "keys",
+          "t": 4.595
+        },
+        {
+          "w": "and",
+          "t": 4.84
+        },
+        {
+          "w": "heads",
+          "t": 5.023
+        },
+        {
+          "w": "for",
+          "t": 5.33
+        },
+        {
+          "w": "the",
+          "t": 5.513
+        },
+        {
+          "w": "highway.",
+          "t": 5.697
+        }
+      ]
     },
     {
       "id": "jam",
       "type": "highway_jam",
       "narration": "So does everyone else. Nothing moves.",
       "caption": "GRIDLOCK",
-      "est_seconds": 3.1
+      "est_seconds": 3.1,
+      "start": 6.782,
+      "end": 9.657,
+      "speech_end": 9.307,
+      "words": [
+        {
+          "w": "So",
+          "t": 6.782
+        },
+        {
+          "w": "does",
+          "t": 6.908
+        },
+        {
+          "w": "everyone",
+          "t": 7.161
+        },
+        {
+          "w": "else.",
+          "t": 7.666
+        },
+        {
+          "w": "Nothing",
+          "t": 8.234
+        },
+        {
+          "w": "moves.",
+          "t": 8.676
+        }
+      ]
     },
     {
       "id": "rita_jam",
@@ -33,7 +148,68 @@
       "narration": "In 2005, millions fled Houston before Hurricane Rita. The jam stretched over 160 kilometres.",
       "caption": "160 KM JAM",
       "est_seconds": 6.4,
-      "fact_label": "HURRICANE RITA · 2005"
+      "fact_label": "HURRICANE RITA · 2005",
+      "start": 9.657,
+      "end": 17.433,
+      "speech_end": 17.083,
+      "words": [
+        {
+          "w": "In",
+          "t": 9.657
+        },
+        {
+          "w": "2005,",
+          "t": 9.824
+        },
+        {
+          "w": "millions",
+          "t": 10.408
+        },
+        {
+          "w": "fled",
+          "t": 11.075
+        },
+        {
+          "w": "Houston",
+          "t": 11.409
+        },
+        {
+          "w": "before",
+          "t": 11.993
+        },
+        {
+          "w": "Hurricane",
+          "t": 12.494
+        },
+        {
+          "w": "Rita.",
+          "t": 13.245
+        },
+        {
+          "w": "The",
+          "t": 13.996
+        },
+        {
+          "w": "jam",
+          "t": 14.246
+        },
+        {
+          "w": "stretched",
+          "t": 14.497
+        },
+        {
+          "w": "over",
+          "t": 15.247
+        },
+        {
+          "w": "160",
+          "t": 15.581
+        },
+        {
+          "w": "kilometres.",
+          "t": 15.832
+        }
+      ]
     },
     {
       "id": "rita_toll",
@@ -41,49 +217,404 @@
       "narration": "Cars ran dry in the heat. Dozens died on the road, before the storm arrived.",
       "caption": "BEFORE THE STORM",
       "est_seconds": 6.9,
-      "fact_label": "RITA EVACUATION · 2005"
+      "fact_label": "RITA EVACUATION · 2005",
+      "start": 17.433,
+      "end": 22.289,
+      "speech_end": 21.939,
+      "words": [
+        {
+          "w": "Cars",
+          "t": 17.433
+        },
+        {
+          "w": "ran",
+          "t": 17.684
+        },
+        {
+          "w": "dry",
+          "t": 17.871
+        },
+        {
+          "w": "in",
+          "t": 18.059
+        },
+        {
+          "w": "the",
+          "t": 18.184
+        },
+        {
+          "w": "heat.",
+          "t": 18.372
+        },
+        {
+          "w": "Dozens",
+          "t": 18.935
+        },
+        {
+          "w": "died",
+          "t": 19.311
+        },
+        {
+          "w": "on",
+          "t": 19.561
+        },
+        {
+          "w": "the",
+          "t": 19.686
+        },
+        {
+          "w": "road,",
+          "t": 19.874
+        },
+        {
+          "w": "before",
+          "t": 20.312
+        },
+        {
+          "w": "the",
+          "t": 20.687
+        },
+        {
+          "w": "storm",
+          "t": 20.875
+        },
+        {
+          "w": "arrived.",
+          "t": 21.188
+        }
+      ]
     },
     {
       "id": "leaving",
       "type": "leaving_car",
       "narration": "Sam leaves the car. Behind him, the horns fall silent.",
       "caption": null,
-      "est_seconds": 4.8
+      "est_seconds": 4.8,
+      "start": 22.289,
+      "end": 26.15,
+      "speech_end": 25.8,
+      "words": [
+        {
+          "w": "Sam",
+          "t": 22.289
+        },
+        {
+          "w": "leaves",
+          "t": 22.48
+        },
+        {
+          "w": "the",
+          "t": 22.863
+        },
+        {
+          "w": "car.",
+          "t": 23.055
+        },
+        {
+          "w": "Behind",
+          "t": 23.566
+        },
+        {
+          "w": "him,",
+          "t": 23.949
+        },
+        {
+          "w": "the",
+          "t": 24.332
+        },
+        {
+          "w": "horns",
+          "t": 24.523
+        },
+        {
+          "w": "fall",
+          "t": 24.842
+        },
+        {
+          "w": "silent.",
+          "t": 25.098
+        }
+      ]
     },
     {
       "id": "lanes",
       "type": "lanes_movement",
       "narration": "Then something starts moving between the lanes.",
       "caption": null,
-      "est_seconds": 3.5
+      "est_seconds": 3.5,
+      "start": 26.15,
+      "end": 28.986,
+      "speech_end": 28.636,
+      "words": [
+        {
+          "w": "Then",
+          "t": 26.15
+        },
+        {
+          "w": "something",
+          "t": 26.371
+        },
+        {
+          "w": "starts",
+          "t": 26.868
+        },
+        {
+          "w": "moving",
+          "t": 27.2
+        },
+        {
+          "w": "between",
+          "t": 27.531
+        },
+        {
+          "w": "the",
+          "t": 27.918
+        },
+        {
+          "w": "lanes.",
+          "t": 28.084
+        }
+      ]
     },
     {
       "id": "bike",
       "type": "bike_ride",
       "narration": "He grabs a bike from a pickup. Eighteen kilometres an hour beats gridlock.",
       "caption": "18 KM/H",
-      "est_seconds": 6.0
+      "est_seconds": 6.0,
+      "start": 28.986,
+      "end": 33.781,
+      "speech_end": 33.431,
+      "words": [
+        {
+          "w": "He",
+          "t": 28.986
+        },
+        {
+          "w": "grabs",
+          "t": 29.113
+        },
+        {
+          "w": "a",
+          "t": 29.43
+        },
+        {
+          "w": "bike",
+          "t": 29.494
+        },
+        {
+          "w": "from",
+          "t": 29.748
+        },
+        {
+          "w": "a",
+          "t": 30.002
+        },
+        {
+          "w": "pickup.",
+          "t": 30.065
+        },
+        {
+          "w": "Eighteen",
+          "t": 30.764
+        },
+        {
+          "w": "kilometres",
+          "t": 31.272
+        },
+        {
+          "w": "an",
+          "t": 31.907
+        },
+        {
+          "w": "hour",
+          "t": 32.034
+        },
+        {
+          "w": "beats",
+          "t": 32.288
+        },
+        {
+          "w": "gridlock.",
+          "t": 32.605
+        }
+      ]
     },
     {
       "id": "farm",
       "type": "barn_sunset",
       "narration": "By sunset, he finds a farm. The taps are empty.",
       "caption": null,
-      "est_seconds": 4.8
+      "est_seconds": 4.8,
+      "start": 33.781,
+      "end": 37.372,
+      "speech_end": 37.022,
+      "words": [
+        {
+          "w": "By",
+          "t": 33.781
+        },
+        {
+          "w": "sunset,",
+          "t": 33.916
+        },
+        {
+          "w": "he",
+          "t": 34.523
+        },
+        {
+          "w": "finds",
+          "t": 34.658
+        },
+        {
+          "w": "a",
+          "t": 34.996
+        },
+        {
+          "w": "farm.",
+          "t": 35.064
+        },
+        {
+          "w": "The",
+          "t": 35.671
+        },
+        {
+          "w": "taps",
+          "t": 35.874
+        },
+        {
+          "w": "are",
+          "t": 36.144
+        },
+        {
+          "w": "empty.",
+          "t": 36.346
+        }
+      ]
     },
     {
       "id": "heater",
       "type": "basement_heater",
       "narration": "Sam knows a trick. The basement water heater holds 150 litres of drinkable water.",
       "caption": "150 LITRES",
-      "est_seconds": 6.4
+      "est_seconds": 6.4,
+      "start": 37.372,
+      "end": 43.608,
+      "speech_end": 43.258,
+      "words": [
+        {
+          "w": "Sam",
+          "t": 37.372
+        },
+        {
+          "w": "knows",
+          "t": 37.604
+        },
+        {
+          "w": "a",
+          "t": 37.991
+        },
+        {
+          "w": "trick.",
+          "t": 38.069
+        },
+        {
+          "w": "The",
+          "t": 38.843
+        },
+        {
+          "w": "basement",
+          "t": 39.075
+        },
+        {
+          "w": "water",
+          "t": 39.695
+        },
+        {
+          "w": "heater",
+          "t": 40.082
+        },
+        {
+          "w": "holds",
+          "t": 40.547
+        },
+        {
+          "w": "150",
+          "t": 40.934
+        },
+        {
+          "w": "litres",
+          "t": 41.167
+        },
+        {
+          "w": "of",
+          "t": 41.631
+        },
+        {
+          "w": "drinkable",
+          "t": 41.786
+        },
+        {
+          "w": "water.",
+          "t": 42.483
+        }
+      ]
     },
     {
       "id": "dog",
       "type": "dog_morning",
       "narration": "On day two, something scratches at the door. Just a dog.",
       "caption": null,
-      "est_seconds": 5.2
+      "est_seconds": 5.2,
+      "start": 43.608,
+      "end": 47.726,
+      "speech_end": 47.376,
+      "words": [
+        {
+          "w": "On",
+          "t": 43.608
+        },
+        {
+          "w": "day",
+          "t": 43.742
+        },
+        {
+          "w": "two,",
+          "t": 43.944
+        },
+        {
+          "w": "something",
+          "t": 44.348
+        },
+        {
+          "w": "scratches",
+          "t": 44.954
+        },
+        {
+          "w": "at",
+          "t": 45.559
+        },
+        {
+          "w": "the",
+          "t": 45.694
+        },
+        {
+          "w": "door.",
+          "t": 45.896
+        },
+        {
+          "w": "Just",
+          "t": 46.502
+        },
+        {
+          "w": "a",
+          "t": 46.771
+        },
+        {
+          "w": "dog.",
+          "t": 46.838
+        }
+      ]
     },
     {
       "id": "end",
@@ -91,7 +622,56 @@
       "narration": "Would you have stayed in the car? Follow for part two.",
       "caption": null,
       "est_seconds": 5.2,
-      "cta": "Follow for Part 2"
+      "cta": "Follow for Part 2",
+      "start": 47.726,
+      "end": 50.658,
+      "speech_end": 50.658,
+      "words": [
+        {
+          "w": "Would",
+          "t": 47.726
+        },
+        {
+          "w": "you",
+          "t": 48.008
+        },
+        {
+          "w": "have",
+          "t": 48.177
+        },
+        {
+          "w": "stayed",
+          "t": 48.403
+        },
+        {
+          "w": "in",
+          "t": 48.741
+        },
+        {
+          "w": "the",
+          "t": 48.854
+        },
+        {
+          "w": "car?",
+          "t": 49.023
+        },
+        {
+          "w": "Follow",
+          "t": 49.474
+        },
+        {
+          "w": "for",
+          "t": 49.812
+        },
+        {
+          "w": "part",
+          "t": 49.981
+        },
+        {
+          "w": "two.",
+          "t": 50.207
+        }
+      ]
     }
   ],
   "sources": [
@@ -143,5 +723,6 @@
       "claim": "Strava-based average for road riders on mostly flat terrain is about 24 km/h (so 25 is the top of the range, not typical)",
       "url": "https://en.upway.be/blogs/news/vitesse-moyenne-velo"
     }
-  ]
+  ],
+  "duration": 50.658
 }

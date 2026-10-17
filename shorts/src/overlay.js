@@ -8,6 +8,7 @@
   const FONT = (wt, px) => `${wt} ${px}px Archivo, "Arial Black", sans-serif`;
   V.FONT = FONT;
   const measure = (str, wt, px, ls = 0) => { mctx.font = FONT(wt, px); mctx.letterSpacing = ls + 'px'; return mctx.measureText(str).width; };
+  V.measure = measure;
 
   /* ----------------------------------------------------------- vignette / grain */
   let vigCv = null, grainCv = null;
@@ -208,22 +209,24 @@
   };
 
   /* -------------------------------------------------------------- subtitles */
-  const SUB = { px: 72, maxW: 920, softChars: 24 };
-  function layoutWords(ws) {
+  const SUB = { px: 72, wt: 800, maxW: 920, softChars: 24 };
+  V.SUB = SUB;
+  // S = subtitle style {px, wt, maxW, softChars}; themes pass their own, the default is the stickocalypse style
+  function layoutWords(ws, S = SUB) {
     // greedy wrap into lines using real text metrics
-    const space = measure(' ', 800, SUB.px), lines = [[]], widths = [0];
+    const space = measure(' ', S.wt, S.px), lines = [[]], widths = [0];
     ws.forEach((w, i) => {
-      const ww = measure(w, 800, SUB.px), L = lines.length - 1;
+      const ww = measure(w, S.wt, S.px), L = lines.length - 1;
       const chars = lines[L].reduce((a, b) => a + b.w.length + 1, 0) + w.length;
-      if (lines[L].length && (widths[L] + space + ww > SUB.maxW || chars > SUB.softChars + 2)) { lines.push([]); widths.push(0); }
+      if (lines[L].length && (widths[L] + space + ww > S.maxW || chars > S.softChars + 2)) { lines.push([]); widths.push(0); }
       const l = lines.length - 1;
       widths[l] += (lines[l].length ? space : 0) + ww; lines[l].push({ w, i, ww });
     });
     return { lines, widths, space };
   }
-  function buildChunks(words) {
+  function buildChunks(words, S) {
     const chunks = []; let cur = [];
-    const fits = (arr) => layoutWords(arr.map((x) => x.w)).lines.length <= 2;
+    const fits = (arr) => layoutWords(arr.map((x) => x.w), S).lines.length <= 2;
     for (let i = 0; i < words.length; i++) {
       const w = words[i];
       if (cur.length && !fits(cur.concat([w]))) { chunks.push(cur); cur = []; }
@@ -237,9 +240,9 @@
     }
     return chunks;
   }
-  V.buildSubtitleTrack = (scene) => {
+  V.buildSubtitleTrack = (scene, S = SUB) => {
     const words = scene.words;
-    const chunks = buildChunks(words).map((ws) => ({ ws, lay: layoutWords(ws.map((x) => x.w)) }));
+    const chunks = buildChunks(words, S).map((ws) => ({ ws, lay: layoutWords(ws.map((x) => x.w), S) }));
     chunks.forEach((ch, i) => {
       ch.t0 = ws0(ch) - 0.04;
       const next = chunks[i + 1] ? ws0(chunks[i + 1]) - 0.04 : Infinity;
@@ -250,12 +253,20 @@
   };
   const ws0 = (ch) => ch.ws[0].t;
 
-  V.drawSubtitles = (c, scene, gt) => {
-    const track = scene.subTrack || (scene.subTrack = V.buildSubtitleTrack(scene));
+  // which subtitle chunk is on screen at global time gt: {ch, age, active} or null
+  V.subtitleAt = (scene, gt, S = SUB) => {
+    const track = scene.subTrack || (scene.subTrack = V.buildSubtitleTrack(scene, S));
     let ch = null; for (const k of track) if (gt >= k.t0 && gt < k.t1) { ch = k; break; }
-    if (!ch) return;
-    const age = gt - ch.t0, pop = 0.9 + 0.1 * easeOutBack(age / 0.16, 1.7), alpha = clamp(age / 0.07);
+    if (!ch) return null;
     let active = 0; ch.ws.forEach((w, i) => { if (gt >= w.t) active = i; });
+    return { ch, age: gt - ch.t0, active };
+  };
+
+  V.drawSubtitles = (c, scene, gt) => {
+    const st = V.subtitleAt(scene, gt);
+    if (!st) return;
+    const { ch, age, active } = st;
+    const pop = 0.9 + 0.1 * easeOutBack(age / 0.16, 1.7), alpha = clamp(age / 0.07);
     const { lines, widths } = ch.lay, lh = SUB.px * 1.16, cy = 1480;
     const y0 = cy - (lines.length - 1) * lh / 2;
     c.save(); c.globalAlpha = alpha; c.translate(540, cy); c.scale(pop, pop); c.translate(-540, -cy);

@@ -162,7 +162,7 @@ def layer_wind(tl, rng):
     for _ in range(2):
         b = brown_noise(rng, n)
         low = fft_filter(b, lo=70, hi=320)
-        mid = fft_filter(b, lo=250, hi=1100)
+        mid = fft_filter(b, lo=200, hi=650, order=3)
         chans.append(low * (1 - gust) + 0.55 * mid * gust)
     w = np.stack(chans)
     w /= np.std(w)
@@ -209,11 +209,13 @@ def layer_horns(tl, rng):
             times = np.array([rng.uniform(lo, hi)])
         for k, t0 in enumerate(times):
             if typ == "leaving_car":
-                gain = [1.0, 0.55, 0.28][k]               # each one quieter than the last
+                gain = [1.0, 0.5, 0.22][k]                # each one quieter, shorter, darker than the last
                 dur = [0.55, 0.40, 0.25][k]
+                cutoff = [1300.0, 1000.0, 800.0][k]
             else:
                 gain = rng.uniform(0.7, 1.0)
                 dur = rng.uniform(0.35, 0.8)
+                cutoff = rng.uniform(900, 1500)
             f0 = rng.uniform(380, 480)                    # typical horn pair: root + major third
             sig = np.zeros(int((dur + 0.4) * SR))
             tt = np.arange(len(sig)) / SR
@@ -221,7 +223,7 @@ def layer_horns(tl, rng):
                 saw = 2.0 * ((f * tt + rng.random()) % 1.0) - 1.0
                 sig += saw
             env = smoothstep(tt / 0.02) * (1 - smoothstep((tt - dur) / 0.12))
-            sig = fft_filter(np.concatenate([sig * env, np.zeros(int(0.2 * SR))]), lo=200, hi=rng.uniform(900, 1500))
+            sig = fft_filter(np.concatenate([sig * env, np.zeros(int(0.2 * SR))]), lo=200, hi=cutoff)
             sig = sig[: len(tt)]
             add_at(buf, pan(sig * gain * 0.22, rng.uniform(-0.9, 0.9)), t0)
     return reverb(buf, rng, rt60=1.6, mix=0.45) if buf.any() else buf
@@ -355,7 +357,7 @@ def main():
     for s in scenes:
         a, b = int(s["start"] * SR), min(int(s["end"] * SR), len(out))
         seg = out[a:b]
-        print(f"  {s['id']:<14}{str(types.get(s['id'])):<14}{s['start']:7.2f}-{s['end']:6.2f}s  "
+        print(f"  {s['id']:<18}{str(types.get(s['id'])):<18}{s['start']:7.2f}-{s['end']:6.2f}s  "
               f"rms {20*np.log10(np.sqrt(np.mean(seg**2))+1e-9):6.1f} dBFS  peak {20*np.log10(np.abs(seg).max()+1e-9):6.1f}")
 
 

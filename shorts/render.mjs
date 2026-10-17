@@ -23,9 +23,12 @@ if (opt.fps) story.fps = opt.fps; story.fps = story.fps || 30;
 const fps = story.fps;
 fs.mkdirSync(opt.out, { recursive: true });
 
-const browser = await chromium.launch({ args: ['--allow-file-access-from-files', '--disable-web-security', '--font-render-hinting=none', '--disable-lcd-text', '--force-color-profile=srgb'] });
-const ctx = await browser.newContext({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
+// one Chromium per worker: pages of one browser share a single raster/GPU process, separate browsers scale with cores
+const browsers = [];
 async function makePage() {
+  const browser = await chromium.launch({ args: ['--allow-file-access-from-files', '--disable-web-security', '--font-render-hinting=none', '--disable-lcd-text', '--force-color-profile=srgb'] });
+  browsers.push(browser);
+  const ctx = await browser.newContext({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => { console.error('PAGE ERROR:', e.message); });
   page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') console.error('console.' + m.type() + ':', m.text()); });
@@ -61,7 +64,7 @@ await Promise.all(pages.map(async (page) => {
 }));
 const secs = (Date.now() - t0) / 1000;
 console.error(`${opt.quiet ? '' : '\n'}rendered ${frames.length} frames in ${secs.toFixed(1)}s = ${(frames.length / secs).toFixed(2)} frames/s (${nW} workers) -> ${opt.out}`);
-await browser.close();
+await Promise.all(browsers.map((b) => b.close()));
 
 if (opt.contact) {
   // one tile per scene (frame nearest to 55% of the scene that was rendered), or ~12 evenly spaced frames for long stories

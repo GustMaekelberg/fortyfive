@@ -32,6 +32,8 @@ de Claude-container niet bereikbaar; beschrijvingen komen van screenshots van Gu
 - https://www.instagram.com/reel/DeT0na6D8X8/ — door Gust gedeeld op 17 okt 2026
   ("niet voor nu, om te onthouden"). Inhoud nog onbekend: screenshot of korte
   beschrijving toevoegen zodra relevant.
+- https://www.instagram.com/reel/DekXNGyoThj/ — door Gust gedeeld op 17 okt 2026
+  ("onthoud dit"). Inhoud nog onbekend.
 
 ## Zie ook
 - `affiliate-onderzoek.md` — programma's, commissies, €-per-miljoen-views.

@@ -4,7 +4,7 @@
 #   ./mix.sh audio/narration.wav audio/ambience.wav audio/mix.m4a
 #
 # Voice  : resample to 48 kHz stereo, highpass 80 Hz, light compression (3:1 above -20 dB)
-# Bed    : 48 kHz stereo at 0.5 gain
+# Bed    : 48 kHz stereo at 0.5 gain (env AMB_GAIN overrides; bed measures ~12 LU below the voice)
 # Mix    : amix normalize=0 (no automatic 1/N scaling), length = longest input
 # Master : loudnorm to -16 LUFS integrated / -1.5 dBTP (two-pass, linear when possible), AAC 192k
 #
@@ -20,6 +20,7 @@ for f in "$NARR" "$AMB"; do [ -f "$f" ] || { echo "missing input: $f" >&2; exit 
 mkdir -p "$(dirname "$OUT")"
 
 I=-16; TP=-1.5; LRA=11
+AMB_GAIN=${AMB_GAIN:-0.5}   # override e.g. AMB_GAIN=0.35 ./mix.sh ... for a quieter bed
 
 # Mono narration must be duplicated to both channels. A plain aformat=stereo would
 # down-mix with -3 dB per side, so use pan for mono and aformat for anything else.
@@ -31,7 +32,7 @@ else
 fi
 
 PRE="[0:a]aresample=48000,${VOICE_FMT},highpass=f=80,acompressor=threshold=-20dB:ratio=3:attack=15:release=200:makeup=2[v];\
-[1:a]aresample=48000,aformat=channel_layouts=stereo,volume=0.5[a];\
+[1:a]aresample=48000,aformat=channel_layouts=stereo,volume=${AMB_GAIN}[a];\
 [v][a]amix=inputs=2:duration=longest:normalize=0:dropout_transition=0[m]"
 
 # ---- pass 1: measure

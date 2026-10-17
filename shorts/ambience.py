@@ -287,14 +287,14 @@ def layer_fx(tl, rng):
         n = rng.standard_normal(pre + int(0.9 * SR))
         n = fft_filter(n, lo=300, hi=3500)
         tt = np.arange(len(n)) / SR
-        swell = np.where(tt < 0.45, smoothstep(tt / 0.45) ** 2, np.exp(-(tt - 0.45) / 0.22)) * 0.20
+        swell = np.where(tt < 0.45, smoothstep(tt / 0.45) ** 2, np.exp(-(tt - 0.45) / 0.22)) * 0.14
         add_at(buf, np.stack([n * swell, np.roll(n, 91) * swell]), t0 - 0.45)
         # impact: noise burst with fast decay + 60 Hz thump (pitch drops from 90 Hz)
         k = int(1.4 * SR)
         tk = np.arange(k) / SR
-        burst = fft_filter(rng.standard_normal(k), lo=120, hi=2200) * np.exp(-tk / 0.07) * 0.30
+        burst = fft_filter(rng.standard_normal(k), lo=120, hi=2200) * np.exp(-tk / 0.07) * 0.18
         f = 60 + 30 * np.exp(-tk / 0.06)
-        thump = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tk / 0.30) * smoothstep(tk / 0.004) * 0.85
+        thump = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tk / 0.30) * smoothstep(tk / 0.004) * 0.55
         add_at(buf, np.stack([burst + thump, np.roll(burst, 61) + thump]), t0)
     return buf
 

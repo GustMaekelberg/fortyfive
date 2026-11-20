@@ -1,0 +1,489 @@
+<!doctype html>
+<!--
+  STORYBOARD (21.8 s, silent, 1080x1920). All amounts from calc.mjs (see calc-output.txt).
+  1 HOOK     0.0–3.3   "You got paid $4,000. It's not all yours." PAID card + smiling wallet; one of its 4 bills
+                       ($1,000 = 25%) turns orange and lifts out; the wallet's smile drops.
+  2 PROBLEM  3.3–7.4   "Then a due date sneaks up." Calendar flips 3 weeks -> 2 -> 1 -> DUE while the freelancer
+                       looks at an empty TAX jar (a moth flies out). "And the tax jar is empty." + SURPRISE BILL stamp.
+  3 DEMO     7.4–15.0  Rate cell "Your set-aside rate" dials to 25% (user input). Payments A $4,000, B $1,200, C $2,800
+                       land as rows, split into Set aside / Yours, coins fly into the jar, Q1 total counts 1,000 -> 1,300 -> 2,000.
+                       "Next quarterly due date: Apr 15 (example)" chip pops.
+  4 RESULT   15.0–18.2 "Due date arrives." $2,000 already set aside. No surprise bill. Full happy jar + DUE page with a tick.
+  5 CTA      18.2–21.8 Tax Set-Aside Tracker, "Every payment, split.", button, Link in bio, $12, Example numbers. Not tax advice.
+-->
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>
+      :root {
+        --bg: #effaf3; --ink: #14213d; --paper: #ffffff; --green: #0f9d58;
+        --orange: #ff8a1f; --red: #e5484d; --sky: #5aa9ff; --yellow: #ffc93c;
+        --shadow: 12px 12px 0 var(--ink);
+      }
+      .small { color: #4a5470; }
+      .scene { z-index: 1; }
+      .stamp { background: var(--red); }
+      /* ---------- decoration ---------- */
+      .blob { position: absolute; border: var(--stroke) solid var(--ink); border-radius: 50%; }
+      #blob1 { width: 860px; height: 860px; left: 600px; top: 1360px; background: var(--yellow); }
+      #blob2 { width: 320px; height: 320px; left: 850px; top: -120px; background: var(--sky); }
+      #blob3 { width: 220px; height: 220px; left: -90px; top: 1500px; background: #bfe9cf; }
+      .coin { position: absolute; width: 150px; height: 150px; }
+
+      /* ---------- Scene 1: hook ---------- */
+      #s1 .l1 { left: 0; top: 96px; }
+      #s1 .big { left: 0; top: 164px; font-weight: 900; font-size: 196px; line-height: 1; letter-spacing: -0.04em; color: var(--green); white-space: nowrap; transform-origin: left center; }
+      #s1 .l3 { left: 0; top: 374px; font-weight: 900; font-size: 68px; line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+      #paid { position: absolute; left: 0; top: 500px; width: 560px; height: 140px; display: flex; align-items: center; gap: 24px; padding: 0 26px; z-index: 3; }
+      #paid .ok { width: 84px; height: 84px; flex: none; }
+      #paid .k { font-weight: 800; font-size: 30px; letter-spacing: 0.06em; color: var(--green); }
+      #paid .v { font-weight: 900; font-size: 44px; line-height: 1.05; white-space: nowrap; }
+      #wallet { position: absolute; left: 40px; top: 690px; width: 640px; height: 470px; overflow: visible; }
+
+      /* ---------- Scene 2: problem ---------- */
+      #s2 .title { left: 0; top: 0; }
+      #cal { position: absolute; left: 0; top: 196px; width: 300px; height: 320px; border-radius: 34px; overflow: visible; }
+      #cal .head { position: absolute; left: 0; top: 0; width: 300px; height: 74px; background: var(--orange); border: var(--stroke) solid var(--ink); border-radius: 34px 34px 0 0; }
+      #cal .ring { position: absolute; top: -22px; width: 22px; height: 56px; border-radius: 12px; background: var(--ink); }
+      #cal .pg { position: absolute; left: 0; top: 68px; width: 300px; height: 252px; background: #fff; border: var(--stroke) solid var(--ink); border-radius: 0 0 34px 34px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      #cal .pg .n { font-weight: 900; font-size: 128px; line-height: 0.9; letter-spacing: -0.03em; }
+      #cal .pg .w { font-weight: 800; font-size: 40px; color: #4a5470; margin-top: 8px; }
+      #cal .pg.due { background: var(--red); }
+      #cal .pg.due .n { color: #fff; font-size: 104px; }
+      #cal .pg.due .w { color: #fff; }
+      #guy { position: absolute; left: 318px; top: 196px; width: 250px; height: 360px; }
+      #jar0 { position: absolute; left: 560px; top: 300px; width: 210px; height: 250px; }
+      #moth { position: absolute; left: 640px; top: 300px; width: 70px; height: 50px; }
+      #bubble { position: absolute; left: 420px; top: 150px; padding: 6px 22px; background: #fff; border: var(--stroke) solid var(--ink); border-radius: 26px; box-shadow: 6px 6px 0 var(--ink); font-weight: 900; font-size: 44px; z-index: 4; transform-origin: 20% 100%; }
+      #s2 .l2 { left: 0; top: 600px; width: 660px; }
+      #s2 .stampwrap { left: 0; top: 780px; }
+      #s2 .stamp { font-weight: 900; font-size: 60px; line-height: 1; transform: rotate(-4deg); transform-origin: 20% 50%; }
+
+      /* ---------- Scene 3: demo ---------- */
+      #rate { position: absolute; left: 0; top: 0; width: 768px; height: 122px; display: flex; align-items: center; gap: 20px; padding: 0 22px; }
+      #rate .dial { width: 84px; height: 84px; flex: none; }
+      #rate .lab { font-weight: 900; font-size: 40px; line-height: 1; }
+      #rate .hint { font-weight: 700; font-size: 28px; color: #4a5470; margin-top: 6px; }
+      #rate .cell { margin-left: auto; width: 170px; height: 84px; border: var(--stroke) solid var(--ink); border-radius: 18px; background: #fff; display: flex; align-items: center; justify-content: center; font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 52px; box-shadow: 0 0 0 0 var(--sky); }
+      #caret { display: inline-block; width: 5px; height: 50px; background: var(--ink); margin-left: 4px; }
+      #sheet { position: absolute; left: 0; top: 152px; width: 768px; height: 356px; overflow: hidden; }
+      .grid { display: grid; grid-template-columns: 86px 196px 236px 196px; align-items: center; padding: 0 12px; }
+      #sheet .hd { height: 66px; background: var(--ink); color: #fff; font-weight: 800; font-size: 40px; }
+      #sheet .hd > div { text-align: right; padding-right: 14px; }
+      #sheet .rw { height: 92px; border-top: 4px solid #c9d3e0; font-weight: 900; font-size: 42px; }
+      #sheet .rw > div { text-align: right; padding-right: 14px; white-space: nowrap; }
+      #sheet .rw .dot { width: 62px; height: 62px; border-radius: 18px; border: 5px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 36px; text-align: center; padding: 0; justify-self: start; }
+      #sheet .aside span { display: inline-block; padding: 2px 14px; border: 5px solid var(--ink); border-radius: 999px; background: var(--orange); }
+      #sheet .yours { color: var(--green); }
+      #total { position: absolute; left: 0; top: 560px; width: 480px; height: 210px; padding: 22px 28px; }
+      #total .lab { font-weight: 900; font-size: 40px; }
+      #total .num { font-weight: 900; font-size: 116px; line-height: 1; letter-spacing: -0.03em; color: var(--green); margin-top: 6px; transform-origin: left center; }
+      #due { position: absolute; left: 0; top: 806px; width: 566px; height: 136px; padding: 14px 24px; display: flex; align-items: center; gap: 18px; border-radius: 28px; }
+      #due .ico { width: 84px; height: 92px; flex: none; }
+      #due .k { font-weight: 800; font-size: 30px; color: #4a5470; line-height: 1.1; white-space: nowrap; }
+      #due .v { font-weight: 900; font-size: 48px; line-height: 1.05; white-space: nowrap; }
+      #due .v small { font-weight: 700; font-size: 30px; color: #4a5470; }
+      #jar { position: absolute; left: 584px; top: 520px; width: 320px; height: 405px; overflow: visible; }
+      .fly { position: absolute; left: 0; top: 0; width: 64px; height: 64px; z-index: 6; }
+
+      /* ---------- Scene 4: result ---------- */
+      #s4 .top { left: 0; top: 0; }
+      #s4 .big { left: 0; top: 76px; font-weight: 900; font-size: 200px; line-height: 1; letter-spacing: -0.04em; color: var(--green); white-space: nowrap; transform-origin: left center; }
+      #s4 .sub { left: 0; top: 284px; }
+      #s4 .nos { left: 0; top: 396px; }
+      #s4 .nos .stamp { background: var(--green); font-weight: 900; font-size: 64px; line-height: 1; transform: rotate(-3deg); transform-origin: 20% 50%; }
+      #jar2 { position: absolute; left: 360px; top: 600px; width: 360px; height: 456px; }
+      #page2 { position: absolute; left: 0; top: 680px; width: 320px; height: 344px; }
+      #s4 .note { left: 0; top: 528px; width: 660px; }
+
+      /* ---------- Scene 5: CTA ---------- */
+      #s5 .logo { left: 0; top: 0; width: 196px; height: 196px; }
+      #s5 .name { left: 0; top: 222px; font-weight: 900; font-size: 96px; line-height: 0.98; letter-spacing: -0.03em; white-space: nowrap; }
+      #s5 .tag { left: 0; top: 440px; }
+      #s5 .cta { left: 0; top: 562px; }
+      #s5 .fine { left: 0; top: 740px; width: 660px; }
+      #cursor { position: absolute; left: 600px; top: 650px; width: 96px; height: 114px; z-index: 6; }
+      #mock { position: absolute; left: 150px; top: 1262px; width: 620px; height: 470px; padding: 28px; transform: rotate(-4deg); }
+      #mock .mh { font-weight: 900; font-size: 34px; }
+      #mock .mr { display: flex; gap: 14px; margin-top: 16px; }
+      #mock .mr i { display: block; height: 48px; border: 5px solid var(--ink); border-radius: 14px; transform-origin: left center; }
+      #mock .ml { font-weight: 800; font-size: 26px; letter-spacing: 0.05em; color: #4a5470; margin-top: 22px; }
+      #mock .mt { font-weight: 900; font-size: 80px; letter-spacing: -0.03em; color: var(--green); line-height: 1; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21.8" data-width="1080" data-height="1920">
+
+      <!-- Decoration: full frame, no readable text, always moving -->
+      <div id="decor" class="clip decor" data-start="0" data-duration="21.8" data-layout-ignore>
+        <div class="dots"></div>
+        <div class="blob" id="blob1"></div>
+        <div class="blob" id="blob2"></div>
+        <div class="blob" id="blob3"></div>
+        <svg class="coin" id="coin1" style="left: 80px; top: 1400px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#ffc93c" stroke="#14213d" stroke-width="8"/><circle cx="75" cy="75" r="46" fill="none" stroke="#14213d" stroke-width="5" stroke-dasharray="8 10"/><path d="M92 56 C84 44 60 46 60 62 C60 80 92 70 92 90 C92 106 66 108 56 94 M75 40 V112" fill="none" stroke="#14213d" stroke-width="8" stroke-linecap="round"/></svg>
+        <svg class="coin" id="coin2" style="left: 330px; top: 1620px; width: 116px; height: 116px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#ffc93c" stroke="#14213d" stroke-width="8"/><path d="M92 56 C84 44 60 46 60 62 C60 80 92 70 92 90 C92 106 66 108 56 94 M75 40 V112" fill="none" stroke="#14213d" stroke-width="8" stroke-linecap="round"/></svg>
+        <svg class="coin" id="coin3" style="left: 940px; top: 640px; width: 104px; height: 104px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#fff" stroke="#14213d" stroke-width="8"/><circle cx="52" cy="54" r="13" fill="none" stroke="#14213d" stroke-width="8"/><circle cx="98" cy="98" r="13" fill="none" stroke="#14213d" stroke-width="8"/><path d="M104 46 L46 104" stroke="#14213d" stroke-width="8" stroke-linecap="round"/></svg>
+        <svg class="coin" id="coin4" style="left: 22px; top: 120px; width: 92px; height: 92px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#ff8a1f" stroke="#14213d" stroke-width="8"/><circle cx="52" cy="54" r="13" fill="none" stroke="#14213d" stroke-width="8"/><circle cx="98" cy="98" r="13" fill="none" stroke="#14213d" stroke-width="8"/><path d="M104 46 L46 104" stroke="#14213d" stroke-width="8" stroke-linecap="round"/></svg>
+      </div>
+
+      <!-- ============ SCENE 1 — HOOK (0–3.3) ============ -->
+      <div id="s1" class="clip scene" data-start="0" data-duration="3.3">
+        <div class="safe">
+          <div class="abs"><span class="pill">FREELANCE PAYDAY</span></div>
+          <div class="abs l1 h-md">You got paid</div>
+          <div class="abs big" id="hookamt">$4,000.</div>
+          <div class="abs l3">It's <span class="mark">not all</span> yours.</div>
+
+          <div id="paid" class="tile">
+            <svg class="ok" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#0f9d58" stroke="#14213d" stroke-width="7"/><path d="M30 52 L45 66 L72 36" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div><div class="k">PAYMENT RECEIVED</div><div class="v">Client A · $4,000</div></div>
+          </div>
+
+          <!-- wallet with 4 x $1,000 bills; bill 4 (25%) turns orange -->
+          <svg id="wallet" viewBox="0 0 640 470" data-layout-ignore>
+            <g id="bills">
+              <g class="bill" id="bill1" transform="translate(120 40) rotate(-8 50 110)"><rect width="100" height="220" rx="14" fill="#8fe0b0" stroke="#14213d" stroke-width="7"/><circle cx="50" cy="70" r="26" fill="none" stroke="#14213d" stroke-width="6"/><path d="M50 56 V84" stroke="#14213d" stroke-width="6" stroke-linecap="round"/></g>
+              <g class="bill" id="bill2" transform="translate(230 22) rotate(-3 50 110)"><rect width="100" height="220" rx="14" fill="#8fe0b0" stroke="#14213d" stroke-width="7"/><circle cx="50" cy="70" r="26" fill="none" stroke="#14213d" stroke-width="6"/><path d="M50 56 V84" stroke="#14213d" stroke-width="6" stroke-linecap="round"/></g>
+              <g class="bill" id="bill3" transform="translate(340 22) rotate(3 50 110)"><rect width="100" height="220" rx="14" fill="#8fe0b0" stroke="#14213d" stroke-width="7"/><circle cx="50" cy="70" r="26" fill="none" stroke="#14213d" stroke-width="6"/><path d="M50 56 V84" stroke="#14213d" stroke-width="6" stroke-linecap="round"/></g>
+              <g id="bill4wrap"><g class="bill" id="bill4" transform="translate(450 40) rotate(8 50 110)"><rect id="bill4r" width="100" height="220" rx="14" fill="#8fe0b0" stroke="#14213d" stroke-width="7"/><circle cx="50" cy="70" r="26" fill="none" stroke="#14213d" stroke-width="6"/><path d="M50 56 V84" stroke="#14213d" stroke-width="6" stroke-linecap="round"/></g></g>
+            </g>
+            <rect x="30" y="170" width="580" height="280" rx="56" fill="#5aa9ff" stroke="#14213d" stroke-width="8"/>
+            <rect x="420" y="250" width="200" height="120" rx="34" fill="#2f86e8" stroke="#14213d" stroke-width="8"/>
+            <circle cx="470" cy="310" r="18" fill="#ffc93c" stroke="#14213d" stroke-width="7"/>
+            <g id="wface">
+              <path id="brow1" d="M110 232 L160 226" stroke="#14213d" stroke-width="9" stroke-linecap="round"/>
+              <path id="brow2" d="M232 226 L282 232" stroke="#14213d" stroke-width="9" stroke-linecap="round"/>
+              <circle cx="140" cy="276" r="26" fill="#fff" stroke="#14213d" stroke-width="7"/>
+              <circle cx="252" cy="276" r="26" fill="#fff" stroke="#14213d" stroke-width="7"/>
+              <circle class="wpupil" cx="144" cy="280" r="11" fill="#14213d"/>
+              <circle class="wpupil" cx="256" cy="280" r="11" fill="#14213d"/>
+              <path id="smile" d="M140 340 Q196 392 252 340" fill="#fff" stroke="#14213d" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+              <path id="frown" d="M146 372 Q172 348 196 366 Q220 384 246 360" fill="none" stroke="#14213d" stroke-width="9" stroke-linecap="round" opacity="0"/>
+              <path id="sweat1" d="M300 214 C292 232 290 244 300 250 C310 244 308 232 300 214 Z" fill="#fff" stroke="#14213d" stroke-width="5" opacity="0"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ============ SCENE 2 — PROBLEM (3.3–7.4) ============ -->
+      <div id="s2" class="clip scene" data-start="3.3" data-duration="4.1">
+        <div class="safe">
+          <div class="abs title h-md">Then a due date<br />sneaks up.</div>
+          <div id="cal" data-layout-allow-overlap data-layout-allow-occlusion>
+            <div class="pg due" id="pgdue"><div class="n">DUE</div><div class="w">today</div></div>
+            <div class="pg" id="pg1"><div class="n">1</div><div class="w">week left</div></div>
+            <div class="pg" id="pg2"><div class="n">2</div><div class="w">weeks left</div></div>
+            <div class="pg" id="pg3"><div class="n">3</div><div class="w">weeks left</div></div>
+            <div class="head"><div class="ring" style="left: 66px"></div><div class="ring" style="left: 206px"></div></div>
+          </div>
+          <svg id="guy" viewBox="0 0 250 360" data-layout-ignore>
+            <path d="M30 360 L30 280 Q30 214 125 214 Q220 214 220 280 L220 360 Z" fill="#ff8a1f" stroke="#14213d" stroke-width="8"/>
+            <path d="M96 216 L125 262 L154 216" fill="none" stroke="#14213d" stroke-width="7" stroke-linejoin="round"/>
+            <g id="head">
+              <circle cx="125" cy="128" r="80" fill="#f4c49c" stroke="#14213d" stroke-width="8"/>
+              <path d="M48 112 Q56 40 128 44 Q196 46 204 112 Q170 82 128 88 Q84 92 48 112 Z" fill="#14213d"/>
+              <circle cx="96" cy="136" r="17" fill="#fff" stroke="#14213d" stroke-width="6"/>
+              <circle cx="156" cy="136" r="17" fill="#fff" stroke="#14213d" stroke-width="6"/>
+              <circle class="gpupil" cx="99" cy="138" r="8" fill="#14213d"/>
+              <circle class="gpupil" cx="159" cy="138" r="8" fill="#14213d"/>
+              <path id="gsmile" d="M100 172 Q126 192 152 172" fill="none" stroke="#14213d" stroke-width="7" stroke-linecap="round"/>
+              <ellipse id="gooh" cx="126" cy="180" rx="13" ry="16" fill="#14213d" opacity="0"/>
+              <path id="gsweat" d="M200 92 C190 114 188 128 200 134 C212 128 210 114 200 92 Z" fill="#5aa9ff" stroke="#14213d" stroke-width="5" opacity="0"/>
+            </g>
+          </svg>
+          <svg id="jar0" viewBox="0 0 210 250" data-layout-ignore>
+            <rect x="40" y="6" width="130" height="34" rx="10" fill="#ffc93c" stroke="#14213d" stroke-width="7"/>
+            <path d="M32 46 L178 46 Q200 70 200 110 L200 210 Q200 240 170 240 L40 240 Q10 240 10 210 L10 110 Q10 70 32 46 Z" fill="#e7f4ff" stroke="#14213d" stroke-width="7"/>
+            <rect x="46" y="118" width="118" height="56" rx="14" fill="#fff" stroke="#14213d" stroke-width="6"/>
+            <text x="105" y="160" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="38" fill="#14213d">TAX</text>
+            <path d="M40 70 Q34 120 40 180" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+          </svg>
+          <svg id="moth" viewBox="0 0 70 50" data-layout-ignore><ellipse cx="35" cy="28" rx="7" ry="14" fill="#14213d"/><path d="M33 22 Q10 0 4 22 Q8 40 33 30 Z M37 22 Q60 0 66 22 Q62 40 37 30 Z" fill="#c9d3e0" stroke="#14213d" stroke-width="4" stroke-linejoin="round"/></svg>
+          <div id="bubble">uh-oh</div>
+          <div class="abs l2 h-md">And the tax jar<br />is <span class="mark">empty.</span></div>
+          <div class="abs stampwrap"><span class="stamp" id="stamp2">SURPRISE BILL</span></div>
+        </div>
+      </div>
+
+      <div id="s2bill" class="clip scene" data-start="3.3" data-duration="4.1" data-layout-ignore>
+        <svg id="bigbill" style="position:absolute; left:150px; top:1240px; width:470px; height:560px" viewBox="0 0 470 560">
+          <path d="M20 20 H450 V520 L410 545 L370 520 L330 545 L290 520 L250 545 L210 520 L170 545 L130 520 L90 545 L50 520 L20 545 Z" fill="#fff" stroke="#14213d" stroke-width="9" stroke-linejoin="round"/>
+          <rect x="20" y="20" width="430" height="90" fill="#e5484d" stroke="#14213d" stroke-width="9"/>
+          <path d="M70 160 H330 M70 210 H260 M70 260 H300" stroke="#c9d3e0" stroke-width="18" stroke-linecap="round"/>
+          <text x="70" y="420" font-family="Archivo" font-weight="900" font-size="120" fill="#e5484d">$???</text>
+        </svg>
+      </div>
+
+      <!-- ============ SCENE 3 — DEMO (7.4–15.0) ============ -->
+      <div id="s3" class="clip scene" data-start="7.4" data-duration="7.6">
+        <div class="safe" id="s3safe">
+          <div id="rate" class="tile">
+            <svg class="dial" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#ffc93c" stroke="#14213d" stroke-width="7"/><path d="M50 18 V26 M82 50 H74 M50 82 V74 M18 50 H26" stroke="#14213d" stroke-width="6" stroke-linecap="round"/><g id="needle"><path d="M50 50 L50 20" stroke="#14213d" stroke-width="9" stroke-linecap="round"/></g><circle cx="50" cy="50" r="9" fill="#14213d"/></svg>
+            <div><div class="lab">Your set-aside rate</div><div class="hint">you type it in · example</div></div>
+            <div class="cell" id="cell"><span id="ratev">0%</span><i id="caret"></i></div>
+          </div>
+
+          <div id="sheet" class="tile" data-layout-allow-overlap data-layout-allow-occlusion>
+            <div class="grid hd"><div></div><div>Paid</div><div>Set aside</div><div>Yours</div></div>
+            <div class="grid rw" id="rowA"><div class="dot" style="background: #ffc93c">A</div><div>$4,000</div><div class="aside"><span id="aA">$0</span></div><div class="yours" id="yA">$0</div></div>
+            <div class="grid rw" id="rowB"><div class="dot" style="background: #5aa9ff">B</div><div>$1,200</div><div class="aside"><span id="aB">$0</span></div><div class="yours" id="yB">$0</div></div>
+            <div class="grid rw" id="rowC"><div class="dot" style="background: #ffb3b5">C</div><div>$2,800</div><div class="aside"><span id="aC">$0</span></div><div class="yours" id="yC">$0</div></div>
+          </div>
+
+          <div id="total" class="tile">
+            <div class="lab">Q1 set aside so far</div>
+            <div class="num" id="tot">$0</div>
+          </div>
+          <div id="due" class="tile">
+            <svg class="ico" viewBox="0 0 84 92"><rect x="5" y="14" width="74" height="72" rx="14" fill="#fff" stroke="#14213d" stroke-width="6"/><rect x="5" y="14" width="74" height="24" rx="12" fill="#e5484d" stroke="#14213d" stroke-width="6"/><path d="M24 4 V24 M60 4 V24" stroke="#14213d" stroke-width="7" stroke-linecap="round"/><circle cx="42" cy="62" r="10" fill="#14213d"/></svg>
+            <div><div class="k">Next quarterly due date</div><div class="v">Apr 15 <small>(example)</small></div></div>
+          </div>
+
+          <svg id="jar" viewBox="0 0 300 380" data-layout-ignore>
+            <defs><clipPath id="jarclip"><path d="M48 76 L252 76 Q284 110 284 168 L284 324 Q284 366 242 366 L58 366 Q16 366 16 324 L16 168 Q16 110 48 76 Z"/></clipPath></defs>
+            <path d="M48 76 L252 76 Q284 110 284 168 L284 324 Q284 366 242 366 L58 366 Q16 366 16 324 L16 168 Q16 110 48 76 Z" fill="#e7f4ff"/>
+            <g clip-path="url(#jarclip)"><g id="fill"><rect x="0" y="76" width="300" height="290" fill="#ffc93c"/><path d="M0 76 Q40 60 75 76 T150 76 T225 76 T300 76 V96 H0 Z" fill="#ffdd7a"/><g fill="none" stroke="#e0a51e" stroke-width="6"><circle cx="70" cy="300" r="22"/><circle cx="150" cy="320" r="22"/><circle cx="230" cy="296" r="22"/><circle cx="110" cy="230" r="22"/><circle cx="196" cy="236" r="22"/><circle cx="72" cy="160" r="22"/><circle cx="160" cy="150" r="22"/><circle cx="240" cy="170" r="22"/></g></g></g>
+            <path d="M48 76 L252 76 Q284 110 284 168 L284 324 Q284 366 242 366 L58 366 Q16 366 16 324 L16 168 Q16 110 48 76 Z" fill="none" stroke="#14213d" stroke-width="8"/>
+            <rect x="58" y="30" width="184" height="46" rx="12" fill="#ff8a1f" stroke="#14213d" stroke-width="8"/>
+            <rect x="80" y="186" width="140" height="62" rx="16" fill="#fff" stroke="#14213d" stroke-width="7"/>
+            <text x="150" y="231" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="42" fill="#14213d">TAX</text>
+            <g id="jface"><circle cx="118" cy="290" r="9" fill="#14213d"/><circle cx="182" cy="290" r="9" fill="#14213d"/><path id="jmouth" d="M132 312 Q150 330 168 312" fill="none" stroke="#14213d" stroke-width="7" stroke-linecap="round"/></g>
+            <path d="M40 120 Q30 200 40 290" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+          </svg>
+          <div id="flies" data-layout-ignore></div>
+        </div>
+      </div>
+
+      <!-- ============ SCENE 4 — RESULT (15.0–18.2) ============ -->
+      <div id="s4" class="clip scene" data-start="15" data-duration="3.2">
+        <div class="safe" id="s4safe">
+          <div class="abs top h-md">Due date arrives.</div>
+          <div class="abs big" id="ready">$0</div>
+          <div class="abs sub h-md">already set aside.</div>
+          <div class="abs nos"><span class="stamp" id="nos">No surprise bill</span></div>
+          <svg id="page2" viewBox="0 0 270 290" data-layout-ignore>
+            <rect x="8" y="30" width="254" height="252" rx="34" fill="#fff" stroke="#14213d" stroke-width="8"/>
+            <rect x="8" y="30" width="254" height="74" rx="34" fill="#e5484d" stroke="#14213d" stroke-width="8"/>
+            <path d="M74 8 V54 M196 8 V54" stroke="#14213d" stroke-width="14" stroke-linecap="round"/>
+            <path id="tick" d="M72 190 L118 234 L200 146" fill="none" stroke="#0f9d58" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg id="jar2" viewBox="0 0 300 380" data-layout-ignore>
+            <path d="M48 76 L252 76 Q284 110 284 168 L284 324 Q284 366 242 366 L58 366 Q16 366 16 324 L16 168 Q16 110 48 76 Z" fill="#ffc93c" stroke="#14213d" stroke-width="8"/>
+            <g fill="none" stroke="#e0a51e" stroke-width="6"><circle cx="70" cy="320" r="22"/><circle cx="230" cy="316" r="22"/><circle cx="72" cy="150" r="22"/><circle cx="240" cy="160" r="22"/></g>
+            <rect x="58" y="30" width="184" height="46" rx="12" fill="#ff8a1f" stroke="#14213d" stroke-width="8"/>
+            <rect x="80" y="186" width="140" height="62" rx="16" fill="#fff" stroke="#14213d" stroke-width="7"/>
+            <text x="150" y="231" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="42" fill="#14213d">TAX</text>
+            <path d="M104 290 Q118 274 132 290 M168 290 Q182 274 196 290" fill="none" stroke="#14213d" stroke-width="8" stroke-linecap="round"/>
+            <path d="M124 308 Q150 344 176 308 Z" fill="#fff" stroke="#14213d" stroke-width="7" stroke-linejoin="round"/>
+            <path d="M40 120 Q30 200 40 290" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+          </svg>
+          <div class="abs note small">Example: $8,000 paid, 25% rate.</div>
+        </div>
+      </div>
+
+      <!-- ============ SCENE 5 — CTA (18.2–21.8) ============ -->
+      <div id="s5" class="clip scene" data-start="18.2" data-duration="3.6">
+        <div class="safe">
+          <svg class="abs logo" viewBox="0 0 300 300"><rect x="20" y="30" width="260" height="250" rx="44" fill="#fff" stroke="#14213d" stroke-width="13"/><rect x="20" y="30" width="260" height="74" rx="38" fill="#0f9d58" stroke="#14213d" stroke-width="13"/><path d="M60 150 H130 M60 200 H130 M60 248 H130" stroke="#c9d3e0" stroke-width="16" stroke-linecap="round"/><path d="M170 150 H240 M170 200 H240" stroke="#ff8a1f" stroke-width="16" stroke-linecap="round"/><path id="tick2" d="M160 246 L184 268 L238 218" fill="none" stroke="#0f9d58" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="abs name">Tax Set-Aside<br />Tracker</div>
+          <div class="abs tag h-md">Every payment, split.</div>
+          <div class="abs cta"><span class="btn" id="btn">Get the template</span></div>
+          <div class="abs fine small">Link in bio · $12 spreadsheet download<br />Example numbers. Not tax advice.</div>
+          <svg id="cursor" viewBox="0 0 110 130" data-layout-ignore><path d="M14 10 L14 100 L40 78 L58 120 L78 110 L60 70 L96 68 Z" fill="#fff" stroke="#14213d" stroke-width="9" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- Product mock for the CTA: below the text-safe box, illustration only -->
+      <div id="s5mock" class="clip scene" data-start="18.2" data-duration="3.6" data-layout-ignore>
+        <div id="mock" class="tile">
+          <div class="mh">Q1 set-aside</div>
+          <div class="mr"><i style="background: #ffc93c; width: 60px"></i><i style="background: #fff; width: 200px"></i><i style="background: #ff8a1f; width: 140px"></i></div>
+          <div class="mr"><i style="background: #5aa9ff; width: 60px"></i><i style="background: #fff; width: 200px"></i><i style="background: #ff8a1f; width: 140px"></i></div>
+          <div class="mr"><i style="background: #ffb3b5; width: 60px"></i><i style="background: #fff; width: 200px"></i><i style="background: #ff8a1f; width: 140px"></i></div>
+          <div class="ml">SET ASIDE SO FAR</div>
+          <div class="mt">$2,000</div>
+        </div>
+      </div>
+
+      <div id="wipe" class="clip wipe" data-start="0" data-duration="21.8" data-layout-ignore></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const K = window.K;
+      const GREEN = "#0f9d58", ORANGE = "#ff8a1f", INK = "#14213d";
+      const END = 21.8;
+
+      /* ---------- decoration ---------- */
+      tl.fromTo("#coin1", { y: 0, rotation: -8 }, { y: -36, rotation: 8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 13 }, 0);
+      tl.fromTo("#coin2", { y: 0, rotation: 10 }, { y: 30, rotation: -6, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: 11 }, 0);
+      tl.fromTo("#coin3", { y: 0, rotation: 0 }, { y: -28, rotation: 20, duration: 2.1, ease: "sine.inOut", yoyo: true, repeat: 10 }, 0);
+      tl.fromTo("#coin4", { y: 0, rotation: 0 }, { y: 22, rotation: -18, duration: 1.7, ease: "sine.inOut", yoyo: true, repeat: 12 }, 0);
+      tl.fromTo("#blob1", { scale: 1 }, { scale: 1.06, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 8 }, 0);
+      tl.fromTo("#blob2", { scale: 1 }, { scale: 1.12, duration: 2, ease: "sine.inOut", yoyo: true, repeat: 10 }, 0);
+      tl.fromTo("#blob3", { scale: 1 }, { scale: 1.15, duration: 1.8, ease: "sine.inOut", yoyo: true, repeat: 11 }, 0);
+
+      /* ---------- Scene 1 (0–3.3): hook on screen at frame 0 ---------- */
+      tl.fromTo("#hookamt", { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "back.out(2)" }, 0.02);
+      tl.fromTo("#paid", { x: 40, rotation: 2 }, { x: 0, rotation: -2, duration: 0.45, ease: "back.out(1.8)" }, 0);
+      tl.fromTo("#wallet", { y: 40 }, { y: 0, duration: 0.5, ease: "back.out(1.7)" }, 0);
+      tl.to("#wallet", { rotation: 2, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 100%" }, 0.45);
+      tl.to(".wpupil", { x: 4, y: -6, duration: 0.3, ease: "power1.inOut", yoyo: true, repeat: 1 }, 0.5);
+      // one bill out of four (25% of $4,000 = $1,000) turns orange and lifts out
+      tl.to("#bill4r", { attr: { fill: ORANGE }, duration: 0.3 }, 1.15);
+      tl.to("#bill4wrap", { y: -90, x: 26, rotation: 10, duration: 0.55, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 1.35);
+      tl.to("#bill4wrap", { y: -76, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 2 }, 1.9);
+      // smile drops
+      tl.to("#smile", { opacity: 0, duration: 0.12 }, 1.55);
+      tl.to("#frown", { opacity: 1, duration: 0.12 }, 1.55);
+      tl.to("#sweat1", { opacity: 1, duration: 0.15 }, 1.7);
+      tl.fromTo("#sweat1", { y: 0 }, { y: 30, duration: 0.9, ease: "power1.in" }, 1.7);
+      tl.to("#brow1", { attr: { d: "M110 222 L160 236" }, duration: 0.2 }, 1.55);
+      tl.to("#brow2", { attr: { d: "M232 236 L282 222" }, duration: 0.2 }, 1.55);
+      tl.to(".wpupil", { y: -8, duration: 0.25 }, 1.6);
+      tl.fromTo("#s1 .l3", { x: 0 }, { x: 8, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, 1.55);
+      tl.to("#hookamt", { color: "#0b7a45", duration: 0.3 }, 1.6);
+      tl.to("#paid", { rotation: 0, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.9);
+      K.wipe(tl, "#wipe", 3.0);
+
+      /* ---------- Scene 2 (3.3–7.4) ---------- */
+      const S2 = 3.3;
+      K.rise(tl, "#s2 .title", S2 + 0.2, 0.4, 50);
+      K.rise(tl, "#cal", S2 + 0.3, 0.45, 80);
+      K.rise(tl, "#guy", S2 + 0.35, 0.45, 90);
+      K.rise(tl, "#jar0", S2 + 0.45, 0.45, 90);
+      tl.set("#moth", { opacity: 0 }, 0);
+      tl.set("#bubble", { opacity: 0 }, 0);
+      // pages flip away: 3 weeks -> 2 -> 1 -> DUE
+      ["#pg3", "#pg2", "#pg1"].forEach((p, i) => {
+        tl.fromTo(p, { rotationX: 0, transformPerspective: 900, transformOrigin: "50% 0%", opacity: 1 },
+          { rotationX: -100, opacity: 0, duration: 0.32, ease: "power2.in" }, S2 + 0.95 + i * 0.5);
+      });
+      tl.fromTo("#cal", { rotation: 0 }, { rotation: -4, duration: 0.08, yoyo: true, repeat: 3, ease: "none" }, S2 + 2.4);
+      tl.to("#cal", { scale: 1.06, duration: 0.2, yoyo: true, repeat: 1 }, S2 + 2.45);
+      // he glances at the jar, it is empty, a moth flies out
+      tl.to(".gpupil", { x: 7, y: 4, duration: 0.25 }, S2 + 1.0);
+      tl.fromTo("#moth", { x: 0, y: 0, opacity: 0, rotation: 0 }, { x: 60, y: -150, opacity: 1, rotation: 20, duration: 1.2, ease: "sine.out" }, S2 + 1.3);
+      tl.to("#moth", { x: 120, y: -210, opacity: 0, duration: 0.6, ease: "sine.in" }, S2 + 2.5);
+      tl.to("#moth", { scaleY: 0.6, duration: 0.08, yoyo: true, repeat: 15, ease: "none" }, S2 + 1.3);
+      tl.to("#jar0", { rotation: 3, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 3, transformOrigin: "50% 100%" }, S2 + 1.4);
+      K.rise(tl, "#s2 .l2", S2 + 1.35, 0.4, 40);
+      // uh-oh
+      tl.to(".gpupil", { x: -6, y: -2, duration: 0.15 }, S2 + 2.45);
+      tl.to("#gsmile", { opacity: 0, duration: 0.1 }, S2 + 2.4);
+      tl.to("#gooh", { opacity: 1, duration: 0.1 }, S2 + 2.4);
+      tl.to("#gsweat", { opacity: 1, duration: 0.12 }, S2 + 2.5);
+      tl.fromTo("#gsweat", { y: 0 }, { y: 26, duration: 1.0, ease: "power1.in" }, S2 + 2.5);
+      tl.fromTo("#bubble", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)" }, S2 + 2.45);
+      tl.fromTo("#head", { rotation: 0 }, { rotation: -6, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3, svgOrigin: "125 200" }, S2 + 2.5);
+      tl.fromTo("#stamp2", { scale: 1.5, rotation: -12, opacity: 0 }, { scale: 1, rotation: -4, opacity: 1, duration: 0.26, ease: "power4.in" }, S2 + 2.6);
+      tl.fromTo("#s2 .safe", { x: 0 }, { x: 9, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, S2 + 2.86);
+      tl.to("#bubble", { rotation: 5, duration: 0.25, yoyo: true, repeat: 3, ease: "sine.inOut" }, S2 + 2.9);
+      tl.fromTo("#bigbill", { y: 760, rotation: 8 }, { y: 0, rotation: -5, duration: 0.55, ease: "back.out(1.5)" }, S2 + 2.55);
+      tl.to("#bigbill", { rotation: -2, y: -12, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, S2 + 3.15);
+      K.wipe(tl, "#wipe", 7.1, GREEN);
+
+      /* ---------- Scene 3 (7.4–15.0): the tracker at work ---------- */
+      const S3 = 7.4;
+      K.rise(tl, "#rate", S3 + 0.2, 0.4, 50);
+      K.rise(tl, "#sheet", S3 + 0.3, 0.45, 70);
+      K.rise(tl, "#total", S3 + 0.4, 0.45, 70);
+      K.rise(tl, "#jar", S3 + 0.45, 0.5, 90);
+      tl.set("#due", { opacity: 0 }, 0);
+      tl.set("#fill", { y: 290 }, 0);
+      tl.set("#sheet .rw", { opacity: 0 }, 0);
+      tl.to("#caret", { opacity: 0, duration: 0.01, yoyo: true, repeat: 9, repeatDelay: 0.25 }, S3 + 0.3);
+      // the user dials their own rate: 0% -> 25% (example)
+      K.count(tl, "#ratev", 0, 25, S3 + 0.6, 0.8, (v) => Math.round(v) + "%", "power2.out");
+      tl.fromTo("#needle", { rotation: -120, svgOrigin: "50 50" }, { rotation: -30, svgOrigin: "50 50", duration: 0.8, ease: "power2.out" }, S3 + 0.6);
+      tl.to("#cell", { scale: 1.12, borderColor: "#5aa9ff", duration: 0.15, yoyo: true, repeat: 1 }, S3 + 1.4);
+      tl.to("#cell", { boxShadow: "0 0 0 8px #5aa9ff", duration: 0.2 }, S3 + 1.4);
+      tl.to("#cell", { boxShadow: "0 0 0 0px #5aa9ff", duration: 0.3 }, S3 + 1.8);
+
+      // coins: fly from each row's Set-aside cell into the jar mouth (positions in .safe space)
+      const flies = document.querySelector("#flies");
+      const COIN = '<svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="#ffc93c" stroke="#14213d" stroke-width="12"/><path d="M92 56 C84 44 60 46 60 62 C60 80 92 70 92 90 C92 106 66 108 56 94 M75 40 V112" fill="none" stroke="#14213d" stroke-width="12" stroke-linecap="round"/></svg>';
+      function coins(rowIndex, t, n) {
+        const sx = 386 + rowIndex * 10, sy = 500, ex = 712, ey = 560;
+        for (let i = 0; i < n; i++) {
+          const el = document.createElement("div");
+          el.className = "fly"; el.innerHTML = COIN; flies.appendChild(el);
+          gsap.set(el, { x: sx, y: sy, opacity: 0 });
+          const t0 = t + i * 0.09;
+          tl.set(el, { opacity: 1 }, t0);
+          tl.fromTo(el, { x: sx + i * 6 }, { x: ex + (i % 2 ? 14 : -14), duration: 0.5, ease: "power1.inOut" }, t0);
+          tl.fromTo(el, { y: sy }, { y: ey, duration: 0.5, ease: "power2.in" }, t0);
+          tl.fromTo(el, { rotation: 0, scale: 1 }, { rotation: 300, scale: 0.75, duration: 0.5, ease: "none" }, t0);
+          tl.set(el, { opacity: 0 }, t0 + 0.5);
+        }
+      }
+      // jar fill: y offset of the fill group (290 = empty), fractions 0.5 / 0.65 / 1.0 from calc.mjs
+      const fillY = (f) => 290 * (1 - f) - (f >= 1 ? 6 : 0);
+      const rows = [
+        { id: "A", t: S3 + 1.9, aside: 1000, yours: 3000, before: 0, after: 1000, frac: 0.5 },
+        { id: "B", t: S3 + 3.4, aside: 300, yours: 900, before: 1000, after: 1300, frac: 0.65 },
+        { id: "C", t: S3 + 4.9, aside: 700, yours: 2100, before: 1300, after: 2000, frac: 1.0 },
+      ];
+      rows.forEach((r, i) => {
+        tl.fromTo("#row" + r.id, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "back.out(2)" }, r.t);
+        tl.fromTo("#row" + r.id, { backgroundColor: "#fff3c4" }, { backgroundColor: "#ffffff", duration: 1.0 }, r.t + 0.3);
+        K.count(tl, "#a" + r.id, 0, r.aside, r.t + 0.4, 0.45, K.money, "power2.out");
+        K.count(tl, "#y" + r.id, 0, r.yours, r.t + 0.45, 0.45, K.money, "power2.out");
+        tl.fromTo("#a" + r.id, { scale: 1 }, { scale: 1.15, duration: 0.12, yoyo: true, repeat: 1 }, r.t + 0.85);
+        coins(i, r.t + 0.55, r.id === "B" ? 3 : 5);
+        tl.to("#fill", { y: fillY(r.frac), duration: 0.5, ease: "power2.out" }, r.t + 0.85);
+        tl.fromTo("#jar", { scaleY: 1, scaleX: 1 }, { scaleY: 0.95, scaleX: 1.04, duration: 0.1, yoyo: true, repeat: 1, transformOrigin: "50% 100%" }, r.t + 1.0);
+        K.count(tl, "#tot", r.before, r.after, r.t + 0.9, 0.55, K.money, "power2.out");
+        tl.fromTo("#tot", { scale: 1 }, { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1 }, r.t + 1.45);
+      });
+      document.querySelector("#tot").textContent = "$0";
+      document.querySelector("#aA").textContent = "$0"; document.querySelector("#yA").textContent = "$0";
+      tl.to("#jmouth", { attr: { d: "M126 306 Q150 340 174 306" }, duration: 0.3 }, S3 + 3.0);
+      tl.fromTo("#due", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, S3 + 6.0);
+      tl.to("#due .ico", { rotation: -10, duration: 0.15, yoyo: true, repeat: 3, ease: "sine.inOut" }, S3 + 6.5);
+      tl.to("#jar", { rotation: 3, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut", transformOrigin: "50% 100%" }, S3 + 6.2);
+      K.wipe(tl, "#wipe", 14.7, ORANGE);
+
+      /* ---------- Scene 4 (15.0–18.2): result ---------- */
+      const S4 = 15.0;
+      K.rise(tl, "#s4 .top", S4 + 0.2, 0.4, 50);
+      tl.fromTo("#ready", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.8)" }, S4 + 0.35);
+      K.count(tl, "#ready", 0, 2000, S4 + 0.4, 0.9, K.money, "power3.out");
+      K.rise(tl, "#s4 .sub", S4 + 0.7, 0.35, 40);
+      K.rise(tl, "#page2", S4 + 0.5, 0.45, 90);
+      K.rise(tl, "#jar2", S4 + 0.6, 0.45, 90);
+      tl.fromTo("#tick", { strokeDasharray: 200, strokeDashoffset: 200 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, S4 + 1.0);
+      tl.fromTo("#nos", { scale: 1.4, rotation: -10, opacity: 0 }, { scale: 1, rotation: -3, opacity: 1, duration: 0.26, ease: "power4.in" }, S4 + 1.1);
+      K.confetti(tl, "#s4safe", 540, 900, S4 + 1.4, { n: 26, seed: 5, spread: 300, d: 0.85, colors: ["#e5484d", "#0f9d58", "#ffc93c", "#5aa9ff", "#ff8a1f"] });
+      K.rise(tl, "#s4 .note", S4 + 0.6, 0.4, 30);
+      tl.to("#jar2", { y: -18, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, S4 + 1.5);
+      tl.to("#ready", { scale: 1.04, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut" }, S4 + 1.3);
+      K.wipe(tl, "#wipe", 17.9, INK);
+
+      /* ---------- Scene 5 (18.2–21.8): CTA ---------- */
+      const S5 = 18.2;
+      K.pop(tl, "#s5 .logo", S5 + 0.25, 0.5);
+      tl.fromTo("#tick2", { strokeDasharray: 120, strokeDashoffset: 120 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, S5 + 0.65);
+      tl.fromTo("#mock", { y: 500, rotation: 6 }, { y: 0, rotation: -4, duration: 0.7, ease: "back.out(1.3)" }, S5 + 0.3);
+      tl.fromTo("#mock .mr i", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out", stagger: 0.05 }, S5 + 0.8);
+      tl.to("#mock", { rotation: -2, y: -14, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 1 }, S5 + 1.2);
+      K.rise(tl, "#s5 .name", S5 + 0.4, 0.45, 60);
+      K.rise(tl, "#s5 .tag", S5 + 0.7, 0.45, 50);
+      K.pop(tl, "#btn", S5 + 1.0, 0.45);
+      K.rise(tl, "#s5 .fine", S5 + 0.6, 0.4, 30);
+      tl.fromTo("#cursor", { x: 260, y: 300, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, S5 + 1.5);
+      tl.to("#cursor", { scale: 0.85, duration: 0.1, yoyo: true, repeat: 1 }, S5 + 2.15);
+      tl.to("#btn", { scale: 0.93, duration: 0.1, yoyo: true, repeat: 1 }, S5 + 2.18);
+      tl.to("#btn", { scale: 1.06, duration: 0.4, yoyo: true, repeat: 1, ease: "sine.inOut" }, S5 + 2.5);
+      tl.to({}, { duration: 0.01 }, END - 0.01);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

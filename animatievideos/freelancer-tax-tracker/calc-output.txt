@@ -1,0 +1,11 @@
+Set-aside rate (user input, example): 25%
+Client A: paid $4,000 -> set aside $1,000, yours to spend $3,000; quarter total so far $1,000
+Client B: paid $1,200 -> set aside $300, yours to spend $900; quarter total so far $1,300
+Client C: paid $2,800 -> set aside $700, yours to spend $2,100; quarter total so far $2,000
+Total paid this quarter (example): $8,000
+Set aside this quarter: $2,000
+Yours to spend: $6,000
+Hook: $4,000 payment at 25% -> $1,000 is the set-aside slice (25% of the bar).
+Jar fill fractions after each payment (of quarter total $2,000): 0.500, 0.650, 1.000
+Next quarterly due date: shown only as an example label (e.g. Apr 15), not a legal deadline.
+Price hint: $12 (report recommends EUR 11 ~ $12).

@@ -1,0 +1,51 @@
+/* Shared kit for 1080x1920 HyperFrames shorts. Self-contained: no network. */
+@font-face { font-family: "Archivo"; font-weight: 500; src: url("fonts/archivo-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Archivo"; font-weight: 700; src: url("fonts/archivo-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Archivo"; font-weight: 800; src: url("fonts/archivo-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: "Archivo"; font-weight: 900; src: url("fonts/archivo-latin-900-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; src: url("fonts/inter-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Baloo 2"; font-weight: 700; src: url("fonts/baloo-2-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Baloo 2"; font-weight: 800; src: url("fonts/baloo-2-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "DM Serif Display"; font-weight: 400; src: url("fonts/dm-serif-display-latin-400-normal.woff2") format("woff2"); }
+
+:root {
+  --bg: #fff4e0;
+  --ink: #1b1b3a;
+  --paper: #ffffff;
+  --red: #ff5a4f;
+  --green: #0f9d58;
+  --yellow: #ffc93c;
+  --blue: #4d7cfe;
+  --violet: #8b5cf6;
+  --stroke: 6px;
+  --shadow: 12px 12px 0 var(--ink);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: "Archivo", sans-serif; }
+.clip { position: absolute; inset: 0; }
+/* TEXT-SAFE BOX shared by TikTok, Instagram Reels and YouTube Shorts (values from HyperFrames' own safe-zone check):
+   x 120-888, y 288-1248 on a 1080x1920 frame. All text that must be read lives inside .safe (768 x 952, left-aligned,
+   starting 8px below the limit so ascenders never cross it).
+   Extra rule: below y=840 (i.e. more than 552px down inside .safe) keep text within the first 660px of width,
+   because TikTok's button column sits at the lower right. (552px becomes 544px with the 8px offset.) Illustrations may bleed outside the box. */
+.safe { position: absolute; left: 120px; top: 296px; width: 768px; height: 952px; }
+.abs { position: absolute; }
+.h-xl { font-weight: 900; font-size: 104px; line-height: 0.98; letter-spacing: -0.025em; }
+.h-lg { font-weight: 900; font-size: 84px; line-height: 1.0; letter-spacing: -0.02em; }
+.h-md { font-weight: 800; font-size: 60px; line-height: 1.06; letter-spacing: -0.015em; }
+.body { font-weight: 700; font-size: 46px; line-height: 1.15; }
+.small { font-weight: 700; font-size: 32px; line-height: 1.25; color: #55556b; }
+.center { text-align: center; }
+.tile { background: var(--paper); border: var(--stroke) solid var(--ink); border-radius: 36px; box-shadow: var(--shadow); }
+.pill { display: inline-block; padding: 10px 26px; border: var(--stroke) solid var(--ink); border-radius: 999px; background: var(--paper); font-weight: 800; font-size: 34px; letter-spacing: 0.03em; }
+.stamp { display: inline-block; padding: 10px 34px 4px; background: var(--red); color: #fff; border: var(--stroke) solid var(--ink); border-radius: 22px; box-shadow: var(--shadow); }
+.mark { background: linear-gradient(transparent 58%, var(--yellow) 58%, var(--yellow) 94%, transparent 94%); padding: 0 8px; }
+.btn { display: inline-block; padding: 22px 46px; background: var(--green); color: #fff; border: var(--stroke) solid var(--ink); border-radius: 28px; box-shadow: var(--shadow); font-weight: 900; font-size: 56px; }
+.wipe { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 50; background: var(--ink); }
+.confetti { position: absolute; width: 26px; height: 26px; border-radius: 6px; border: 4px solid var(--ink); }
+/* Full-frame decoration layer (never text that must be read). */
+.decor { position: absolute; inset: 0; z-index: 0; }
+.dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(27, 27, 58, 0.09) 3px, transparent 3.5px); background-size: 54px 54px; }

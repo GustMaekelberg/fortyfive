@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>
+      .scene { z-index: 1; }
+      /* ---------- decoration (full frame, behind everything) ---------- */
+      .blob { position: absolute; border: var(--stroke) solid var(--ink); border-radius: 50%; }
+      #blob1 { width: 900px; height: 900px; left: 560px; top: 1330px; background: var(--yellow); }
+      #blob2 { width: 300px; height: 300px; left: 860px; top: -110px; background: #b7a4ff; }
+      .coin { position: absolute; width: 150px; height: 150px; }
+
+      /* ---------- Scene 1: hook ---------- */
+      #s1 .l1 { left: 0; top: 78px; }
+      #s1 .stampwrap { left: 0; top: 158px; width: 768px; }
+      #s1 .stamp { font-weight: 900; font-size: 86px; line-height: 1; letter-spacing: -0.02em; white-space: nowrap; transform-origin: 20% 50%; transform: rotate(-3deg); }
+      #s1 .l3 { left: 0; top: 300px; font-weight: 900; font-size: 72px; letter-spacing: -0.02em; white-space: nowrap; }
+      .ccard { position: absolute; width: 380px; height: 236px; border: var(--stroke) solid var(--ink); border-radius: 32px; box-shadow: var(--shadow); }
+      .ccard .chip { position: absolute; left: 26px; top: 26px; width: 66px; height: 48px; border-radius: 12px; background: #ffe9a8; border: 5px solid var(--ink); }
+      .ccard .apr { position: absolute; right: 20px; top: 20px; padding: 2px 16px; background: #fff; border: 5px solid var(--ink); border-radius: 999px; font-weight: 900; font-size: 38px; }
+      .ccard .nm { position: absolute; left: 26px; bottom: 18px; font-weight: 900; font-size: 38px; }
+      .ccard .face { position: absolute; left: 118px; top: 78px; width: 150px; height: 102px; }
+      #c-car { left: 0; top: 452px; background: var(--yellow); transform: rotate(-5deg); }
+      #c-cc { left: 292px; top: 506px; background: #b7a4ff; transform: rotate(4deg); }
+      #c-store { left: 104px; top: 708px; background: var(--red); transform: rotate(-3deg); }
+
+      /* ---------- Scene 2: the two orders ---------- */
+      #s2 .title { left: 0; top: 0; width: 768px; height: 140px; font-weight: 800; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; }
+      #s2 .title .t { position: absolute; left: 0; top: 0; width: 768px; }
+      .rows { position: absolute; left: 0; top: 152px; width: 768px; height: 382px; }
+      .row { position: absolute; left: 0; width: 768px; height: 118px; display: flex; align-items: center; padding: 0 22px; gap: 18px; box-shadow: 8px 8px 0 var(--ink); border-radius: 28px; }
+      .row .dot { width: 74px; height: 74px; border-radius: 22px; border: 5px solid var(--ink); flex: none; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 40px; }
+      .row .nm { font-weight: 900; font-size: 40px; line-height: 1; }
+      .row .bal { font-weight: 700; font-size: 28px; color: #55556b; margin-top: 6px; }
+      .row .apr { margin-left: auto; padding: 4px 18px; border: 5px solid var(--ink); border-radius: 999px; font-weight: 900; font-size: 38px; background: #fff; }
+      #r-car { top: 0; } #r-cc { top: 132px; } #r-store { top: 264px; }
+      #extra { position: absolute; left: 362px; top: 30px; z-index: 5; padding: 6px 18px; background: var(--green); color: #fff; border: 5px solid var(--ink); border-radius: 999px; box-shadow: 6px 6px 0 var(--ink); font-weight: 900; font-size: 30px; white-space: nowrap; transform: rotate(-4deg); }
+      .meter { position: absolute; left: 0; top: 560px; width: 660px; height: 380px; padding: 24px 30px; }
+      .meter .lab { font-weight: 800; font-size: 30px; letter-spacing: 0.05em; color: #55556b; }
+      .meter .num { font-weight: 900; font-size: 132px; line-height: 1; letter-spacing: -0.03em; color: var(--red); margin-top: 2px; transform-origin: left center; }
+      .meter .daterow { display: flex; align-items: baseline; gap: 18px; margin-top: 10px; }
+      .meter .daterow .d { font-weight: 900; font-size: 54px; transform-origin: left center; }
+      .meter .bar { position: absolute; left: 30px; right: 30px; bottom: 28px; height: 28px; border: 5px solid var(--ink); border-radius: 999px; background: #fff; overflow: hidden; }
+      .meter .bar i { display: block; height: 100%; width: 100%; background: var(--red); transform-origin: left center; }
+
+      /* ---------- Scene 3: result ---------- */
+      #s3 .top { left: 0; top: 0; }
+      #s3 .big { left: 0; top: 78px; font-weight: 900; font-size: 200px; line-height: 1; letter-spacing: -0.04em; color: var(--green); transform-origin: left center; white-space: nowrap; }
+      #s3 .sub { left: 0; top: 284px; }
+      #s3 .cal { left: 0; top: 410px; width: 600px; height: 190px; display: flex; align-items: center; gap: 28px; padding: 0 30px; }
+      #s3 .cal .ico { width: 116px; height: 130px; flex: none; }
+      #s3 .cal .txt { font-weight: 900; font-size: 58px; line-height: 1.02; }
+      #s3 .note { left: 0; top: 650px; width: 640px; }
+
+      /* ---------- Scene 4: CTA ---------- */
+      #s4 .logo { left: 0; top: 0; width: 210px; height: 210px; }
+      #s4 .name { left: 0; top: 236px; font-weight: 900; font-size: 92px; line-height: 1; letter-spacing: -0.025em; white-space: nowrap; }
+      #s4 .tag { left: 0; top: 362px; }
+      #s4 .cta { left: 0; top: 560px; }
+      #s4 .fine { left: 0; top: 716px; }
+      #cursor { position: absolute; left: 330px; top: 610px; width: 96px; height: 114px; z-index: 6; }
+      #mock { position: absolute; left: 150px; top: 1250px; width: 600px; height: 470px; padding: 30px; transform: rotate(-5deg); }
+      #mock .mh { font-weight: 900; font-size: 34px; display: flex; justify-content: space-between; }
+      #mock .mrow { height: 54px; border: 5px solid var(--ink); border-radius: 16px; margin-top: 18px; transform-origin: left center; }
+      #mock .mdate { margin-top: 26px; font-weight: 900; font-size: 84px; letter-spacing: -0.03em; color: var(--green); line-height: 1; }
+      #mock .ml { font-weight: 800; font-size: 26px; letter-spacing: 0.05em; color: #55556b; margin-top: 22px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+
+      <!-- Decoration: full frame, no readable text, always moving a little -->
+      <div id="decor" class="clip decor" data-start="0" data-duration="20" data-layout-ignore>
+        <div class="dots"></div>
+        <div class="blob" id="blob1"></div>
+        <div class="blob" id="blob2"></div>
+        <svg class="coin" id="coin1" style="left: 90px; top: 1420px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#ffc93c" stroke="#1b1b3a" stroke-width="8"/><circle cx="75" cy="75" r="46" fill="none" stroke="#1b1b3a" stroke-width="5" stroke-dasharray="8 10"/><path d="M92 56 C84 44 60 46 60 62 C60 80 92 70 92 90 C92 106 66 108 56 94 M75 40 V112" fill="none" stroke="#1b1b3a" stroke-width="8" stroke-linecap="round"/></svg>
+        <svg class="coin" id="coin2" style="left: 330px; top: 1600px; width: 120px; height: 120px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#ffc93c" stroke="#1b1b3a" stroke-width="8"/><path d="M92 56 C84 44 60 46 60 62 C60 80 92 70 92 90 C92 106 66 108 56 94 M75 40 V112" fill="none" stroke="#1b1b3a" stroke-width="8" stroke-linecap="round"/></svg>
+        <svg class="coin" id="coin3" style="left: 930px; top: 560px; width: 110px; height: 110px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#fff" stroke="#1b1b3a" stroke-width="8"/><circle cx="52" cy="54" r="13" fill="none" stroke="#1b1b3a" stroke-width="8"/><circle cx="98" cy="98" r="13" fill="none" stroke="#1b1b3a" stroke-width="8"/><path d="M104 46 L46 104" stroke="#1b1b3a" stroke-width="8" stroke-linecap="round"/></svg>
+        <svg class="coin" id="coin4" style="left: 20px; top: 110px; width: 96px; height: 96px" viewBox="0 0 150 150"><circle cx="75" cy="75" r="66" fill="#ff5a4f" stroke="#1b1b3a" stroke-width="8"/><circle cx="52" cy="54" r="13" fill="none" stroke="#1b1b3a" stroke-width="8"/><circle cx="98" cy="98" r="13" fill="none" stroke="#1b1b3a" stroke-width="8"/><path d="M104 46 L46 104" stroke="#1b1b3a" stroke-width="8" stroke-linecap="round"/></svg>
+      </div>
+
+      <!-- ============ SCENE 1 — HOOK (0–3.3s) ============ -->
+      <div id="s1" class="clip scene" data-start="0" data-duration="3.3">
+        <div class="safe">
+          <div class="abs"><span class="pill">DEBT PAYOFF MATH</span></div>
+          <div class="abs l1 h-md" data-layout-allow-overlap>Paying off debt in the</div>
+          <div class="abs stampwrap"><span class="stamp" id="stamp">WRONG ORDER</span></div>
+          <div class="abs l3">cost <span class="mark">$1,286</span> extra</div>
+
+          <div data-layout-allow-occlusion data-layout-allow-overlap>
+            <div class="ccard" id="c-car">
+              <div class="chip"></div><div class="apr" data-layout-allow-occlusion>6.9%</div><div class="nm" data-layout-allow-occlusion>Car loan</div>
+              <svg class="face" viewBox="0 0 220 150"><circle cx="62" cy="52" r="26" fill="#fff" stroke="#1b1b3a" stroke-width="7"/><circle cx="158" cy="52" r="26" fill="#fff" stroke="#1b1b3a" stroke-width="7"/><circle class="pupil" cx="66" cy="56" r="11" fill="#1b1b3a"/><circle class="pupil" cx="162" cy="56" r="11" fill="#1b1b3a"/><path d="M70 112 Q110 128 150 112" fill="none" stroke="#1b1b3a" stroke-width="9" stroke-linecap="round"/></svg>
+            </div>
+            <div class="ccard" id="c-cc">
+              <div class="chip"></div><div class="apr" data-layout-allow-occlusion>24.9%</div><div class="nm" data-layout-allow-occlusion>Credit card</div>
+              <svg class="face" viewBox="0 0 220 150"><circle cx="62" cy="52" r="26" fill="#fff" stroke="#1b1b3a" stroke-width="7"/><circle cx="158" cy="52" r="26" fill="#fff" stroke="#1b1b3a" stroke-width="7"/><circle class="pupil" cx="66" cy="56" r="11" fill="#1b1b3a"/><circle class="pupil" cx="162" cy="56" r="11" fill="#1b1b3a"/><path d="M66 104 Q110 140 154 104" fill="#fff" stroke="#1b1b3a" stroke-width="9" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="ccard" id="c-store">
+              <div class="chip"></div><div class="apr">29.9%</div><div class="nm">Store card</div>
+              <svg class="face" viewBox="0 0 220 150"><path d="M30 30 L92 46" stroke="#1b1b3a" stroke-width="10" stroke-linecap="round"/><path d="M190 30 L128 46" stroke="#1b1b3a" stroke-width="10" stroke-linecap="round"/><circle cx="62" cy="62" r="24" fill="#fff" stroke="#1b1b3a" stroke-width="7"/><circle cx="158" cy="62" r="24" fill="#fff" stroke="#1b1b3a" stroke-width="7"/><circle class="pupil" cx="66" cy="66" r="11" fill="#1b1b3a"/><circle class="pupil" cx="162" cy="66" r="11" fill="#1b1b3a"/><path d="M58 104 Q110 150 162 104 Z" fill="#1b1b3a" stroke="#1b1b3a" stroke-width="8" stroke-linejoin="round"/><path d="M84 118 Q110 134 136 118" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SCENE 2 — WRONG ORDER vs RIGHT ORDER (3.3–12.6s) ============ -->
+      <div id="s2" class="clip scene" data-start="3.3" data-duration="9.3">
+        <div class="safe">
+          <div class="abs title" data-layout-allow-overlap>
+            <div class="t" id="t-a">Most people attack the <span class="mark">biggest</span> balance first.</div>
+            <div class="t" id="t-b">Flip it: <span class="mark">highest rate</span> first.</div>
+          </div>
+          <div class="rows" data-layout-allow-overlap data-layout-allow-occlusion>
+            <div class="row tile" id="r-car"><div class="dot" style="background: var(--yellow)">A</div><div><div class="nm">Car loan</div><div class="bal">$9,400 balance</div></div><div class="apr">6.9%</div></div>
+            <div class="row tile" id="r-cc"><div class="dot" style="background: #b7a4ff">B</div><div><div class="nm">Credit card</div><div class="bal">$4,200 balance</div></div><div class="apr">24.9%</div></div>
+            <div class="row tile" id="r-store"><div class="dot" style="background: var(--red)">C</div><div><div class="nm">Store card</div><div class="bal">$1,150 balance</div></div><div class="apr">29.9%</div></div>
+            <div id="extra">+$150/mo</div>
+          </div>
+          <div class="meter tile">
+            <div class="lab">INTEREST YOU PAY</div>
+            <div class="num" id="int">$0</div>
+            <div class="daterow"><div class="lab">DEBT-FREE</div><div class="d" id="date">Nov 2029</div></div>
+            <div class="bar"><i id="bar"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SCENE 3 — RESULT (12.6–16.6s) ============ -->
+      <div id="s3" class="clip scene" data-start="12.6" data-duration="4">
+        <div class="safe" id="s3safe">
+          <div class="abs top h-md">Same $150 a month.</div>
+          <div class="abs big" id="saved">$0</div>
+          <div class="abs sub h-lg">less interest</div>
+          <div class="abs cal tile">
+            <svg class="ico" viewBox="0 0 170 190"><rect x="8" y="26" width="154" height="156" rx="24" fill="#fff" stroke="#1b1b3a" stroke-width="9"/><rect x="8" y="26" width="154" height="48" rx="24" fill="#ff5a4f" stroke="#1b1b3a" stroke-width="9"/><path d="M48 8 V44 M122 8 V44" stroke="#1b1b3a" stroke-width="11" stroke-linecap="round"/><path id="tick" d="M50 126 L76 152 L124 100" fill="none" stroke="#0f9d58" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="txt">3 months<br />sooner</div>
+          </div>
+          <div class="abs note small">Example: 3 debts, $14,750 total.<br />Your numbers will differ.</div>
+        </div>
+      </div>
+
+      <!-- ============ SCENE 4 — CTA (16.6–20s) ============ -->
+      <div id="s4" class="clip scene" data-start="16.6" data-duration="3.4">
+        <div class="safe">
+          <svg class="abs logo" viewBox="0 0 300 300"><rect x="20" y="48" width="260" height="236" rx="44" fill="#fff" stroke="#1b1b3a" stroke-width="13"/><rect x="20" y="48" width="260" height="76" rx="38" fill="#0f9d58" stroke="#1b1b3a" stroke-width="13"/><path d="M92 18 V78 M208 18 V78" stroke="#1b1b3a" stroke-width="17" stroke-linecap="round"/><path id="tick2" d="M92 200 L134 242 L212 158" fill="none" stroke="#0f9d58" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="abs name">Debt-Free Date</div>
+          <div class="abs tag h-md">Enter your debts.<br />See your date.</div>
+          <div class="abs cta"><span class="btn" id="btn">Try it free</span></div>
+          <div class="abs fine small">Link in bio · Not financial advice</div>
+          <svg id="cursor" viewBox="0 0 110 130" data-layout-ignore><path d="M14 10 L14 100 L40 78 L58 120 L78 110 L60 70 L96 68 Z" fill="#fff" stroke="#1b1b3a" stroke-width="9" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- Product mock for the CTA scene: sits below the text-safe box, so it is illustration, not copy -->
+      <div id="s4mock" class="clip scene" data-start="16.6" data-duration="3.4" data-layout-ignore>
+        <div id="mock" class="tile">
+          <div class="mh"><span>Your payoff plan</span><span>✓</span></div>
+          <div class="mrow" style="background: var(--red); width: 34%"></div>
+          <div class="mrow" style="background: #b7a4ff; width: 62%"></div>
+          <div class="mrow" style="background: var(--yellow); width: 100%"></div>
+          <div class="ml">DEBT-FREE</div>
+          <div class="mdate">Aug 2029</div>
+        </div>
+      </div>
+
+      <!-- Wipe panel for scene transitions (always mounted, on top). No CSS transform: GSAP owns it. -->
+      <div id="wipe" class="clip wipe" data-start="0" data-duration="20" data-layout-ignore></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const K = window.K;
+      const GREEN = "#0f9d58";
+
+      /* ---------- decoration: slow bobbing for the whole film ---------- */
+      tl.fromTo("#coin1", { y: 0, rotation: -8 }, { y: -36, rotation: 8, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 11 }, 0);
+      tl.fromTo("#coin2", { y: 0, rotation: 10 }, { y: 30, rotation: -6, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: 10 }, 0);
+      tl.fromTo("#coin3", { y: 0, rotation: 0 }, { y: -28, rotation: 20, duration: 2.1, ease: "sine.inOut", yoyo: true, repeat: 9 }, 0);
+      tl.fromTo("#coin4", { y: 0, rotation: 0 }, { y: 22, rotation: -18, duration: 1.7, ease: "sine.inOut", yoyo: true, repeat: 11 }, 0);
+      tl.fromTo("#blob1", { scale: 1 }, { scale: 1.06, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0);
+      tl.fromTo("#blob2", { scale: 1 }, { scale: 1.12, duration: 2, ease: "sine.inOut", yoyo: true, repeat: 9 }, 0);
+
+      /* ---------- Scene 1 (0–3.3): the hook is fully on screen at frame 0 ---------- */
+      tl.fromTo("#stamp", { scale: 1.3, rotation: -9 }, { scale: 1, rotation: -3, duration: 0.28, ease: "power4.in" }, 0.05);
+      tl.fromTo("#s1 .safe", { x: 0 }, { x: 9, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, 0.33); // impact shake
+      tl.fromTo("#s1 .l3", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "back.out(1.6)" }, 0.5);
+      tl.fromTo("#c-car", { y: 50 }, { y: 0, duration: 0.5, ease: "back.out(1.7)" }, 0.0);
+      tl.fromTo("#c-cc", { y: 80 }, { y: 0, duration: 0.55, ease: "back.out(1.7)" }, 0.08);
+      tl.fromTo("#c-store", { y: 110 }, { y: 0, duration: 0.6, ease: "back.out(1.7)" }, 0.16);
+      tl.to("#c-car", { rotation: -8, duration: 0.9, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0.7);
+      tl.to("#c-cc", { rotation: 7, duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0.75);
+      tl.to("#c-store", { rotation: 2, scale: 1.1, duration: 0.7, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0.8);
+      tl.to("#s1 .pupil", { x: 6, y: -4, duration: 0.35, ease: "power1.inOut", yoyo: true, repeat: 5 }, 1.0);
+      K.wipe(tl, "#wipe", 3.0);
+
+      /* ---------- Scene 2 (3.3–12.6) ---------- */
+      const S2 = 3.3;
+      tl.set("#t-b", { opacity: 0 }, 0);
+      K.rise(tl, "#t-a", S2 + 0.25, 0.4, 50);
+      K.rise(tl, "#s2 .row", S2 + 0.35, 0.45, 80, 0.1);
+      K.rise(tl, "#s2 .meter", S2 + 0.6, 0.45, 80);
+      // the extra $150 lands on the biggest balance (car loan = top row)
+      tl.fromTo("#extra", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, S2 + 1.1);
+      tl.to("#r-car", { scale: 1.03, duration: 0.18, yoyo: true, repeat: 1 }, S2 + 1.45);
+      // interest climbs to the wrong-order total while the high-rate badges throb
+      K.count(tl, "#int", 0, 3716, S2 + 1.5, 2.3, K.money, "power1.in");
+      tl.fromTo("#bar", { scaleX: 0 }, { scaleX: 1, duration: 2.3, ease: "power1.in" }, S2 + 1.5);
+      tl.to("#r-store .apr", { scale: 1.22, backgroundColor: "#ffc93c", duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, S2 + 1.9);
+      tl.to("#r-cc .apr", { scale: 1.16, backgroundColor: "#ffc93c", duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, S2 + 2.05);
+      tl.fromTo("#int", { scale: 1 }, { scale: 1.07, duration: 0.15, yoyo: true, repeat: 1 }, S2 + 3.8);
+
+      // --- flip the order ---
+      const F = S2 + 4.4;
+      tl.to("#t-a", { y: -40, opacity: 0, duration: 0.3, ease: "power2.in" }, F);
+      tl.fromTo("#t-b", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "back.out(1.6)" }, F + 0.25);
+      tl.to("#extra", { scale: 0, duration: 0.2, ease: "power2.in" }, F + 0.2);
+      tl.to("#r-store", { y: -264, duration: 0.7, ease: "back.inOut(1.4)" }, F + 0.5);
+      tl.to("#r-car", { y: 264, duration: 0.7, ease: "back.inOut(1.4)" }, F + 0.55);
+      tl.to("#r-cc", { scale: 0.97, duration: 0.2, yoyo: true, repeat: 1 }, F + 0.7);
+      tl.to("#extra", { scale: 1, duration: 0.35, ease: "back.out(2)" }, F + 1.3);
+      tl.to("#r-store", { scale: 1.03, duration: 0.18, yoyo: true, repeat: 1 }, F + 1.6);
+      // interest falls to the right-order total and turns green; the date rolls back 3 months
+      tl.to("#int", { color: GREEN, duration: 0.4 }, F + 1.7);
+      tl.to("#bar", { backgroundColor: GREEN, scaleX: 0.654, duration: 1.6, ease: "power2.out" }, F + 1.7);
+      (function () {
+        const node = document.querySelector("#int"), o = { v: 3716 };
+        tl.to(o, { v: 2430, duration: 1.6, ease: "power2.out", onUpdate: () => { node.textContent = K.money(o.v); } }, F + 1.7);
+        const dn = document.querySelector("#date"), months = ["Nov 2029", "Oct 2029", "Sep 2029", "Aug 2029"], m = { i: 0 };
+        tl.to(m, { i: 3, duration: 1.2, ease: "none", onUpdate: () => { dn.textContent = months[Math.round(m.i)]; } }, F + 1.9);
+      })();
+      tl.to("#date", { scale: 1.18, color: GREEN, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out" }, F + 3.15);
+      tl.set("#date", { color: GREEN }, F + 3.7);
+      tl.to("#s2 .meter", { scale: 1.03, duration: 0.2, yoyo: true, repeat: 1 }, F + 3.4);
+      tl.to("#extra", { rotation: 4, duration: 0.4, yoyo: true, repeat: 3, ease: "sine.inOut" }, F + 3.3);
+      K.wipe(tl, "#wipe", 12.3, GREEN);
+
+      /* ---------- Scene 3 (12.6–16.6) ---------- */
+      const S3 = 12.6;
+      K.rise(tl, "#s3 .top", S3 + 0.25, 0.4, 50);
+      tl.fromTo("#saved", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.8)" }, S3 + 0.4);
+      K.count(tl, "#saved", 0, 1286, S3 + 0.45, 1.1, K.money, "power3.out");
+      K.confetti(tl, "#s3safe", 340, 180, S3 + 1.45, { n: 30, seed: 11, spread: 480, d: 0.85 });
+      K.rise(tl, "#s3 .sub", S3 + 0.9, 0.35, 40);
+      K.rise(tl, "#s3 .note", S3 + 0.5, 0.4, 30);
+      K.pop(tl, "#s3 .cal", S3 + 1.7, 0.45);
+      tl.fromTo("#tick", { strokeDasharray: 140, strokeDashoffset: 140 }, { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, S3 + 2.1);
+      tl.to("#saved", { scale: 1.04, duration: 0.5, yoyo: true, repeat: 3, ease: "sine.inOut" }, S3 + 1.6);
+      K.wipe(tl, "#wipe", 16.3, "#1b1b3a");
+
+      /* ---------- Scene 4 (16.6–20) ---------- */
+      const S4 = 16.6;
+      K.pop(tl, "#s4 .logo", S4 + 0.25, 0.5);
+      tl.fromTo("#mock", { y: 500, rotation: 6 }, { y: 0, rotation: -5, duration: 0.7, ease: "back.out(1.3)" }, S4 + 0.3);
+      tl.fromTo("#mock .mrow", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out", stagger: 0.12 }, S4 + 0.8);
+      tl.to("#mock", { rotation: -3, y: -14, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 1 }, S4 + 1.2);
+      tl.fromTo("#tick2", { strokeDasharray: 200, strokeDashoffset: 200 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, S4 + 0.65);
+      K.rise(tl, "#s4 .name", S4 + 0.4, 0.45, 60);
+      K.rise(tl, "#s4 .tag", S4 + 0.7, 0.45, 50);
+      K.pop(tl, "#btn", S4 + 1.05, 0.45);
+      K.rise(tl, "#s4 .fine", S4 + 1.3, 0.4, 30);
+      tl.fromTo("#cursor", { x: 260, y: 300, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, S4 + 1.5);
+      tl.to("#cursor", { scale: 0.85, duration: 0.1, yoyo: true, repeat: 1 }, S4 + 2.15);
+      tl.to("#btn", { scale: 0.93, duration: 0.1, yoyo: true, repeat: 1 }, S4 + 2.18);
+      tl.to("#btn", { scale: 1.06, duration: 0.4, yoyo: true, repeat: 1, ease: "sine.inOut" }, S4 + 2.5);
+      tl.to({}, { duration: 0.01 }, 19.99); // pad the timeline to the full 20s
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

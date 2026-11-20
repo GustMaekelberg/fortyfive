@@ -1,0 +1,16 @@
+// price shown: $290 flat (intro; research: later $490)
+// teaser shown: free 10-second teaser
+// formats: 3  (16:9, 1:1, 9:16)
+// beat "Send link" at 0h -> 0.00% of bar
+// beat "Storyboard" at 24h -> 33.33% of bar
+// beat "Clip delivered" at 72h -> 100.00% of bar
+const FRAMES = [{"name":"16:9","pw":360,"ph":203},{"name":"1:1","pw":260,"ph":260},{"name":"9:16","pw":146,"ph":260}];
+// frames row width: 806px (row may bleed 40px left of the safe box; labels stay inside)
+// contrast #ffffff on #6a4dff: 5.10:1
+// contrast #ffffff on #5a3df0: 6.25:1
+// contrast #14143a on #ff4d8d: 5.62:1
+// contrast #14143a on #19c99a: 8.28:1
+// contrast #14143a on #ffd23f: 12.21:1
+// contrast #14143a on #eef1ff: 15.67:1
+// contrast #ffffff on #14143a: 17.63:1
+// contrast #4a4a6a on #eef1ff: 7.53:1

@@ -1,0 +1,394 @@
+<!doctype html>
+<!--
+  ugc-guest-count — "phone screen recording" of the real Wedding Budget & Planner sheet. 16 s.
+  Story: the guest number drives the budget. Renders: assets/sheet/{g120,base}-p{1,2}.png (states guests120 / base).
+  Numbers verified in calc.mjs.
+  0.00-2.70  HOOK      Dashboard (guests120): five tiles, pinch-zoom onto the red OVER BUDGET -$1,700 tile.
+  2.62       tap "Start here" tab -> Start here (guests120): "Guests you are budgeting for 120".
+  3.55       tap the cell: selection, fx 120, keypad slides up, zoom on the cell.
+  4.45-4.95  type 1, 0, 0 (cell + fx show the text being typed).
+  5.35       Enter -> render switches to base: the cell reads 100, highlight pulse.
+  6.45       tap "Dashboard" tab -> Dashboard (base): Planned $25,000, LEFT TO PLAN -, pulses on changed tiles.
+  8.75       swipe up to BY CATEGORY: Catering & drinks Planned $8,500 (pulse).
+  10.35      swipe left: Still due $6,500, Target left -, Status OK (pulses).
+  13.20-16   END CARD over the dimmed sheet.
+-->
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>
+      :root { --bg: #ffffff; --ink: #16151f; --navy: #2b2540; --chrome: #f4f4f7; --line: #dcdce3; --sel: #2f6fde; }
+      #root { background: #fff; font-family: "Inter", sans-serif; }
+
+      /* ---------- sheet viewport (footage) ---------- */
+      #vp { position: absolute; left: 0; top: 256px; width: 1080px; height: 1544px; overflow: hidden; background: #fff; }
+      #cam { position: absolute; left: 0; top: 0; width: 2200px; height: 1700px; transform-origin: 0 0; }
+      #cam img { position: absolute; left: 0; top: 0; width: 2200px; height: 1700px; }
+      .hl { position: absolute; background: rgba(255, 201, 60, 0.34); border: 3px solid #f0a800; border-radius: 3px; opacity: 0; }
+      .ring { position: absolute; border: 4px solid #e3262f; border-radius: 4px; opacity: 0; }
+      #selbox { position: absolute; left: 885px; top: 433px; width: 272px; height: 39px; border: 2.6px solid var(--sel); opacity: 0; }
+      #selbox i { position: absolute; right: -6px; bottom: -6px; width: 9px; height: 9px; border-radius: 50%; background: var(--sel); border: 1.5px solid #fff; }
+      #typed { position: absolute; left: 887px; top: 435px; width: 268px; height: 35px; background: #fff6dc; opacity: 0;
+               font-family: "Inter", sans-serif; font-weight: 500; font-size: 18px; line-height: 18px; color: #26262e; padding: 7px 0 0 3px; white-space: nowrap; }
+      #typed span { position: absolute; left: 3px; top: 9px; opacity: 0; color: #3a3a46; }
+      #caret { position: absolute; top: 8px; width: 1.6px; height: 20px; background: var(--sel); }
+
+      /* ---------- phone chrome (part of the recording) ---------- */
+      #statusbar { position: absolute; left: 0; top: 0; width: 1080px; height: 64px; background: #fff; }
+      #statusbar .time { position: absolute; left: 52px; top: 14px; font-weight: 700; font-size: 30px; color: var(--ink); }
+      #statusbar svg { position: absolute; top: 18px; }
+      #toolbar { position: absolute; left: 0; top: 64px; width: 1080px; height: 112px; background: #fff; border-bottom: 2px solid var(--line); }
+      #toolbar .ttl { position: absolute; left: 104px; top: 22px; font-weight: 700; font-size: 34px; color: var(--ink); white-space: nowrap; }
+      #toolbar .sub { position: absolute; left: 104px; top: 66px; font-weight: 500; font-size: 22px; color: #7a7a88; }
+      #toolbar svg { position: absolute; }
+      #fxbar { position: absolute; left: 0; top: 176px; width: 1080px; height: 80px; background: #fff; border-bottom: 2px solid var(--line); }
+      #fxbar .fx { position: absolute; left: 30px; top: 16px; font-family: "DM Serif Display", serif; font-style: italic; font-size: 38px; color: #8a8a96; }
+      #fxbar .sep { position: absolute; left: 92px; top: 14px; width: 2px; height: 52px; background: var(--line); }
+      #fxbar .v { position: absolute; left: 116px; top: 16px; font-weight: 500; font-size: 38px; color: var(--ink); opacity: 0; }
+      #fxbar #fxcaret { position: absolute; top: 18px; width: 3px; height: 44px; background: var(--sel); opacity: 0; }
+      #tabs { position: absolute; left: 0; top: 1800px; width: 1080px; height: 120px; background: var(--chrome); border-top: 2px solid var(--line); overflow: hidden; }
+      #tabs .tab { position: absolute; top: 0; height: 96px; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 30px; color: #55556b; white-space: nowrap; }
+      #tabs .tab b { position: absolute; left: 14px; right: 14px; bottom: 0; height: 6px; border-radius: 3px 3px 0 0; background: var(--navy); opacity: 0; }
+      #kbd { position: absolute; left: 0; top: 1400px; width: 1080px; height: 520px; background: #d3d5dc; }
+      #kbd .key { position: absolute; width: 254px; height: 112px; background: #fff; border-radius: 16px; box-shadow: 0 3px 0 #a9abb3;
+                  display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 52px; color: var(--ink); }
+      #kbd .key.dim { background: #bfc2ca; font-size: 40px; }
+      #kbd .key.go { background: #3d6fd9; box-shadow: 0 3px 0 #2a4fa3; }
+
+      /* ---------- touch indicator ---------- */
+      #finger { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 9; }
+      #finger .dot { position: absolute; left: -44px; top: -44px; width: 88px; height: 88px; border-radius: 50%; background: rgba(30, 30, 40, 0.26); border: 3px solid rgba(255, 255, 255, 0.8); box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+      #finger2 { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 9; }
+      #finger2 .dot { position: absolute; left: -44px; top: -44px; width: 88px; height: 88px; border-radius: 50%; background: rgba(30, 30, 40, 0.26); border: 3px solid rgba(255, 255, 255, 0.8); box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+      #finger .rip { position: absolute; left: -44px; top: -44px; width: 88px; height: 88px; border-radius: 50%; border: 5px solid rgba(30, 30, 40, 0.38); opacity: 0; }
+
+      /* ---------- captions ---------- */
+      .capclip { z-index: 10; }
+      .cap { position: absolute; left: 0; top: 8px; width: 768px; }
+      .cap .ln { display: table; margin-bottom: 10px; padding: 8px 22px 10px; background: #fff; color: #111; border-radius: 16px;
+                 font-family: "Archivo", sans-serif; font-weight: 800; font-size: 54px; line-height: 1.12; letter-spacing: -0.01em;
+                 box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22); white-space: nowrap; }
+      .cap .ln.red { background: #e3262f; color: #fff; }
+      #expill { position: absolute; left: 0; top: 860px; padding: 6px 18px; border-radius: 999px; background: rgba(22, 21, 31, 0.82); color: #fff;
+                font-family: "Archivo", sans-serif; font-weight: 700; font-size: 30px; white-space: nowrap; }
+
+      /* ---------- end card ---------- */
+      #dim { position: absolute; inset: 0; background: rgba(16, 15, 26, 0.62); }
+      #card { position: absolute; left: 0; top: 190px; width: 660px; height: 600px; background: #fff; border-radius: 40px; padding: 48px 48px; box-shadow: 0 18px 60px rgba(0,0,0,0.35); }
+      #card .ico { width: 104px; height: 104px; }
+      #card .nm { margin-top: 26px; font-family: "Archivo", sans-serif; font-weight: 900; font-size: 64px; line-height: 1.0; letter-spacing: -0.02em; color: var(--ink); }
+      #card .compat { margin-top: 18px; font-weight: 700; font-size: 40px; color: #4a4a5c; }
+      #card .link { display: inline-block; margin-top: 30px; padding: 14px 34px; border-radius: 999px; background: var(--navy); color: #fff; font-family: "Archivo", sans-serif; font-weight: 800; font-size: 48px; }
+      #card .fine { margin-top: 22px; font-weight: 500; font-size: 30px; color: #6a6a7a; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="1080" data-height="1920">
+
+      <!-- ===== Sheet footage: real renders of the product, panned/zoomed like a finger ===== -->
+      <div id="sheet" class="clip" data-start="0" data-duration="16" data-layout-ignore>
+        <div id="vp">
+          <div id="cam">
+            <img id="img-g1" src="assets/sheet/g120-p1.png" alt="" />
+            <img id="img-b1" src="assets/sheet/base-p1.png" alt="" />
+            <img id="img-b2" src="assets/sheet/base-p2.png" alt="" />
+            <img id="img-g2" src="assets/sheet/g120-p2.png" alt="" />
+            <!-- hook: outline on the OVER BUDGET tile (guests120 page 2) -->
+            <div class="ring" id="ring-over" style="left: 855px; top: 263px; width: 166px; height: 149px"></div>
+            <!-- page 1: guest cell -->
+            <div class="hl" id="hl-guests" style="left: 886px; top: 434px; width: 270px; height: 37px"></div>
+            <div id="typed"><span id="ty1">1</span><span id="ty2">10</span><span id="ty3">100</span><i id="caret"></i></div>
+            <div id="selbox"><i></i></div>
+            <!-- page 2 (base): tiles that changed -->
+            <div class="hl t-hl" id="hl-planned" style="left: 371px; top: 265px; width: 162px; height: 144px"></div>
+            <div class="hl t-hl" id="hl-paidpct" style="left: 533px; top: 374px; width: 161px; height: 35px"></div>
+            <div class="hl t-hl" id="hl-due" style="left: 695px; top: 265px; width: 162px; height: 144px"></div>
+            <div class="hl t-hl" id="hl-left" style="left: 857px; top: 265px; width: 161px; height: 144px"></div>
+            <!-- page 2 (base): catering row cells that changed -->
+            <div class="hl c-hl" id="hl-cplanned" style="left: 533px; top: 928px; width: 161px; height: 35px"></div>
+            <div class="hl c-hl" id="hl-cdue" style="left: 857px; top: 928px; width: 161px; height: 35px"></div>
+            <div class="hl c-hl" id="hl-cleft" style="left: 1018px; top: 928px; width: 162px; height: 35px"></div>
+            <div class="hl c-hl" id="hl-cstatus" style="left: 1180px; top: 928px; width: 118px; height: 35px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== Phone chrome (generic, unbranded) ===== -->
+      <div id="chrome" class="clip" data-start="0" data-duration="16" data-layout-ignore>
+        <div id="statusbar">
+          <div class="time">10:24</div>
+          <svg style="left: 870px" width="44" height="28" viewBox="0 0 44 28"><rect x="0" y="18" width="7" height="10" rx="2" fill="#16151f"/><rect x="11" y="12" width="7" height="16" rx="2" fill="#16151f"/><rect x="22" y="6" width="7" height="22" rx="2" fill="#16151f"/><rect x="33" y="0" width="7" height="28" rx="2" fill="#16151f"/></svg>
+          <svg style="left: 946px" width="70" height="30" viewBox="0 0 70 30"><rect x="1.5" y="1.5" width="58" height="27" rx="8" fill="none" stroke="#16151f" stroke-width="3" opacity="0.55"/><rect x="6" y="6" width="40" height="18" rx="4" fill="#16151f"/><rect x="63" y="10" width="5" height="10" rx="2" fill="#16151f" opacity="0.55"/></svg>
+        </div>
+        <div id="toolbar">
+          <svg style="left: 30px; top: 32px" width="44" height="48" viewBox="0 0 44 48"><path d="M30 6 L12 24 L30 42" fill="none" stroke="#16151f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="ttl">Wedding Budget and Planner</div>
+          <div class="sub">Saved</div>
+          <svg style="left: 790px; top: 34px" width="46" height="46" viewBox="0 0 46 46"><path d="M14 12 L5 21 L14 30" fill="none" stroke="#3a3a48" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 21 H28 C36 21 41 26 41 32 C41 38 36 41 30 41 H22" fill="none" stroke="#3a3a48" stroke-width="4" stroke-linecap="round"/></svg>
+          <svg style="left: 880px; top: 34px" width="46" height="46" viewBox="0 0 46 46"><circle cx="19" cy="19" r="13" fill="none" stroke="#3a3a48" stroke-width="4"/><path d="M29 29 L41 41" stroke="#3a3a48" stroke-width="4" stroke-linecap="round"/></svg>
+          <svg style="left: 990px; top: 34px" width="20" height="46" viewBox="0 0 20 46"><circle cx="10" cy="8" r="4.5" fill="#3a3a48"/><circle cx="10" cy="23" r="4.5" fill="#3a3a48"/><circle cx="10" cy="38" r="4.5" fill="#3a3a48"/></svg>
+        </div>
+        <div id="fxbar">
+          <div class="fx">fx</div><div class="sep"></div>
+          <div class="v" id="fx120">120</div><div class="v" id="fx1">1</div><div class="v" id="fx10">10</div><div class="v" id="fx100">100</div>
+          <i id="fxcaret"></i>
+        </div>
+        <div id="tabs">
+          <div class="tab" id="tab-start" style="left: 16px; width: 180px">Start here<b></b></div>
+          <div class="tab" id="tab-dash" style="left: 204px; width: 190px">Dashboard<b></b></div>
+          <div class="tab" style="left: 402px; width: 140px">Budget<b></b></div>
+          <div class="tab" style="left: 550px; width: 170px">Payments<b></b></div>
+          <div class="tab" style="left: 728px; width: 140px">Guests<b></b></div>
+          <div class="tab" style="left: 876px; width: 150px">Vendors<b></b></div>
+          <div class="tab" style="left: 1034px; width: 170px">Checklist<b></b></div>
+        </div>
+        <div id="kbd"></div>
+      </div>
+
+      <!-- ===== Touch indicator ===== -->
+      <div id="touch" class="clip" data-start="0" data-duration="16" data-layout-ignore>
+        <div id="finger"><div class="rip"></div><div class="dot"></div></div>
+        <div id="finger2" class="finger2"><div class="dot"></div></div>
+      </div>
+
+      <!-- ===== Captions (text-safe box) ===== -->
+      <div id="c1" class="clip capclip" data-start="0" data-duration="2.7">
+        <div class="safe"><div class="cap"><div class="ln">POV: your wedding is</div><div class="ln red">$1,700 over budget</div></div></div>
+      </div>
+      <div id="c2" data-hold class="clip capclip" data-start="2.75" data-duration="3.55">
+        <div class="safe"><div class="cap"><div class="ln">20 guests can't make it</div></div></div>
+      </div>
+      <div id="c3" class="clip capclip" data-start="6.35" data-duration="2.2">
+        <div class="safe"><div class="cap"><div class="ln">Planned: back to $25,000</div></div></div>
+      </div>
+      <div id="c4" class="clip capclip" data-start="8.55" data-duration="1.55">
+        <div class="safe"><div class="cap"><div class="ln">catering recalculates itself</div></div></div>
+      </div>
+      <div id="c5" class="clip capclip" data-start="10.15" data-duration="2.6">
+        <div class="safe"><div class="cap"><div class="ln">20 × $85 per guest</div><div class="ln">= $1,700 back</div></div></div>
+      </div>
+      <div id="exnote" class="clip capclip" data-start="0" data-duration="12.75">
+        <div class="safe"><div id="expill">Example numbers</div></div>
+      </div>
+
+      <!-- ===== End card ===== -->
+      <div id="enddim" class="clip" data-start="12.75" data-duration="3.25" data-layout-ignore style="z-index: 11"><div id="dim"></div></div>
+      <div id="end" class="clip" data-start="12.75" data-duration="3.25" style="z-index: 12">
+        <div class="safe">
+          <div id="card">
+            <svg class="ico" viewBox="0 0 104 104"><rect x="4" y="4" width="96" height="96" rx="20" fill="#2b2540"/><rect x="20" y="24" width="64" height="56" rx="6" fill="#fff6dc"/><path d="M20 42 H84 M20 61 H84 M42 24 V80" stroke="#2b2540" stroke-width="4"/></svg>
+            <div class="nm">The Wedding<br />Budget Sheet</div>
+            <div class="compat">Excel + Google Sheets</div>
+            <div class="link" id="link">Link in bio</div>
+            <div class="fine">Example numbers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const D = 16, VP = 256;
+
+      /* camera: image point (ix, iy) lands at screen (sx, sy) with scale S */
+      const cam = (ix, iy, S, sx, sy) => ({ x: sx - S * ix, y: sy - VP - S * iy, scale: S });
+      const scr = (c, ix, iy) => [c.x + c.scale * ix, VP + c.y + c.scale * iy];
+
+      /* keypad */
+      const kbd = document.getElementById("kbd");
+      const KEYS = [["1", "2", "3", "del"], ["4", "5", "6", "−"], ["7", "8", "9", ","], ["+*#", "0", ".", "go"]];
+      const keyPos = (c, r) => [14 + c * 266 + 127, 1400 + 14 + r * 124 + 56];
+      KEYS.forEach((row, r) => row.forEach((k, c) => {
+        const el = document.createElement("div");
+        el.className = "key" + (k === "del" || k === "+*#" || k === "−" || k === "," || k === "." ? " dim" : "") + (k === "go" ? " go" : "");
+        el.style.left = 14 + c * 266 + "px"; el.style.top = 14 + r * 124 + "px";
+        if (k === "del") el.innerHTML = '<svg width="60" height="40" viewBox="0 0 60 40"><path d="M18 4 H54 V36 H18 L4 20 Z" fill="none" stroke="#16151f" stroke-width="4" stroke-linejoin="round"/><path d="M28 13 L42 27 M42 13 L28 27" stroke="#16151f" stroke-width="4" stroke-linecap="round"/></svg>';
+        else if (k === "go") el.innerHTML = '<svg width="64" height="44" viewBox="0 0 64 44"><path d="M54 4 V22 H12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 10 L10 22 L22 34" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        else el.textContent = k;
+        el.id = "k-" + r + "-" + c;
+        kbd.appendChild(el);
+      }));
+      gsap.set("#kbd", { y: 540 });
+
+      /* touch helpers */
+      gsap.set("#finger", { x: -200, y: -200 });
+      gsap.set("#finger .dot", { opacity: 0 });
+      function tap(t, x, y, from) {
+        const f = from || [x + 40, y + 70];
+        tl.set("#finger", { x: f[0], y: f[1] }, t - 0.32);
+        tl.set("#finger .dot", { scale: 1.15 }, t - 0.32);
+        tl.to("#finger .dot", { opacity: 1, scale: 1, duration: 0.14 }, t - 0.32);
+        tl.to("#finger", { x: x, y: y, duration: 0.26, ease: "power2.out" }, t - 0.3);
+        tl.to("#finger .dot", { scale: 0.82, duration: 0.07, yoyo: true, repeat: 1 }, t);
+        tl.set("#finger .rip", { scale: 0.6, opacity: 0.9 }, t);
+        tl.to("#finger .rip", { scale: 2.1, opacity: 0, duration: 0.4, ease: "power2.out" }, t);
+        tl.to("#finger .dot", { opacity: 0, duration: 0.16 }, t + 0.2);
+      }
+      // a run of keypad taps: the finger stays down near the keys between taps
+      function keyTaps(seq) {
+        seq.forEach(([t, c, r], i) => {
+          const p = keyPos(c, r);
+          if (i === 0) {
+            tl.set("#finger", { x: p[0] + 30, y: p[1] + 60 }, t - 0.22);
+            tl.set("#finger .dot", { scale: 1.1 }, t - 0.22);
+            tl.to("#finger .dot", { opacity: 1, scale: 1, duration: 0.1 }, t - 0.22);
+            tl.to("#finger", { x: p[0], y: p[1], duration: 0.18, ease: "power2.out" }, t - 0.2);
+          } else {
+            const gap = t - seq[i - 1][0];
+            tl.to("#finger", { x: p[0], y: p[1], duration: Math.min(0.16, gap - 0.08), ease: "power2.inOut" }, t - Math.min(0.16, gap - 0.08) - 0.01);
+          }
+          tl.to("#finger .dot", { scale: 0.82, duration: 0.05, yoyo: true, repeat: 1 }, t);
+          tl.set("#finger .rip", { scale: 0.6, opacity: 0.8 }, t);
+          tl.to("#finger .rip", { scale: 1.8, opacity: 0, duration: 0.2, ease: "power2.out" }, t);
+          tl.to("#k-" + r + "-" + c, { backgroundColor: "#a9acb6", duration: 0.05, yoyo: true, repeat: 1 }, t);
+          if (i === seq.length - 1) tl.to("#finger .dot", { opacity: 0, duration: 0.14 }, t + 0.16);
+        });
+      }
+      function drag(t, x0, y0, x1, y1, d) {
+        tl.set("#finger", { x: x0, y: y0 }, t - 0.15);
+        tl.set("#finger .dot", { scale: 1.12 }, t - 0.15);
+        tl.to("#finger .dot", { opacity: 1, scale: 1, duration: 0.12 }, t - 0.15);
+        tl.to("#finger", { x: x1, y: y1, duration: d, ease: "power1.inOut" }, t);
+        tl.to("#finger .dot", { opacity: 0, duration: 0.15 }, t + d - 0.02);
+      }
+      function pulse(sel, t, keep, reps) {
+        const r = reps == null ? 3 : reps;
+        tl.fromTo(sel, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.18, ease: "power2.out" }, t);
+        tl.to(sel, { opacity: 0.35, duration: 0.16, yoyo: true, repeat: r, ease: "sine.inOut" }, t + 0.22);
+        if (keep != null) tl.to(sel, { opacity: keep, duration: 0.2 }, t + 0.26 + 0.16 * (r + 1));
+      }
+      // two-finger pinch-out around (cx, cy): fingers move from spread s0 to s1 (px along a diagonal)
+      gsap.set("#finger2", { x: -200, y: -200 });
+      gsap.set("#finger2 .dot", { opacity: 0 });
+      function pinch(t, d, cx, cy, s0, s1) {
+        const k = 0.7;
+        tl.set("#finger", { x: cx - s0 * k, y: cy + s0 * k }, t - 0.15);
+        tl.set("#finger2", { x: cx + s0 * k, y: cy - s0 * k }, t - 0.15);
+        tl.to(["#finger .dot", "#finger2 .dot"], { opacity: 1, duration: 0.12 }, t - 0.15);
+        tl.to("#finger", { x: cx - s1 * k, y: cy + s1 * k, duration: d, ease: "power2.inOut" }, t);
+        tl.to("#finger2", { x: cx + s1 * k, y: cy - s1 * k, duration: d, ease: "power2.inOut" }, t);
+        tl.to(["#finger .dot", "#finger2 .dot"], { opacity: 0, duration: 0.15 }, t + d);
+      }
+      function setTab(t, id) {
+        tl.set("#tabs .tab", { backgroundColor: "rgba(0,0,0,0)", color: "#55556b", fontWeight: 500 }, t);
+        tl.set("#tabs .tab b", { opacity: 0 }, t);
+        tl.set(id, { backgroundColor: "#ffffff", color: "#16151f", fontWeight: 700 }, t);
+        tl.set(id + " b", { opacity: 1 }, t);
+      }
+      function show(img, t) {
+        tl.set("#cam img", { opacity: 0 }, t);
+        tl.set(img, { opacity: 1 }, t);
+      }
+      const capIn = (sel, t) => tl.fromTo(sel + " .ln", { y: 26, scale: 0.94, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.26, ease: "back.out(2)", stagger: 0.08 }, t);
+
+      /* ---------- initial state (t = 0): Dashboard of guests120 ---------- */
+      gsap.set("#cam img", { opacity: 0 }); gsap.set("#img-g2", { opacity: 1 });
+      gsap.set("#tab-dash", { backgroundColor: "#ffffff", color: "#16151f", fontWeight: 700 });
+      gsap.set("#tab-dash b", { opacity: 1 });
+      const V0 = cam(565, 265, 1.15, 540, 600);       // all five tiles
+      const V1 = cam(856, 265, 2.0, 504, 600);        // Still due + OVER BUDGET
+      tl.set("#cam", V0, 0);
+
+      /* ---------- 1. HOOK 0 – 2.7 ---------- */
+      tl.fromTo("#c1 .ln", { scale: 1.06, y: -6 }, { scale: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.06 }, 0);
+      tl.fromTo("#expill", { x: -12 }, { x: 0, duration: 0.4, ease: "power2.out" }, 0);
+      pinch(0.45, 0.85, 600, 1020, 70, 250);
+      tl.to("#cam", Object.assign({ duration: 0.9, ease: "power2.inOut" }, V1), 0.45);
+      tl.fromTo("#ring-over", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.4);
+      tl.to("#ring-over", { opacity: 0.25, duration: 0.18, yoyo: true, repeat: 3 }, 1.65);
+      tl.to("#cam", { x: V1.x - 10, y: V1.y - 6, duration: 1.1, ease: "sine.inOut" }, 1.4);
+      tap(2.62, 106, 1850);
+
+      /* ---------- 2. Start here 2.7 – 6.5 ---------- */
+      const T2 = 2.7;
+      show("#img-g1", T2);
+      tl.set("#ring-over", { opacity: 0 }, T2);
+      setTab(T2, "#tab-start");
+      const VA = cam(820, 434, 1.5, 540, 640);
+      const VA2 = cam(820, 434, 1.56, 540, 640);
+      const VB = cam(1020, 434, 2.6, 520, 640);
+      tl.set("#cam", VA, T2);
+      capIn("#c2", T2 + 0.05);
+      tl.to("#cam", Object.assign({ duration: 0.85, ease: "sine.inOut" }, VA2), T2 + 0.02);
+      const cellA = scr(VA2, 1010, 452);
+      tap(3.55, cellA[0], cellA[1]);
+      tl.set("#selbox", { opacity: 1 }, 3.57);
+      tl.set("#fx120", { opacity: 1 }, 3.57);
+      tl.to("#kbd", { y: 0, duration: 0.3, ease: "power3.out" }, 3.65);
+      tl.to("#cam", Object.assign({ duration: 0.55, ease: "power2.inOut" }, VB), 3.7);
+      // typing 1, 0, 0 (the cell shows the text being typed; equals base.guests = 100)
+      keyTaps([[4.45, 0, 0], [4.7, 1, 3], [4.95, 1, 3], [5.35, 3, 3]]);
+      tl.set("#typed", { opacity: 1 }, 4.46);
+      tl.set("#fx120", { opacity: 0 }, 4.46);
+      tl.set(["#ty1", "#fx1"], { opacity: 1 }, 4.46);
+      tl.set(["#ty1", "#fx1"], { opacity: 0 }, 4.71);
+      tl.set(["#ty2", "#fx10"], { opacity: 1 }, 4.71);
+      tl.set(["#ty2", "#fx10"], { opacity: 0 }, 4.96);
+      tl.set(["#ty3", "#fx100"], { opacity: 1 }, 4.96);
+      tl.set("#caret", { left: 15 }, 4.46); tl.set("#caret", { left: 25 }, 4.71); tl.set("#caret", { left: 36 }, 4.96);
+      tl.set("#fxcaret", { opacity: 1, left: 142 }, 4.46); tl.set("#fxcaret", { left: 164 }, 4.71); tl.set("#fxcaret", { left: 188 }, 4.96);
+      tl.to(["#caret", "#fxcaret"], { opacity: 0, duration: 0.01, yoyo: true, repeat: 3, repeatDelay: 0.18 }, 5.02);
+      tl.to("#cam", { x: VB.x + 6, duration: 1.0, ease: "sine.inOut" }, 4.3);
+      // Enter: the real render of the next state takes over (sheet recalculates instantly)
+      show("#img-b1", 5.37);
+      tl.set(["#typed", "#fxcaret"], { opacity: 0 }, 5.37);
+      pulse("#hl-guests", 5.42, 0.5, 1);
+      tl.to("#kbd", { y: 540, duration: 0.3, ease: "power2.in" }, 5.75);
+      tl.to("#cam", { x: VB.x + 2, y: VB.y - 6, duration: 0.6, ease: "sine.inOut" }, 5.8);
+      tap(6.25, 299, 1850);
+
+      /* ---------- 3. Dashboard (base) 6.3 – 12.75 ---------- */
+      const T3 = 6.3;
+      show("#img-b2", T3);
+      setTab(T3, "#tab-dash");
+      tl.set(["#selbox", "#hl-guests", "#fx100"], { opacity: 0 }, T3);
+      const VC = cam(694.5, 265, 1.6, 540, 600);
+      const VD = cam(112, 928, 1.6, 18, 760);
+      const VE = cam(857, 928, 1.6, 120, 760);
+      const VE2 = cam(1077.5, 928, 2.05, 504, 760);   // pinch on Still due .. Status
+      tl.set("#cam", VC, T3);
+      capIn("#c3", T3 + 0.05);
+      pulse("#hl-planned", T3 + 0.35, 0.45);
+      pulse("#hl-paidpct", T3 + 0.55, 0.45);
+      pulse("#hl-due", T3 + 0.7, 0.45);
+      pulse("#hl-left", T3 + 0.85, 0.45);
+      tl.to("#cam", { x: VC.x - 8, y: VC.y + 6, duration: 1.1, ease: "sine.inOut" }, T3 + 1.0);
+      // swipe up to BY CATEGORY
+      const L = 8.45;
+      drag(L, 640, 1500, 640, 980, 0.38);
+      tl.to(".t-hl", { opacity: 0, duration: 0.2 }, L + 0.05);
+      tl.to("#cam", Object.assign({ duration: 0.7, ease: "power3.out" }, VD), L + 0.03);
+      capIn("#c4", L + 0.15);
+      pulse("#hl-cplanned", L + 0.8, 0.5);
+      tl.to("#cam", { x: VD.x - 6, duration: 0.7, ease: "sine.inOut" }, L + 0.75);
+      // swipe left to Still due / Target left / Status
+      drag(L + 1.6, 940, 1200, 360, 1200, 0.38);
+      tl.to("#cam", Object.assign({ duration: 0.7, ease: "power3.out" }, VE), L + 1.63);
+      capIn("#c5", L + 1.75);
+      const pc = scr(VE, 1077.5, 945);
+      pinch(L + 2.4, 0.5, pc[0], pc[1] + 200, 60, 200);
+      tl.to("#cam", Object.assign({ duration: 0.55, ease: "power2.inOut" }, VE2), L + 2.4);
+      pulse("#hl-cdue", L + 2.95, 0.5);
+      pulse("#hl-cleft", L + 3.1, 0.5);
+      pulse("#hl-cstatus", L + 3.25, 0.55);
+      tl.to("#cam", { x: VE2.x - 8, y: VE2.y + 4, duration: 1.3, ease: "sine.inOut" }, L + 3.0);
+
+      /* ---------- 4. End card 12.75 – 16 ---------- */
+      const T4 = 12.75;
+      tl.fromTo("#dim", { opacity: 0 }, { opacity: 1, duration: 0.3 }, T4);
+      tl.to("#cam", { x: VE2.x - 30, y: VE2.y - 20, duration: 3.25, ease: "none" }, T4);
+      tl.fromTo("#card", { y: 60, scale: 0.94, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.6)" }, T4 + 0.05);
+      tl.fromTo("#card .ico", { rotation: -8, scale: 0.8 }, { rotation: 0, scale: 1, duration: 0.45, ease: "back.out(2)" }, T4 + 0.25);
+      tl.to("#link", { scale: 1.05, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut" }, T4 + 0.8);
+
+      tl.to({}, { duration: 0.01 }, D - 0.01);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

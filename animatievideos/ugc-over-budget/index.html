@@ -1,0 +1,383 @@
+<!doctype html>
+<!--
+  Storyboard (15.5 s, phone screen-recording look, real renders of the sheet):
+  0.0-3.0  HOOK     Budget tab (state base), Flowers row readable. Caption: the florist's final quote: $1,800 / you planned $1,400.
+                    Finger swipes the sheet right to the Actual + Planned columns.
+  2.6-5.1  ACTION   Tap the empty Actual cell of Flowers, keypad slides up, type 1800, press enter.
+  5.1-7.0  PAYOFF 1 Switch to state flowers_over: Actual $1,800 and Planned $1,800 pulse.
+  7.0-12.8 PAYOFF 2 Tap the Dashboard tab: OVER BUDGET -$400 tile, then scroll + pinch to the By category table:
+                    the Flowers & decor row is red, Target left -$400, Status Over.
+  12.8-15.5 END     Card over the dimmed sheet: The Wedding Budget Sheet / Excel + Google Sheets / Link in bio / Example numbers.
+  Numbers verified in calc.mjs against both values.json files.
+-->
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>
+      :root { --ui: #1f1f24; --ui2: #6b6b76; --line: #dcdce2; --sel: #2f6fde; --hl: #ff9f1a; --accent: #2b2540; }
+      #root { background: #ffffff; font-family: "Inter", "Archivo", sans-serif; color: var(--ui); }
+
+      /* ---------- sheet panes (footage) ---------- */
+      .sheet { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #fff; }
+      .pane { position: absolute; top: 256px; height: 1524px; overflow: hidden; background: #fff; }
+      .pane.fz { left: 0; z-index: 2; }
+      .fzline { position: absolute; top: 256px; width: 4px; height: 1524px; background: rgba(40, 40, 60, 0.28); z-index: 3; }
+      .pg { position: absolute; left: 0; top: 0; width: 2200px; height: 1700px; transform-origin: 0 0; }
+      .pg img { position: absolute; left: 0; top: 0; width: 2200px; height: 1700px; }
+      .ov { position: absolute; box-sizing: border-box; }
+      .sel { border: 4px solid var(--sel); box-shadow: 0 0 0 1px #fff inset; }
+      .sel .knob { position: absolute; right: -7px; bottom: -7px; width: 10px; height: 10px; border-radius: 50%; background: var(--sel); border: 2px solid #fff; }
+      .typed { padding: 6px 6px 0 6px; font-family: "Inter", sans-serif; font-weight: 500; font-size: 19px; color: #1b1b1b; white-space: nowrap; background: #fff; }
+      .caret { display: inline-block; width: 2px; height: 20px; margin-left: 1px; background: var(--sel); vertical-align: -3px; }
+      .hl { border: 3px solid var(--hl); background: rgba(255, 190, 40, 0.22); border-radius: 4px; }
+      .hlrow { border: 4px solid var(--hl); background: rgba(255, 190, 40, 0.12); border-radius: 4px; }
+
+      /* ---------- phone chrome ---------- */
+      .chrome { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; z-index: 10; }
+      #status { position: absolute; left: 0; top: 0; width: 1080px; height: 64px; background: #f6f6f8; display: flex; align-items: center; padding: 0 44px; font-weight: 700; font-size: 30px; }
+      #status svg { position: absolute; right: 40px; top: 18px; }
+      #toolbar { position: absolute; left: 0; top: 64px; width: 1080px; height: 108px; background: #f6f6f8; border-bottom: 2px solid var(--line); display: flex; align-items: center; padding: 0 28px; gap: 20px; }
+      #toolbar .fname { font-weight: 700; font-size: 34px; letter-spacing: -0.01em; }
+      #toolbar .icons { margin-left: auto; display: flex; gap: 30px; align-items: center; }
+      #fbar { position: absolute; left: 0; top: 172px; width: 1080px; height: 84px; background: #fff; border-bottom: 2px solid var(--line); display: flex; align-items: center; }
+      #fbar .fx { width: 96px; height: 84px; display: flex; align-items: center; justify-content: center; font-family: "DM Serif Display", serif; font-style: italic; font-size: 36px; color: var(--ui2); border-right: 2px solid var(--line); }
+      #fbar .fv { padding-left: 22px; font-size: 36px; font-weight: 500; display: flex; align-items: center; height: 84px; }
+      #fbar .fcaret { display: inline-block; width: 3px; height: 40px; background: var(--sel); margin-left: 2px; }
+      #tabs { position: absolute; left: 0; top: 1780px; width: 1080px; height: 140px; background: #f6f6f8; border-top: 2px solid var(--line); }
+      #tabs .row { position: absolute; left: 0; top: 0; height: 104px; display: flex; align-items: center; padding-left: 20px; gap: 6px; white-space: nowrap; }
+      #tabs .plus { width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; margin-right: 8px; }
+      .tab { position: relative; padding: 0 26px; height: 72px; display: flex; align-items: center; font-weight: 500; font-size: 30px; color: var(--ui2); border-radius: 14px; }
+      .tab.on { color: #fff; }
+            #homebar { position: absolute; left: 380px; top: 1890px; width: 320px; height: 10px; border-radius: 5px; background: #1f1f24; }
+
+      /* ---------- keypad ---------- */
+      #kb { position: absolute; left: 0; top: 1330px; width: 1080px; height: 590px; background: #d4d6dc; z-index: 12; }
+      .key { position: absolute; width: 255px; height: 132px; border-radius: 18px; background: #fff; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 56px; color: #1f1f24; }
+      .key.gray { background: #b8bcc6; }
+      .key.go { background: var(--sel); color: #fff; height: 276px; }
+
+      /* ---------- touches ---------- */
+      .touch { position: absolute; left: 0; top: 0; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%; background: rgba(70, 70, 90, 0.32); border: 3px solid rgba(255, 255, 255, 0.85); z-index: 20; opacity: 0; }
+      .ripple { position: absolute; left: 0; top: 0; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%; border: 5px solid rgba(70, 70, 90, 0.45); z-index: 19; opacity: 0; }
+
+      /* ---------- captions (social look) ---------- */
+      .cap { position: absolute; left: 0; top: 0; z-index: 30; }
+      .cl { display: block; width: fit-content; margin-bottom: 10px; padding: 10px 24px 12px; border-radius: 18px; background: #fff; color: #141418; font-family: "Archivo", sans-serif; font-weight: 800; font-size: 58px; line-height: 1.08; letter-spacing: -0.015em; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); white-space: nowrap; }
+      .cl.dark { background: #141418; color: #fff; }
+      .cl.red { background: #c8102e; color: #fff; }
+      .cl.chip { font-family: "Inter", sans-serif; font-weight: 700; font-size: 30px; padding: 8px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.95); color: #3a3a46; margin-top: 4px; }
+
+      /* ---------- end card ---------- */
+      #dim { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: rgba(18, 16, 30, 0.62); z-index: 40; }
+      #card { position: absolute; left: 50px; top: 150px; width: 740px; height: 640px; background: #fff; border-radius: 40px; padding: 56px 56px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35); z-index: 41; }
+      #card .ico { width: 120px; height: 120px; }
+      #card .nm { margin-top: 26px; font-family: "Archivo", sans-serif; font-weight: 900; font-size: 70px; line-height: 1.02; letter-spacing: -0.025em; color: var(--accent); }
+      #card .compat { margin-top: 18px; font-weight: 700; font-size: 42px; color: #3a3a46; }
+      #card .bio { display: inline-block; margin-top: 30px; padding: 16px 36px; border-radius: 999px; background: var(--accent); color: #fff; font-family: "Archivo", sans-serif; font-weight: 800; font-size: 48px; }
+      #card .ex { margin-top: 26px; font-weight: 700; font-size: 30px; color: #55556b; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16" data-width="1080" data-height="1920">
+
+      <!-- ============ Budget tab (footage): base -> flowers_over at Enter ============ -->
+      <div id="vBudget" class="clip sheet" data-start="0" data-duration="7" data-layout-ignore>
+        <div class="pane sc"><div class="pg">
+          <img class="st-base" src="assets/sheet/base-budget.png" alt="" />
+          <img class="st-over" src="assets/sheet/over-budget.png" alt="" />
+          <div class="ov hl hl-act" style="left: 1249px; top: 418px; width: 140px; height: 39px"></div>
+          <div class="ov hl hl-pln" style="left: 1386px; top: 418px; width: 140px; height: 39px"></div>
+          <div class="ov sel" style="left: 1251px; top: 420px; width: 137px; height: 35px"><div class="typed"><span class="ttxt"></span><span class="caret"></span></div><div class="knob"></div></div>
+        </div></div>
+        <div class="pane fz"><div class="pg"></div></div>
+        <div class="fzline"></div>
+      </div>
+
+      <!-- ============ Dashboard tab (footage): flowers_over ============ -->
+      <div id="vDash" class="clip sheet" data-start="7" data-duration="9" data-layout-ignore>
+        <div class="pane sc"><div class="pg">
+          <img src="assets/sheet/over-dashboard.png" alt="" />
+          <div class="ov hl hl-over" style="left: 857px; top: 266px; width: 162px; height: 144px"></div>
+          <div class="ov hl hl-plan" style="left: 371px; top: 266px; width: 163px; height: 144px"></div>
+          <div class="ov hlrow hl-row" style="left: 112px; top: 997px; width: 1188px; height: 37px"></div>
+          <div class="ov hl hl-left" style="left: 1017px; top: 996px; width: 165px; height: 39px"></div>
+          <div class="ov hl hl-stat" style="left: 1179px; top: 996px; width: 122px; height: 39px"></div>
+        </div></div>
+        <div class="pane fz"><div class="pg"></div></div>
+        <div class="fzline"></div>
+      </div>
+
+      <!-- ============ Phone chrome (generic UI, part of the "recording") ============ -->
+      <div id="chrome" class="clip chrome" data-start="0" data-duration="16" data-layout-ignore>
+        <div id="status">9:41
+          <svg width="150" height="30" viewBox="0 0 150 30"><rect x="0" y="20" width="7" height="9" rx="2" fill="#1f1f24"/><rect x="11" y="14" width="7" height="15" rx="2" fill="#1f1f24"/><rect x="22" y="8" width="7" height="21" rx="2" fill="#1f1f24"/><rect x="33" y="2" width="7" height="27" rx="2" fill="#1f1f24"/><path d="M58 12 Q72 0 86 12 M63 18 Q72 10 81 18" fill="none" stroke="#1f1f24" stroke-width="4" stroke-linecap="round"/><circle cx="72" cy="24" r="3.5" fill="#1f1f24"/><rect x="100" y="4" width="42" height="22" rx="6" fill="none" stroke="#1f1f24" stroke-width="3"/><rect x="104" y="8" width="28" height="14" rx="3" fill="#1f1f24"/><rect x="144" y="11" width="4" height="8" rx="2" fill="#1f1f24"/></svg>
+        </div>
+        <div id="toolbar">
+          <svg width="40" height="40" viewBox="0 0 40 40"><path d="M26 6 L12 20 L26 34" fill="none" stroke="#1f1f24" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="fname">Wedding Budget and Planner</div>
+          <div class="icons">
+            <svg width="40" height="40" viewBox="0 0 40 40"><path d="M14 12 L6 20 L14 28 M6 20 H26 Q34 20 34 28" fill="none" stroke="#6b6b76" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="30" cy="9" r="5" fill="none" stroke="#1f1f24" stroke-width="4"/><circle cx="10" cy="20" r="5" fill="none" stroke="#1f1f24" stroke-width="4"/><circle cx="30" cy="31" r="5" fill="none" stroke="#1f1f24" stroke-width="4"/><path d="M15 17 L25 11 M15 23 L25 29" stroke="#1f1f24" stroke-width="4"/></svg>
+            <svg width="12" height="40" viewBox="0 0 12 40"><circle cx="6" cy="8" r="4.5" fill="#1f1f24"/><circle cx="6" cy="20" r="4.5" fill="#1f1f24"/><circle cx="6" cy="32" r="4.5" fill="#1f1f24"/></svg>
+          </div>
+        </div>
+        <div id="fbar"><div class="fx">fx</div><div class="fv"><span id="fval"></span><span class="fcaret" id="fcaret"></span></div></div>
+        <div id="tabs">
+          <div class="row">
+            <div class="plus"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M20 6 V34 M6 20 H34" stroke="#6b6b76" stroke-width="4" stroke-linecap="round"/></svg></div>
+            <div class="tab" id="tab-start">Start here</div>
+            <div class="tab" id="tab-dash">Dashboard</div>
+            <div class="tab" id="tab-budget">Budget</div>
+            <div class="tab">Payments</div>
+            <div class="tab">Guests</div>
+            <div class="tab">Vendors</div>
+            <div class="tab">Checklist</div>
+          </div>
+          <div id="homebar"></div>
+        </div>
+      </div>
+
+      <!-- ============ Numeric keypad ============ -->
+      <div id="kbclip" class="clip" data-start="0" data-duration="7" data-layout-ignore>
+        <div id="kb">
+          <div class="key" id="k1" style="left: 12px; top: 18px">1</div>
+          <div class="key" style="left: 279px; top: 18px">2</div>
+          <div class="key" style="left: 546px; top: 18px">3</div>
+          <div class="key gray" style="left: 813px; top: 18px"><svg width="70" height="48" viewBox="0 0 70 48"><path d="M22 4 H64 V44 H22 L4 24 Z" fill="none" stroke="#1f1f24" stroke-width="5" stroke-linejoin="round"/><path d="M34 15 L50 33 M50 15 L34 33" stroke="#1f1f24" stroke-width="5" stroke-linecap="round"/></svg></div>
+          <div class="key" style="left: 12px; top: 162px">4</div>
+          <div class="key" style="left: 279px; top: 162px">5</div>
+          <div class="key" style="left: 546px; top: 162px">6</div>
+          <div class="key gray" style="left: 813px; top: 162px">&minus;</div>
+          <div class="key" style="left: 12px; top: 306px">7</div>
+          <div class="key" id="k8" style="left: 279px; top: 306px">8</div>
+          <div class="key" style="left: 546px; top: 306px">9</div>
+          <div class="key go" id="kgo" style="left: 813px; top: 306px"><svg width="64" height="56" viewBox="0 0 64 56"><path d="M56 6 V30 H10 M24 16 L10 30 L24 44" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="key gray" style="left: 12px; top: 450px">.</div>
+          <div class="key" id="k0" style="left: 279px; top: 450px">0</div>
+          <div class="key gray" style="left: 546px; top: 450px">,</div>
+        </div>
+      </div>
+
+      <!-- ============ Touch indicators ============ -->
+      <div id="touches" class="clip" data-start="0" data-duration="16" data-layout-ignore>
+        <div class="ripple" id="rip"></div>
+        <div class="touch" id="dotA"></div>
+        <div class="touch" id="dotB"></div>
+      </div>
+
+      <!-- ============ Captions (inside the text-safe box) ============ -->
+      <div id="c1" class="clip" data-start="0" data-duration="3.1">
+        <div class="safe"><div class="cap" id="cap1">
+          <div class="cl">the florist's final</div>
+          <div class="cl">quote: $1,800</div>
+          <div class="cl dark" id="cap1b">you planned $1,400</div>
+          <div class="cl chip">Example numbers</div>
+        </div></div>
+      </div>
+      <div id="c2" class="clip" data-start="3.1" data-duration="2.4">
+        <div class="safe"><div class="cap" id="cap2">
+          <div class="cl">type the final price</div>
+          <div class="cl">in Actual</div>
+        </div></div>
+      </div>
+      <div id="c3" class="clip" data-start="5.5" data-duration="1.6">
+        <div class="safe"><div class="cap" id="cap3">
+          <div class="cl">Planned updates</div>
+          <div class="cl dark">to $1,800 too</div>
+        </div></div>
+      </div>
+      <div id="c4" class="clip" data-start="7.15" data-duration="2.45">
+        <div class="safe"><div class="cap" id="cap4">
+          <div class="cl">$400 over budget,</div>
+          <div class="cl red">in red</div>
+        </div></div>
+      </div>
+      <div id="c5" class="clip" data-start="9.7" data-duration="3.0">
+        <div class="safe"><div class="cap" id="cap5">
+          <div class="cl">you see it the moment</div>
+          <div class="cl dark">you type it</div>
+        </div></div>
+      </div>
+
+      <!-- ============ End card ============ -->
+      <div id="endDim" class="clip" data-start="12.7" data-duration="3.3" data-layout-ignore><div id="dim"></div></div>
+      <div id="end" class="clip" data-start="12.7" data-duration="3.3">
+        <div class="safe">
+          <div id="card">
+            <svg class="ico" viewBox="0 0 120 120"><rect x="6" y="6" width="108" height="108" rx="24" fill="#2b2540"/><rect x="24" y="30" width="72" height="62" rx="6" fill="#fff"/><path d="M24 50 H96 M24 71 H96 M48 30 V92 M72 30 V92" stroke="#2b2540" stroke-width="4"/><rect x="72" y="71" width="24" height="21" fill="#c8386b"/></svg>
+            <div class="nm">The Wedding<br />Budget Sheet</div>
+            <div class="compat">Excel + Google Sheets</div>
+            <div class="bio" id="bio">Link in bio</div>
+            <div class="ex">Example numbers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const END = 16, VP_TOP = 256;
+
+      /* ---------- frozen-column sheet camera ----------
+         The page image is shown twice: a frozen pane (first column, like "freeze first column" in a spreadsheet app)
+         and the scrolling pane. Camera = {s: zoom, sx: horizontal scroll in image px, oy: top image row in image px}.
+         Overlays (selection, highlights) live inside the page box, so they are in image coordinates and always align. */
+      function makeView(root, fx0, fx1) {
+        const sc = root.querySelector(".pane.sc"), fz = root.querySelector(".pane.fz"), line = root.querySelector(".fzline");
+        const pgS = sc.querySelector(".pg"), pgF = fz.querySelector(".pg");
+        pgF.innerHTML = pgS.innerHTML; // same footage + overlays in the frozen pane
+        const cam = { s: 1, sx: 0, oy: 0 };
+        function apply() {
+          const s = cam.s, wf = (fx1 - fx0) * s;
+          fz.style.width = wf + "px";
+          sc.style.left = wf + "px"; sc.style.width = (1080 - wf) + "px";
+          line.style.left = (wf - 2) + "px";
+          gsap.set(pgF, { x: -fx0 * s, y: -cam.oy * s, scale: s });
+          gsap.set(pgS, { x: -(fx1 + cam.sx) * s, y: -cam.oy * s, scale: s });
+        }
+        return {
+          cam,
+          set(v) { Object.assign(cam, v); apply(); },
+          to(v, t, d, ease) { tl.to(cam, Object.assign({ duration: d, ease: ease || "power2.inOut", onUpdate: apply }, v), t); },
+          // canvas position of an image point under camera v
+          pt(v, ix, iy) { const wf = (fx1 - fx0) * v.s; return [wf + (ix - fx1 - v.sx) * v.s, VP_TOP + (iy - v.oy) * v.s]; },
+        };
+      }
+      const VB = makeView(document.getElementById("vBudget"), 88, 319);
+      const VD = makeView(document.getElementById("vDash"), 112, 371);
+
+      /* ---------- camera keys ---------- */
+      const B0 = { s: 2, sx: 503, oy: 80 };     // hook: Flat cost .. Estimate of the Flowers row
+      const B1 = { s: 2, sx: 932, oy: 80 };     // Actual + Planned columns
+      const D0 = { s: 1.15, sx: 0, oy: 6 };      // dashboard tiles
+      const D1 = { s: 1.15, sx: 0, oy: 560 };    // scrolled down to By category
+      const D2 = { s: 1.98, sx: 647, oy: 665 };  // pinched in: Flowers & decor -> Target left, Status
+      VB.set(B0); tl.fromTo(VB.cam, { s: 2, sx: 503, oy: 80 }, { sx: 512, oy: 84, duration: 1.3, ease: "sine.inOut", onUpdate: () => VB.set({}) }, 0);
+      VD.set(D0);
+
+      /* ---------- touch helpers ---------- */
+      function tap(sel, x, y, t) {
+        tl.set(sel, { x: x, y: y }, t - 0.25);
+        tl.fromTo(sel, { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.18, ease: "power2.out", immediateRender: false }, t - 0.2);
+        tl.to(sel, { scale: 0.82, duration: 0.07, yoyo: true, repeat: 1 }, t);
+        tl.fromTo("#rip", { x: x, y: y, scale: 0.6, opacity: 0.9 }, { scale: 2.2, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, t);
+        tl.to(sel, { opacity: 0, duration: 0.2 }, t + 0.22);
+      }
+      function press(key, t) { tl.to(key, { backgroundColor: key === "#kgo" ? "#1d4fae" : "#b9bcc5", duration: 0.05, yoyo: true, repeat: 1 }, t); }
+      function pulse(sel, t) {
+        tl.fromTo(sel, { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, t);
+        tl.to(sel, { opacity: 0.55, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, t + 0.35);
+      }
+      function capIn(sel, t) { tl.fromTo(sel + " .cl", { y: 30, scale: 0.92, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.8)", stagger: 0.12 }, t); }
+      const capTop = (sel, top) => gsap.set(sel, { y: top });
+
+      /* ---------- initial states ---------- */
+      tl.set(".st-over", { opacity: 0 }, 0);
+      gsap.set("#rip, .touch", { opacity: 0 }); tl.set("#rip, .touch", { opacity: 0 }, 0);
+      tl.set(".sel", { opacity: 0, top: 420 }, 0);
+      tl.set(".hl, .hlrow", { opacity: 0 }, 0);
+      tl.set("#kb", { y: 620 }, 0);
+      tl.set("#tab-budget", { color: "#ffffff", backgroundColor: "#2b2540" }, 0);
+      tl.set("#tab-dash", { color: "#6b6b76", backgroundColor: "rgba(43,37,64,0)" }, 0);
+      tl.set("#fcaret", { opacity: 0 }, 0);
+
+      /* ---------- typing (pure function of a stepped value) ---------- */
+      const typed = { n: 0 }, TXT = "1800";
+      const tNode = document.querySelectorAll("#vBudget .ttxt"), fNode = document.getElementById("fval");
+      function renderTyped() {
+        const n = Math.round(typed.n), s = n >= 1 && n <= 4 ? TXT.slice(0, n) : "";
+        tNode.forEach((el) => (el.textContent = s));
+        fNode.textContent = s;
+      }
+      renderTyped();
+
+      /* ============ 1) HOOK (0-3.0) ============ */
+      capTop("#cap1", 8);
+      tl.fromTo("#cap1 .cl", { scale: 1.06 }, { scale: 1, duration: 0.35, ease: "power2.out", stagger: 0.06 }, 0);
+      tl.fromTo("#cap1b", { x: -16 }, { x: 0, duration: 0.4, ease: "back.out(2)" }, 0.35);
+      // swipe left to reach Actual / Planned (finger drags, content flings)
+      tl.set("#dotA", { x: 960, y: 1240 }, 1.25);
+      tl.fromTo("#dotA", { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.15 }, 1.3);
+      tl.to("#dotA", { x: 470, y: 1226, duration: 0.42, ease: "power1.in" }, 1.42);
+      tl.to("#dotA", { opacity: 0, duration: 0.15 }, 1.84);
+      VB.to({ sx: B1.sx, oy: B1.oy }, 1.42, 0.85, "power2.out");
+      tl.to("#cap1 .cl", { opacity: 0, y: -14, duration: 0.2, stagger: 0.04 }, 2.86);
+
+      /* ============ 2) ACTION (2.6-5.1) ============ */
+      const cell = VB.pt(B1, 1319, 437);
+      tap("#dotA", cell[0], cell[1], 2.55);
+      tl.set(".sel", { opacity: 1 }, 2.58);
+      tl.set("#fcaret", { opacity: 1 }, 2.58);
+      tl.to("#kb", { y: 0, duration: 0.32, ease: "power3.out" }, 2.8);
+      tl.to(".caret, #fcaret", { opacity: 0.15, duration: 0.25, yoyo: true, repeat: 3, ease: "steps(1)" }, 2.6);
+      capTop("#cap2", 8); capIn("#cap2", 3.1);
+      const keys = [["#k1", 139.5, 1414, 3.45], ["#k8", 406.5, 1702, 3.85], ["#k0", 406.5, 1846, 4.2], ["#k0", 406.5, 1846, 4.5]];
+      keys.forEach(([k, x, y, t], i) => {
+        tap(i % 2 ? "#dotB" : "#dotA", x, y, t);
+        press(k, t);
+        tl.to(typed, { n: i + 1, duration: 0.01, ease: "none", onUpdate: renderTyped }, t + 0.03);
+      });
+      // Enter
+      const T_ENTER = 5.05;
+      tap("#dotA", 940.5, 1774, T_ENTER);
+      press("#kgo", T_ENTER);
+      tl.to(typed, { n: 5, duration: 0.01, ease: "none", onUpdate: renderTyped }, T_ENTER + 0.03);
+      tl.set(".st-over", { opacity: 1 }, T_ENTER + 0.03);      // the sheet recalculates: state flowers_over
+      tl.set(".sel", { top: 454 }, T_ENTER + 0.03);            // enter moves the selection one row down (empty cell)
+      tl.to("#kb", { y: 620, duration: 0.3, ease: "power2.in" }, 5.55);
+      tl.set("#fcaret", { opacity: 0 }, 5.55);
+      tl.to(".sel", { opacity: 0, duration: 0.15 }, 5.6);
+
+      /* ============ 3a) PAYOFF on the Budget tab (5.1-7.0) ============ */
+      pulse(".hl-act", T_ENTER + 0.12);
+      pulse(".hl-pln", T_ENTER + 0.3);
+      capTop("#cap3", 8); capIn("#cap3", 5.5);
+      VB.to({ oy: 74 }, 5.3, 1.4, "sine.inOut");
+
+      /* ============ 3b) Dashboard tab (6.6-12.8) ============ */
+      tap("#dotB", 405, 1834, 6.85);
+      tl.set("#tab-budget", { color: "#6b6b76", backgroundColor: "rgba(43,37,64,0)" }, 6.95);
+      tl.set("#tab-dash", { color: "#ffffff", backgroundColor: "#2b2540" }, 6.95);
+      tl.fromTo(VD.cam, { oy: 6 }, { oy: 14, duration: 2.2, ease: "sine.inOut", onUpdate: () => VD.set({}) }, 7.0);
+      pulse(".hl-over", 7.35);
+      pulse(".hl-plan", 7.85);
+      capTop("#cap4", 590); capIn("#cap4", 7.15);
+      // scroll down with one finger
+      tl.set("#dotA", { x: 640, y: 1500 }, 9.15);
+      tl.fromTo("#dotA", { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.15 }, 9.2);
+      tl.to("#dotA", { y: 880, duration: 0.55, ease: "power1.inOut" }, 9.3);
+      tl.to("#dotA", { opacity: 0, duration: 0.15 }, 9.85);
+      VD.to({ oy: D1.oy }, 9.3, 0.75, "power2.out");
+      tl.to(".hl-over, .hl-plan", { opacity: 0, duration: 0.2 }, 9.3);
+      // pinch to zoom on the Flowers & decor row
+      tl.set("#dotA", { x: 560, y: 1080 }, 10.0); tl.set("#dotB", { x: 720, y: 960 }, 10.0);
+      tl.to("#dotA, #dotB", { opacity: 1, duration: 0.12 }, 10.02);
+      tl.to("#dotA", { x: 420, y: 1210, duration: 0.6, ease: "power2.inOut" }, 10.12);
+      tl.to("#dotB", { x: 860, y: 830, duration: 0.6, ease: "power2.inOut" }, 10.12);
+      tl.to("#dotA, #dotB", { opacity: 0, duration: 0.15 }, 10.75);
+      VD.to({ s: D2.s, sx: D2.sx, oy: D2.oy }, 10.12, 0.7, "power2.inOut");
+      pulse(".hl-row", 10.95);
+      pulse(".hl-left", 11.15);
+      pulse(".hl-stat", 11.3);
+      tl.to(VD.cam, { oy: 659, duration: 1.8, ease: "sine.inOut", onUpdate: () => VD.set({}) }, 10.85);
+      capTop("#cap5", 8); capIn("#cap5", 9.7);
+
+      /* ============ 4) END CARD (12.8-15.5) ============ */
+      tl.fromTo("#dim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, 12.7);
+      tl.fromTo("#card", { y: 60, scale: 0.94, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.45, ease: "back.out(1.6)" }, 12.72);
+      tl.fromTo("#card .ico", { rotation: -12, scale: 0.6 }, { rotation: 0, scale: 1, duration: 0.5, ease: "back.out(2)" }, 13.0);
+      tl.fromTo("#bio", { scale: 0.85 }, { scale: 1, duration: 0.35, ease: "back.out(2)" }, 13.3);
+      tl.to("#bio", { scale: 1.05, duration: 0.45, yoyo: true, repeat: 5, ease: "sine.inOut" }, 13.8);
+      tl.to("#card", { y: -10, duration: 1.2, yoyo: true, repeat: 1, ease: "sine.inOut" }, 13.3);
+
+      tl.to({}, { duration: 0.01 }, END - 0.01); // pad to the full duration
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
